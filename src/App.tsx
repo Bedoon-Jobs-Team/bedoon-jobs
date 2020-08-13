@@ -23,7 +23,7 @@ let Container = styled.div`
 let Title = styled.p`
   color: white;
   margin-right: 12px;
-  font-family: "Noto";
+  font-family: "Noto Kufi Arabic";
   font-size: 30px;
 `;
 
