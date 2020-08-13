@@ -6,13 +6,20 @@ import styled from "styled-components";
 function App() {
   return (
     <Container>
-      <Logo style={{ transform: "scale(1.25)", margin: "20px" }} />
+      <SpinningLogo />
       <Card>
-        <CardContent>...قادمون قاريباً</CardContent>
+        <CardContent>
+          <Flickering>...</Flickering> قادمون قاريباً
+        </CardContent>
       </Card>
     </Container>
   );
 }
+
+let SpinningLogo = styled(Logo)`
+  transform: scale(1.25);
+  margin: 20px;
+`;
 
 let Container = styled.div`
   background: #efebf5;
@@ -33,6 +40,18 @@ let Card = styled.div`
 let CardContent = styled.p`
   font-size: 20px;
   color: #37333e;
+`;
+
+let Flickering = styled.span`
+  @keyframes flickering {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  animation: flickering 0.7s alternate infinite;
 `;
 
 export default App;
