@@ -6,17 +6,17 @@ import styled from "styled-components";
 function App() {
   return (
     <Container>
-      <SpinningLogo />
+      <StyledLogo />
       <Card>
         <CardContent>
-          <Flickering>...</Flickering> قادمون قاريباً
+          <Flickering>...</Flickering> قادمون قريباً
         </CardContent>
       </Card>
     </Container>
   );
 }
 
-let SpinningLogo = styled(Logo)`
+let StyledLogo = styled(Logo)`
   transform: scale(1.25);
   margin: 20px;
 `;
