@@ -1,9 +1,11 @@
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
+import Header from "../components/Header";
 
 const MainPage: FunctionComponent = (props) => {
   return (
     <PageContainer>
+      <Header />
       <Container>
         <BigText>المكان المناسب للعثور على وظيفة في الكويت</BigText>
       </Container>
