@@ -2,16 +2,32 @@ import React, { FunctionComponent } from "react";
 import { ReactComponent as LogoSmall } from "../assets/icons/LogoSmall.svg";
 import styled from "styled-components";
 
-const Header: FunctionComponent = (props) => {
+const Header: FunctionComponent = props => {
   return (
     <Container>
-      <StyledLogo />
-      <Link>بحث عن الوظائف</Link>
-      <Link>الشركات</Link>
-      {/* <p>تسجيل</p> */}
+      <RightContainer>
+        <StyledLogo />
+        <Link>بحث عن الوظائف</Link>
+        <Link>الشركات</Link>
+      </RightContainer>
+
+      <LeftContainer>
+        <ButtonTrans>أعلن عن وظيفة</ButtonTrans>
+        <Button>تسجيل الدخول</Button>
+      </LeftContainer>
     </Container>
   );
 };
+
+const LeftContainer = styled.div`
+  padding: 0;
+  display: flex;
+  align-items: center;
+`;
+
+const RightContainer = styled(LeftContainer)`
+  flex-grow: 1;
+`;
 
 const Container = styled.div`
   position: fixed;
@@ -34,6 +50,20 @@ const Link = styled.p`
   margin-left: 40px;
   margin-top: 0;
   margin-bottom: 0;
+`;
+
+const ButtonTrans = styled.div`
+  color: #ffffff;
+  border-radius: 6px;
+  border: 1px solid #ffffff;
+  float: left;
+  margin-left: 40px;
+  padding: 8px 20px;
+`;
+
+const Button = styled(ButtonTrans)`
+  color: #643f9f;
+  background-color: #ffffff;
 `;
 
 export default Header;

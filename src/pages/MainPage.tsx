@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 
-const MainPage: FunctionComponent = (props) => {
+const MainPage: FunctionComponent = props => {
   return (
     <PageContainer>
       <Header />
@@ -19,7 +19,7 @@ const PageContainer = styled.div`
 `;
 
 const Container = styled.div`
-  height: 40%;
+  height: 426px;
   flex-grow: 1;
   display: flex;
   justify-content: center;
