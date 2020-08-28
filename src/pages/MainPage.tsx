@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Header from "../components/Header";
 import { JobAd } from "../types";
 import JobAdCard from "../components/JobAdCard";
+import PaginationButtons from "../components/PaginationButtons";
 
 const MainPage: FunctionComponent = (props) => {
   const [jobAds, setJobAds] = useState<JobAd[]>([]);
@@ -43,6 +44,7 @@ const MainPage: FunctionComponent = (props) => {
           {jobAds.map((jobAd) => (
             <JobAdCard jobAd={jobAd} />
           ))}
+          <PaginationButtons currentPage={1} />
         </CardsContainer>
       </ContentContainer>
     </PageContainer>
@@ -83,6 +85,7 @@ const ContentContainer = styled.div`
 const CardsContainer = styled.div`
   width: 1042px;
   flex-shrink: 1;
+  margin-bottom: 28px;
 `;
 
 const PageCount = styled.p`
