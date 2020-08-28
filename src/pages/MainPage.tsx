@@ -1,17 +1,48 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
+import { JobAd } from "../types";
+import JobAdCard from "../components/JobAdCard";
 
 const MainPage: FunctionComponent = (props) => {
+  const [jobAds, setJobAds] = useState<JobAd[]>([]);
+
+  useEffect(() => {
+    async function fetchJobAds() {
+      //TODO: make it fetch real data when we have a data source
+      const fetchedJobAds = [];
+
+      const fakeJobAd: JobAd = {
+        title: "مسؤول مبيعات و علاقات عامة",
+        tags: ["هندسة", "راتب شهري"],
+        company: "Light Blue",
+        provenance: "مدينة الكويت",
+        area: "الشرق",
+        datePosted: new Date(),
+      };
+
+      for (let i = 0; i < 8; i++) {
+        fetchedJobAds.push(fakeJobAd);
+      }
+
+      setJobAds(fetchedJobAds);
+    }
+
+    fetchJobAds();
+  }, []);
+
   return (
     <PageContainer>
       <Header />
-      <Container>
+      <BigTextContainer>
         <BigText>المكان المناسب للعثور على وظيفة في الكويت</BigText>
-      </Container>
+      </BigTextContainer>
       <ContentContainer>
         <CardsContainer>
           <PageCount>صفحة 1 من 120 صفحة</PageCount>
+          {jobAds.map((jobAd) => (
+            <JobAdCard jobAd={jobAd} />
+          ))}
         </CardsContainer>
       </ContentContainer>
     </PageContainer>
@@ -24,8 +55,9 @@ const PageContainer = styled.div`
   flex-direction: column;
 `;
 
-const Container = styled.div`
+const BigTextContainer = styled.div`
   height: 426px;
+  flex-shrink: 0;
   display: flex;
   justify-content: center;
   align-items: center;
