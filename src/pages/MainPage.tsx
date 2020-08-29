@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
+import ScrollMenu from "../components/ScrollMenu";
 
 const MainPage: FunctionComponent = props => {
   return (
@@ -8,6 +9,7 @@ const MainPage: FunctionComponent = props => {
       <Header />
       <Container>
         <BigText>المكان المناسب للعثور على وظيفة في الكويت</BigText>
+        <ScrollMenu />
       </Container>
     </PageContainer>
   );
