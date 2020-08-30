@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import { JobAd } from "../types";
 import JobAdCard from "../components/JobAdCard";
 import PaginationButtons from "../components/PaginationButtons";
+import ScrollMenu from "../components/ScrollMenu";
 
 const MainPage: FunctionComponent = (props) => {
   const [jobAds, setJobAds] = useState<JobAd[]>([]);
@@ -37,6 +38,7 @@ const MainPage: FunctionComponent = (props) => {
       <Header />
       <BigTextContainer>
         <BigText>المكان المناسب للعثور على وظيفة في الكويت</BigText>
+        <ScrollMenu />
       </BigTextContainer>
       <ContentContainer>
         <CardsContainer>
