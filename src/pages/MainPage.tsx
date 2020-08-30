@@ -1,16 +1,54 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
+import { JobAd } from "../types";
+import JobAdCard from "../components/JobAdCard";
+import PaginationButtons from "../components/PaginationButtons";
 import ScrollMenu from "../components/ScrollMenu";
 
-const MainPage: FunctionComponent = props => {
+const MainPage: FunctionComponent = (props) => {
+  const [jobAds, setJobAds] = useState<JobAd[]>([]);
+
+  useEffect(() => {
+    async function fetchJobAds() {
+      //TODO: make it fetch real data when we have a data source
+      const fetchedJobAds = [];
+
+      const fakeJobAd: JobAd = {
+        title: "مسؤول مبيعات و علاقات عامة",
+        tags: ["هندسة", "راتب شهري"],
+        company: "Light Blue",
+        provenance: "مدينة الكويت",
+        area: "الشرق",
+        datePosted: new Date(),
+      };
+
+      for (let i = 0; i < 8; i++) {
+        fetchedJobAds.push(fakeJobAd);
+      }
+
+      setJobAds(fetchedJobAds);
+    }
+
+    fetchJobAds();
+  }, []);
+
   return (
     <PageContainer>
       <Header />
-      <Container>
+      <BigTextContainer>
         <BigText>المكان المناسب للعثور على وظيفة في الكويت</BigText>
         <ScrollMenu />
-      </Container>
+      </BigTextContainer>
+      <ContentContainer>
+        <CardsContainer>
+          <PageCount>صفحة 1 من 120 صفحة</PageCount>
+          {jobAds.map((jobAd) => (
+            <JobAdCard jobAd={jobAd} />
+          ))}
+          <PaginationButtons currentPage={1} />
+        </CardsContainer>
+      </ContentContainer>
     </PageContainer>
   );
 };
@@ -18,11 +56,12 @@ const MainPage: FunctionComponent = props => {
 const PageContainer = styled.div`
   height: 100vh;
   display: flex;
+  flex-direction: column;
 `;
 
-const Container = styled.div`
+const BigTextContainer = styled.div`
   height: 426px;
-  flex-grow: 1;
+  flex-shrink: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,6 +74,26 @@ const BigText = styled.p`
   font-weight: bold;
   font-size: 40px;
   width: 742px;
+`;
+
+const ContentContainer = styled.div`
+  background-color: #f7f5fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100px 200px 80px 200px;
+`;
+
+const CardsContainer = styled.div`
+  width: 1042px;
+  flex-shrink: 1;
+  margin-bottom: 28px;
+`;
+
+const PageCount = styled.p`
+  font-size: 14px;
+  color: #9891a3;
+  margin-bottom: 16px;
 `;
 
 export default MainPage;
