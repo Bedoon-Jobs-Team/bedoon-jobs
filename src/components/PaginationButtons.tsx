@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
-import { ReactComponent as LeftArrowIcon } from "../assets/icons/LeftArrowIcon.svg";
+import { ReactComponent as ArrowIcon } from "../assets/icons/LeftArrowIcon.svg";
 
 const PaginationButtons: FunctionComponent<{ currentPage: number }> = ({ currentPage }) => {
   return (
@@ -9,7 +9,7 @@ const PaginationButtons: FunctionComponent<{ currentPage: number }> = ({ current
         <PageButton active={pageCount === currentPage}>{pageCount}</PageButton>
       ))}
       <PageButton>
-        <LeftArrowIcon />
+        <ArrowIcon />
       </PageButton>
     </Container>
   );
