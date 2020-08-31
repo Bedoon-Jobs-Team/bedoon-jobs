@@ -38,6 +38,9 @@ const Menu = styled.div`
 const Container = styled.div`
   display: flex;
   overflow-x: scroll;
+  ::-webkit-scrollbar {
+    width: 0px;
+  }
 `;
 
 const ActiveButton = styled.div`
@@ -66,8 +69,6 @@ const ScrollArow = styled.div`
   border-radius: 12px 0px 0px 12px;
 `;
 
-const StyledArrow = styled(Arrow)`
-  margin-top: 0px;
-`;
+const StyledArrow = styled(Arrow)``;
 
 export default ScrollMenu;
