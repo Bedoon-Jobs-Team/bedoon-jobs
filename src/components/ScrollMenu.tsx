@@ -6,14 +6,14 @@ const ScrollMenu: FunctionComponent = props => {
   return (
     <Menu>
       <Container>
-                <ActiveButton>جميع الوظائف</ActiveButton>
-                <InactiveButton>هندسة</InactiveButton>
-                <InactiveButton>طب وتمريض</InactiveButton>
-                <InactiveButton>مناديب</InactiveButton>
-                <InactiveButton>أمن وسلامة</InactiveButton>
-                <InactiveButton>سكرتارية</InactiveButton>
-                <InactiveButton>رياضة</InactiveButton>
-                <InactiveButton>وظائف إدارية</InactiveButton>
+                <JobButton active={true}>جميع الوظائف</JobButton>
+                <JobButton active={false}>هندسة</JobButton>
+                <JobButton active={false}>طب وتمريض</JobButton>
+                <JobButton active={false}>مناديب</JobButton>
+                <JobButton active={false}>أمن وسلامة</JobButton>
+                <JobButton active={false}>سكرتارية</JobButton>
+                <JobButton active={false}>رياضة</JobButton>
+                <JobButton active={false}>وظائف إدارية</JobButton>
       </Container>
       <ScrollArow>
                 
@@ -39,23 +39,18 @@ const Container = styled.div`
   display: flex;
   overflow-x: scroll;
   ::-webkit-scrollbar {
-    width: 0px;
+    display: none;
   }
 `;
 
-const ActiveButton = styled.div`
-  background-color: #f8507b;
-  color: #ffffff;
+const JobButton = styled.div<{ active?: boolean }>`
+  background: ${({ active }) => (active ? "#F8507B" : "#EBE3F6")};
+  color: ${({ active }) => (active ? "#FFFFFF" : "#332D3C")};
   border-radius: 12px;
   border: 1px solid #ffffff;
   float: right;
   padding: 10px 28px;
   margin-top: 10px;
-`;
-
-const InactiveButton = styled(ActiveButton)`
-  background-color: #ebe3f6;
-  color: #332d3c;
 `;
 
 const ScrollArow = styled.div`
@@ -69,6 +64,8 @@ const ScrollArow = styled.div`
   border-radius: 12px 0px 0px 12px;
 `;
 
-const StyledArrow = styled(Arrow)``;
+const StyledArrow = styled(Arrow)`
+  margin-top: 0px;
+`;
 
 export default ScrollMenu;
