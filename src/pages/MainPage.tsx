@@ -1,12 +1,13 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { JobAd } from "../types";
 import JobAdCard from "../components/JobAdCard";
 import PaginationButtons from "../components/PaginationButtons";
 import ScrollMenu from "../components/ScrollMenu";
 
-const MainPage: FunctionComponent = (props) => {
+const MainPage: FunctionComponent = props => {
   const [jobAds, setJobAds] = useState<JobAd[]>([]);
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const MainPage: FunctionComponent = (props) => {
         company: "Light Blue",
         provenance: "مدينة الكويت",
         area: "الشرق",
-        datePosted: new Date(),
+        datePosted: new Date()
       };
 
       for (let i = 0; i < 8; i++) {
@@ -43,12 +44,13 @@ const MainPage: FunctionComponent = (props) => {
       <ContentContainer>
         <CardsContainer>
           <PageCount>صفحة 1 من 120 صفحة</PageCount>
-          {jobAds.map((jobAd) => (
+          {jobAds.map(jobAd => (
             <JobAdCard jobAd={jobAd} />
           ))}
           <PaginationButtons currentPage={1} />
         </CardsContainer>
       </ContentContainer>
+      <Footer />
     </PageContainer>
   );
 };
@@ -87,7 +89,7 @@ const ContentContainer = styled.div`
 const CardsContainer = styled.div`
   width: 1042px;
   flex-shrink: 1;
-  margin-bottom: 28px;
+  margin-bottom: -28px;
 `;
 
 const PageCount = styled.p`
