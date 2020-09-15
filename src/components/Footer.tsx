@@ -23,9 +23,12 @@ const Footer: FunctionComponent = props => {
 };
 
 const Container = styled.div`
+  background-color: #ffffff;
   position: fixed;
-  width: 66.4%;
+  width: 100vw;
+  height: 170px;
   display: flex;
+  justify-content: center;
   align-items: center;
   margin-top: 1900px;
   left: 50%;
