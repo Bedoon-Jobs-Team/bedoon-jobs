@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
-import Header from "../components/Header";
+import DarkHeader from "../components/DarkHeader";
 import Footer from "../components/Footer";
 
 const CompanyJobs: FunctionComponent = props => {
   return (
     <PageContainer>
-      <Header />
+      <DarkHeader />
       <Footer />
     </PageContainer>
   );
