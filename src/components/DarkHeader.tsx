@@ -31,7 +31,7 @@ const RightContainer = styled(LeftContainer)`
 
 const Container = styled.div`
   position: fixed;
-  width: 1044px;
+  width: 72.5vw;
   display: flex;
   align-items: center;
   margin-top: 40px;

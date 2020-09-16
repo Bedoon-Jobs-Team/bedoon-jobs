@@ -93,9 +93,11 @@ const CardsContainer = styled.div`
 `;
 
 const PageCount = styled.p`
-  font-size: 14px;
-  color: #9891a3;
-  margin-bottom: 16px;
+  position: absolute;
+  width: 277px;
+  left: 965px;
+  top: 16.17%;
+  bottom: 80.1%;
 `;
 
 export default MainPage;
