@@ -30,7 +30,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1900px;
+  bottom: 0;
   left: 50%;
   transform: translate(-50%, 0);
   padding: 0;
