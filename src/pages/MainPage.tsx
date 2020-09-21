@@ -35,11 +35,11 @@ const MainPage: FunctionComponent = (props) => {
 
   return (
     <PageContainer>
-      <Header />
-      <BigTextContainer>
+      <TopSectionContainer>
+        <Header />
         <BigText>المكان المناسب للعثور على وظيفة في الكويت</BigText>
         <ScrollMenu />
-      </BigTextContainer>
+      </TopSectionContainer>
       <ContentContainer>
         <CardsContainer>
           <PageCount>صفحة 1 من 120 صفحة</PageCount>
@@ -59,14 +59,13 @@ const PageContainer = styled.div`
   flex-direction: column;
 `;
 
-const BigTextContainer = styled.div`
+const TopSectionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #6c46ab 0%, #3d206c 100%);
   height: 426px;
   flex-shrink: 0;
-  display: flex;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-  background: linear-gradient(180deg, #6c46ab 0%, #3d206c 100%);
 `;
 
 const BigText = styled.p`
@@ -74,6 +73,8 @@ const BigText = styled.p`
   font-weight: bold;
   font-size: 40px;
   width: 742px;
+  text-align: center;
+  margin-top: 93px;
 `;
 
 const ContentContainer = styled.div`

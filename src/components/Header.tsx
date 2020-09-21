@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import { ReactComponent as LogoSmall } from "../assets/icons/LogoSmall.svg";
 import styled from "styled-components";
 
-const Header: FunctionComponent = props => {
+const Header: FunctionComponent = (props) => {
   return (
     <Container>
       <RightContainer>
@@ -10,7 +10,6 @@ const Header: FunctionComponent = props => {
         <Link>بحث عن الوظائف</Link>
         <Link>الشركات</Link>
       </RightContainer>
-
       <LeftContainer>
         <ButtonTrans>أعلن عن وظيفة</ButtonTrans>
         <Button>تسجيل الدخول</Button>
@@ -18,6 +17,14 @@ const Header: FunctionComponent = props => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  width: 1044px;
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+  padding: 0;
+`;
 
 const LeftContainer = styled.div`
   padding: 0;
@@ -27,17 +34,6 @@ const LeftContainer = styled.div`
 
 const RightContainer = styled(LeftContainer)`
   flex-grow: 1;
-`;
-
-const Container = styled.div`
-  position: fixed;
-  width: 1044px;
-  display: flex;
-  align-items: center;
-  margin-top: 40px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  padding: 0;
 `;
 
 const StyledLogo = styled(LogoSmall)`
