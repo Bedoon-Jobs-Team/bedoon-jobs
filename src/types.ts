@@ -1,8 +1,8 @@
-export interface JobAd {
+export interface JobAdPreview {
   title: string;
   tags: string[];
   company: string;
-  provenance: string;
+  governorate: string;
   area: string;
   datePosted: Date;
 }

@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from "react";
-import { JobAd } from "../types";
+import { JobAdPreview } from "../types";
 import { ReactComponent as CompanyIcon } from "../assets/icons/CompanyIcon.svg";
 import { ReactComponent as LocationIcon } from "../assets/icons/LocationIcon.svg";
 import styled from "styled-components";
 
-const JobAdCard: FunctionComponent<{ jobAd: JobAd }> = ({ jobAd }) => {
+const JobAdCard: FunctionComponent<{ jobAd: JobAdPreview }> = ({ jobAd }) => {
   function calculateSince(datePosted: Date) {
     return "منذ 3 أيام"; // TODO: really do the calculations
   }
@@ -26,7 +26,7 @@ const JobAdCard: FunctionComponent<{ jobAd: JobAd }> = ({ jobAd }) => {
         </Company>
         <Location>
           <StyledLocationIcon />
-          {jobAd.provenance}: {jobAd.area}
+          {jobAd.governorate}: {jobAd.area}
         </Location>
       </CompanyAndLocationContainer>
       <SinceContainer>

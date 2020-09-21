@@ -1,24 +1,24 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
-import { JobAd } from "../types";
+import { JobAdPreview } from "../types";
 import JobAdCard from "../components/JobAdCard";
 import PaginationButtons from "../components/PaginationButtons";
 import ScrollMenu from "../components/ScrollMenu";
 
 const MainPage: FunctionComponent = (props) => {
-  const [jobAds, setJobAds] = useState<JobAd[]>([]);
+  const [jobAds, setJobAds] = useState<JobAdPreview[]>([]);
 
   useEffect(() => {
     async function fetchJobAds() {
       //TODO: make it fetch real data when we have a data source
       const fetchedJobAds = [];
 
-      const fakeJobAd: JobAd = {
+      const fakeJobAd: JobAdPreview = {
         title: "مسؤول مبيعات و علاقات عامة",
         tags: ["هندسة", "راتب شهري"],
         company: "Light Blue",
-        provenance: "مدينة الكويت",
+        governorate: "مدينة الكويت",
         area: "الشرق",
         datePosted: new Date(),
       };
