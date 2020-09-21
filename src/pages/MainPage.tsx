@@ -15,6 +15,7 @@ const MainPage: FunctionComponent = (props) => {
       const fetchedJobAds = [];
 
       const fakeJobAd: JobAdPreview = {
+        id: "321",
         title: "مسؤول مبيعات و علاقات عامة",
         tags: ["هندسة", "راتب شهري"],
         company: "Light Blue",

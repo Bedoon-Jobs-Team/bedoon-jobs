@@ -1,4 +1,5 @@
 export interface JobAdPreview {
+  id: string;
   title: string;
   tags: string[];
   company: string;

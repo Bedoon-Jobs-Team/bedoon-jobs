@@ -3,6 +3,7 @@ import { JobAdPreview } from "../types";
 import { ReactComponent as CompanyIcon } from "../assets/icons/CompanyIcon.svg";
 import { ReactComponent as LocationIcon } from "../assets/icons/LocationIcon.svg";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const JobAdCard: FunctionComponent<{ jobAd: JobAdPreview }> = ({ jobAd }) => {
   function calculateSince(datePosted: Date) {
@@ -10,29 +11,31 @@ const JobAdCard: FunctionComponent<{ jobAd: JobAdPreview }> = ({ jobAd }) => {
   }
 
   return (
-    <Container>
-      <JobDetailsContainer>
-        <JobTitle>{jobAd.title}</JobTitle>
-        <Tags>
-          {jobAd.tags.map((tag) => (
-            <Tag>{tag}</Tag>
-          ))}
-        </Tags>
-      </JobDetailsContainer>
-      <CompanyAndLocationContainer>
-        <Company>
-          <StyledCompanyIcon />
-          شركة {jobAd.company}
-        </Company>
-        <Location>
-          <StyledLocationIcon />
-          {jobAd.governorate}: {jobAd.area}
-        </Location>
-      </CompanyAndLocationContainer>
-      <SinceContainer>
-        <Since>{calculateSince(jobAd.datePosted)}</Since>
-      </SinceContainer>
-    </Container>
+    <Link style={{ textDecoration: "none" }} to={`/listings/${jobAd.id}`}>
+      <Container>
+        <JobDetailsContainer>
+          <JobTitle>{jobAd.title}</JobTitle>
+          <Tags>
+            {jobAd.tags.map((tag) => (
+              <Tag>{tag}</Tag>
+            ))}
+          </Tags>
+        </JobDetailsContainer>
+        <CompanyAndLocationContainer>
+          <Company>
+            <StyledCompanyIcon />
+            شركة {jobAd.company}
+          </Company>
+          <Location>
+            <StyledLocationIcon />
+            {jobAd.governorate}: {jobAd.area}
+          </Location>
+        </CompanyAndLocationContainer>
+        <SinceContainer>
+          <Since>{calculateSince(jobAd.datePosted)}</Since>
+        </SinceContainer>
+      </Container>
+    </Link>
   );
 };
 
@@ -72,6 +75,7 @@ const Tag = styled.p`
   margin-left: 8px;
   font-size: 12px;
   line-height: 18px;
+  color: #332d3c;
 `;
 
 const CompanyAndLocationContainer = styled(JobDetailsContainer)`
