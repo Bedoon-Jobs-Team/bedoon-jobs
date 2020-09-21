@@ -18,7 +18,7 @@ const MainPage: FunctionComponent = (props) => {
         id: "321",
         title: "مسؤول مبيعات و علاقات عامة",
         tags: ["هندسة", "راتب شهري"],
-        company: "Light Blue",
+        companyName: "Light Blue",
         governorate: "مدينة الكويت",
         area: "الشرق",
         datePosted: new Date(),
