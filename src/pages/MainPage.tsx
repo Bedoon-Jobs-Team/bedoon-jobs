@@ -73,7 +73,8 @@ const BigText = styled.p`
   color: #ffffff;
   font-weight: bold;
   font-size: 40px;
-  width: 742px;
+  width: 650px;
+  font-weight: bold;
 `;
 
 const ContentContainer = styled.div`
@@ -81,7 +82,7 @@ const ContentContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 100px 200px 80px 200px;
+  padding: 95px 200px 80px 200px;
 `;
 
 const CardsContainer = styled.div`
