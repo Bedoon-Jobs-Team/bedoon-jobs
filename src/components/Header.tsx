@@ -1,17 +1,20 @@
 import React, { FunctionComponent } from "react";
 import { ReactComponent as LogoSmall } from "../assets/icons/LogoSmall.svg";
 import styled from "styled-components";
+import Link from "../utils/UnstyledLink";
 
 const Header: FunctionComponent = (props) => {
   return (
     <Container>
       <RightContainer>
         <StyledLogo />
-        <Link>بحث عن الوظائف</Link>
-        <Link>الشركات</Link>
+        <StyledLink>بحث عن الوظائف</StyledLink>
+        <StyledLink>الشركات</StyledLink>
       </RightContainer>
       <LeftContainer>
-        <ButtonTrans>أعلن عن وظيفة</ButtonTrans>
+        <Link to="/offer-job">
+          <ButtonTrans>أعلن عن وظيفة</ButtonTrans>
+        </Link>
         <Button>تسجيل الدخول</Button>
       </LeftContainer>
     </Container>
@@ -40,7 +43,7 @@ const StyledLogo = styled(LogoSmall)`
   margin-left: 40px;
 `;
 
-const Link = styled.p`
+const StyledLink = styled.p`
   font-size: 16px;
   color: #ffffff;
   margin-left: 40px;
