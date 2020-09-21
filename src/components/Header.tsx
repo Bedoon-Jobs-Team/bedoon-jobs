@@ -53,8 +53,11 @@ const ButtonTrans = styled.div`
   border-radius: 6px;
   border: 1px solid #ffffff;
   float: left;
-  margin-left: 40px;
+  margin-right: 29px;
   padding: 8px 20px;
+  font-size: 12px;
+  line-height: 23px;
+  font-weight: bold;
 `;
 
 const Button = styled(ButtonTrans)`
