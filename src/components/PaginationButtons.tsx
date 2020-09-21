@@ -21,6 +21,7 @@ const Container = styled.div`
 
 const PageButton = styled.div<{ active?: boolean }>`
   font-size: 20px;
+  line-height: 38px;
   border: none;
   padding: 7px 20px;
   background: ${({ active }) => (active ? "linear-gradient(136.99deg, #A783E2 0%, #7749C2 96.75%)" : "#E8E3EF")};
