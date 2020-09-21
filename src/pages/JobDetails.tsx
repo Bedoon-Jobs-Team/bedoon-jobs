@@ -143,5 +143,7 @@ const Button = styled.p`
   background: linear-gradient(138.12deg, #a783e2 -0.01%, #7749c2 94.77%);
   border-radius: 6px;
   padding: 15px 40px;
+  font-weight: bold;
 `;
+
 export default JobDetails;
