@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { ReactComponent as CompanyIcon } from "../assets/icons/CompanyIcon.svg";
 import { ReactComponent as MoneyIcon } from "../assets/icons/MoneyIcon.svg";
 
-const JobDetails: FunctionComponent = () => {
+const JobDetailsPage: FunctionComponent = () => {
   return (
     <PageContainer>
       <ContentContainer>
@@ -146,4 +146,4 @@ const Button = styled.p`
   font-weight: bold;
 `;
 
-export default JobDetails;
+export default JobDetailsPage;

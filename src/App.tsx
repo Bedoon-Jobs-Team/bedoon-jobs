@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import JobDetails from "./pages/JobDetails";
+import JobDetailsPage from "./pages/JobDetailsPage";
 import MainPage from "./pages/MainPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ScrollToTop from "./utils/ScrollToTop";
@@ -12,7 +12,7 @@ function App() {
         <ScrollToTop />
         <Switch>
           <Route exact path="/" component={MainPage} />
-          <Route exact path="/listings/:id" component={JobDetails} />
+          <Route exact path="/listings/:id" component={JobDetailsPage} />
         </Switch>
       </>
     </Router>

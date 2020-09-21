@@ -3,7 +3,7 @@ import { JobAdPreview } from "../types";
 import { ReactComponent as CompanyIcon } from "../assets/icons/CompanyIcon.svg";
 import { ReactComponent as LocationIcon } from "../assets/icons/LocationIcon.svg";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import Link from "../utils/UnstyledLink";
 
 const JobAdCard: FunctionComponent<{ jobAd: JobAdPreview }> = ({ jobAd }) => {
   function calculateSince(datePosted: Date) {
@@ -11,7 +11,7 @@ const JobAdCard: FunctionComponent<{ jobAd: JobAdPreview }> = ({ jobAd }) => {
   }
 
   return (
-    <Link style={{ textDecoration: "none" }} to={`/listings/${jobAd.id}`}>
+    <Link to={`/listings/${jobAd.id}`}>
       <Container>
         <JobDetailsContainer>
           <JobTitle>{jobAd.title}</JobTitle>
