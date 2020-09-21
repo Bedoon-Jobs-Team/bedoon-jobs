@@ -48,22 +48,20 @@ const Container = styled.div`
 const JobDetailsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0;
-  margin: 27px 25px 29px 25px;
   flex-grow: 1;
+  margin: 27px 24px 29px 27px;
 `;
 
 const JobTitle = styled.p`
   font-size: 16px;
+  line-height: 30px;
   font-weight: bold;
   color: #242227;
-  margin-top: 0;
   margin-bottom: 8px;
 `;
 
 const Tags = styled.div`
   display: flex;
-  padding: 0;
 `;
 
 const Tag = styled.p`
@@ -73,8 +71,7 @@ const Tag = styled.p`
   padding: 4px 10px;
   margin-left: 8px;
   font-size: 12px;
-  margin-top: 0;
-  margin-bottom: 0;
+  line-height: 18px;
 `;
 
 const CompanyAndLocationContainer = styled(JobDetailsContainer)`
@@ -87,7 +84,6 @@ const Company = styled.p`
   font-size: 12px;
   line-height: 23px;
   color: #d1365d;
-  margin-top: 0;
   margin-bottom: 8px;
 `;
 
@@ -100,19 +96,20 @@ const Location = styled.p`
   align-items: center;
   font-size: 12px;
   color: #242227;
-  margin: 0;
 `;
 
 const StyledLocationIcon = styled(LocationIcon)`
   margin-left: 7px;
 `;
 
-const SinceContainer = styled(CompanyAndLocationContainer)``;
+const SinceContainer = styled(CompanyAndLocationContainer)`
+  margin-top: 33px;
+`;
 
 const Since = styled.p`
   font-size: 12px;
+  line-height: 23px;
   color: #9891a3;
-  margin: 0;
 `;
 
 export default JobAdCard;
