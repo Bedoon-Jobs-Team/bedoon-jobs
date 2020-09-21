@@ -71,6 +71,7 @@ const TopSectionContainer = styled.div`
 const BigText = styled.p`
   color: #ffffff;
   font-size: 40px;
+  line-height: 61px;
   font-weight: bold;
   text-align: center;
   margin-top: 93px;
@@ -93,6 +94,7 @@ const CardsContainer = styled.div`
 
 const PageCount = styled.p`
   font-size: 14px;
+  line-height: 27px;
   color: #9891a3;
   margin-bottom: 16px;
 `;
