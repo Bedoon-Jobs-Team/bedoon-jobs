@@ -2,33 +2,52 @@ import React, { FunctionComponent, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../assets/icons/Logo.svg";
 import AboutCompanyForm from "../components/Forms/OfferJob/AboutCompanyForm";
+import JobDetailsForm from "../components/Forms/OfferJob/JobDetailsForm";
 import { Company } from "../types";
 
-const emptyCompany: Company = { name: "", description: "", size: "", phone: "", email: "" };
+export type JobDetails = {
+  title: string;
+  type: string;
+  salaryLowerEnd?: number;
+  salaryHigherEnd?: number;
+  salaryPeriod: string;
+  employeesNeeded: number;
+  urgency: string;
+};
+
+const defaultCompany: Company = { name: "", description: "", size: "", phone: "", email: "" };
+const defaultJobDetails: JobDetails = {
+  title: "",
+  type: "دوام كامل",
+  salaryPeriod: "شهرياً",
+  employeesNeeded: 1,
+  urgency: "1 - 3 أيام",
+};
 
 const OfferJobPage: FunctionComponent = () => {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [currentCompanyDetails, setCurrentCompanyDetails] = useState<Company>(emptyCompany);
+  const [currentStep, setCurrentStep] = useState(2);
+  const [companyDetails, setCompanyDetails] = useState<Company>(defaultCompany);
+  const [jobDetails, setJobDetails] = useState<JobDetails>(defaultJobDetails);
 
   const steps = new Map<number, JSX.Element>([
     [
       1,
       <AboutCompanyForm
-        onSubmit={(company) => {
-          setCurrentCompanyDetails(company);
+        onSubmit={(values) => {
+          setCompanyDetails(values);
           setCurrentStep(currentStep + 1);
         }}
-        initialValues={currentCompanyDetails}
+        initialValues={companyDetails}
       />,
     ],
     [
       2,
-      <AboutCompanyForm
-        onSubmit={(company) => {
-          setCurrentCompanyDetails(company);
+      <JobDetailsForm
+        onSubmit={(values) => {
+          setJobDetails(values);
           setCurrentStep(currentStep + 1);
         }}
-        initialValues={currentCompanyDetails}
+        initialValues={jobDetails}
       />,
     ],
   ]);
