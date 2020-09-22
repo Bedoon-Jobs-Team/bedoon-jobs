@@ -9,6 +9,13 @@ body {
   direction: rtl;
   display: flex;
   flex-direction: column;
+  height: 100vh;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 code {

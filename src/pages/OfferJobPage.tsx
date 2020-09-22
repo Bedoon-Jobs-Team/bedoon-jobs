@@ -9,7 +9,7 @@ const OfferJobPage: FunctionComponent = () => {
 
   return (
     <PageContainer>
-      <StyledLogo />
+      <Logo />
       <SubContainer>
         <StepsContainer>
           <Step>
@@ -36,11 +36,8 @@ const PageContainer = styled.div`
   flex-direction: column;
   background-color: #efebf5;
   align-items: center;
-  height: 100vh;
-`;
-
-const StyledLogo = styled(Logo)`
-  margin-top: 60px;
+  padding: 55px 0 55px 0;
+  flex: 1 1 0;
 `;
 
 const SubContainer = styled.div`

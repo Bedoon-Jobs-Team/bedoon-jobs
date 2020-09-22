@@ -1,21 +1,22 @@
-import { Field, Form, Formik, FormikHelpers, useField } from "formik";
+import { ErrorMessage, Field, Form, Formik, FormikHelpers, useField } from "formik";
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { Company } from "../../../types";
 
+const RequiredMessage = "مطلوب";
+const PhoneLengthMessage = "رقم الهاتف يجب ان يحتوي على ٨ اعداد";
+const InvalidEmailMessage = "بريد الالكتروني غير صحيح";
+
 const AboutCompanyForm: FunctionComponent = () => {
   const initialValues: Company = { name: "", description: "", size: "", phone: "", email: "" };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Required"),
-    description: Yup.string().required("Required"),
-    size: Yup.string().required("Required"),
-    phone: Yup.number()
-      .min(8, "Phone number must be 8 digits")
-      .max(8, "Phone number must be 8 digits")
-      .required("Required"),
-    email: Yup.string().email("Invalid email").required("Required"),
+    name: Yup.string().required(RequiredMessage),
+    description: Yup.string().required(RequiredMessage),
+    size: Yup.string().required(RequiredMessage),
+    phone: Yup.string().length(8, PhoneLengthMessage).required(RequiredMessage),
+    email: Yup.string().email(InvalidEmailMessage).required(RequiredMessage),
   });
 
   const onSubmit = (values: Company, { setSubmitting }: FormikHelpers<Company>) => {
@@ -30,20 +31,35 @@ const AboutCompanyForm: FunctionComponent = () => {
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
         <Form>
           <Container>
-            <Label htmlFor="name">اسم شركتك*</Label>
-            <Field as={StyledField} id="name" name="name" />
+            <FieldContainer>
+              <Label htmlFor="name">اسم شركتك*</Label>
+              <Field as={StyledField} id="name" name="name" />
+              <ErrorMessage name="name" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+            </FieldContainer>
 
-            <Label htmlFor="description">وصف الشركة</Label>
-            <Field as={StyledField} id="description" name="description" />
+            <FieldContainer>
+              <Label htmlFor="description">وصف الشركة</Label>
+              <Field as={StyledField} id="description" name="description" />
+              <ErrorMessage name="description" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+            </FieldContainer>
 
-            <Label htmlFor="size">حجم الشركة</Label>
-            <Field as={StyledField} id="size" name="size" />
+            <FieldContainer>
+              <Label htmlFor="size">حجم الشركة</Label>
+              <Field as={StyledField} id="size" name="size" />
+              <ErrorMessage name="size" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+            </FieldContainer>
 
-            <Label htmlFor="phone">رقم الهاتف</Label>
-            <Field as={StyledField} id="phone" name="phone" type="number" />
+            <FieldContainer>
+              <Label htmlFor="phone">رقم الهاتف</Label>
+              <Field as={StyledField} id="phone" name="phone" type="number" />
+              <ErrorMessage name="phone" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+            </FieldContainer>
 
-            <Label htmlFor="email">البريد الالكتروني</Label>
-            <Field as={StyledField} id="email" name="email" type="email" />
+            <FieldContainer>
+              <Label htmlFor="email">البريد الالكتروني</Label>
+              <Field as={StyledField} id="email" name="email" type="email" />
+              <ErrorMessage name="email" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+            </FieldContainer>
 
             <Button type="submit">متابعة</Button>
           </Container>
@@ -74,6 +90,12 @@ const Grey = styled.span`
   color: #afa9b8;
 `;
 
+const FieldContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+`;
+
 const Label = styled.label`
   font-size: 12px;
   line-height: 23px;
@@ -91,7 +113,6 @@ const StyledField = styled.input`
   color: #37333e;
   padding: 9.5px 16px;
   font-family: inherit;
-  margin-bottom: 24px;
 
   /* Remove Arrows from type="number" fields */
   ::-webkit-inner-spin-button {
@@ -102,6 +123,12 @@ const StyledField = styled.input`
     -webkit-appearance: none;
     margin: 0;
   }
+`;
+
+const StyledErrorMessage = styled.p`
+  font-size: 12px;
+  line-height: 23px;
+  color: #d1365d;
 `;
 
 const Button = styled.button`
