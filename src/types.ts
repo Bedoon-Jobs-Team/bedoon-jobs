@@ -18,10 +18,10 @@ export type JobAdDetails = {
 };
 
 export type Company = {
-  id: string;
+  id?: string;
   name: string;
   description: string;
-  size?: "small" | "medium" | "large";
+  size: "" | "small" | "medium" | "large";
   phone: string;
   email: string;
   website?: string;

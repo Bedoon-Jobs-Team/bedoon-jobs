@@ -12,13 +12,16 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.5",
     "@types/styled-components": "^5.1.2",
+    "@types/yup": "^0.29.7",
+    "formik": "^2.1.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "reset-css": "^5.0.1",
     "styled-components": "^5.1.1",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "yup": "^0.29.3"
   },
   "scripts": {
     "start": "react-scripts start",

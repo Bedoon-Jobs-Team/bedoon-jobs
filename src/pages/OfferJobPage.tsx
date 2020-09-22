@@ -1,8 +1,12 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../assets/icons/Logo.svg";
+import AboutCompanyForm from "../components/Forms/OfferJob/AboutCompanyForm";
 
 const OfferJobPage: FunctionComponent = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const steps = new Map<number, JSX.Element>([[1, <AboutCompanyForm />]]);
+
   return (
     <PageContainer>
       <StyledLogo />
@@ -21,11 +25,7 @@ const OfferJobPage: FunctionComponent = () => {
             <StepTitle>المتطلبات</StepTitle>
           </Step>
         </StepsContainer>
-        <FormContainer>
-          <FormTitle>
-            أعلن عن وظيفة /<Grey> عن الشركة</Grey>
-          </FormTitle>
-        </FormContainer>
+        <FormContainer>{steps.get(currentStep)}</FormContainer>
       </SubContainer>
     </PageContainer>
   );
@@ -82,22 +82,11 @@ const StepTitle = styled.div`
 
 const FormContainer = styled.div`
   display: flex;
-  flex-direction: column;
   padding: 40px 58px;
   background: #ffffff;
   box-shadow: 0px 34px 74px rgba(39, 52, 107, 0.12);
   border-radius: 20px;
   margin-right: 24px;
-`;
-
-const FormTitle = styled.div`
-  font-size: 22px;
-  line-height: 42px;
-  color: #37333e;
-`;
-
-const Grey = styled.span`
-  color: #afa9b8;
 `;
 
 export default OfferJobPage;

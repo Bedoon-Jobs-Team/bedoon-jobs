@@ -1,0 +1,118 @@
+import { Field, Form, Formik, FormikHelpers, useField } from "formik";
+import React, { FunctionComponent } from "react";
+import styled from "styled-components";
+import * as Yup from "yup";
+import { Company } from "../../../types";
+
+const AboutCompanyForm: FunctionComponent = () => {
+  const initialValues: Company = { name: "", description: "", size: "", phone: "", email: "" };
+
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Required"),
+    description: Yup.string().required("Required"),
+    size: Yup.string().required("Required"),
+    phone: Yup.number()
+      .min(8, "Phone number must be 8 digits")
+      .max(8, "Phone number must be 8 digits")
+      .required("Required"),
+    email: Yup.string().email("Invalid email").required("Required"),
+  });
+
+  const onSubmit = (values: Company, { setSubmitting }: FormikHelpers<Company>) => {
+    alert(values);
+  };
+
+  return (
+    <Container>
+      <FormTitle>
+        أعلن عن وظيفة /<Grey> عن الشركة</Grey>
+      </FormTitle>
+      <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+        <Form>
+          <Container>
+            <Label htmlFor="name">اسم شركتك*</Label>
+            <Field as={StyledField} id="name" name="name" />
+
+            <Label htmlFor="description">وصف الشركة</Label>
+            <Field as={StyledField} id="description" name="description" />
+
+            <Label htmlFor="size">حجم الشركة</Label>
+            <Field as={StyledField} id="size" name="size" />
+
+            <Label htmlFor="phone">رقم الهاتف</Label>
+            <Field as={StyledField} id="phone" name="phone" type="number" />
+
+            <Label htmlFor="email">البريد الالكتروني</Label>
+            <Field as={StyledField} id="email" name="email" type="email" />
+
+            <Button type="submit">متابعة</Button>
+          </Container>
+        </Form>
+      </Formik>
+    </Container>
+  );
+};
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  /* Remove Arrows from type="number" fields for Firefox*/
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+`;
+
+const FormTitle = styled.div`
+  font-size: 22px;
+  line-height: 42px;
+  color: #37333e;
+  margin-bottom: 24px;
+`;
+
+const Grey = styled.span`
+  color: #afa9b8;
+`;
+
+const Label = styled.label`
+  font-size: 12px;
+  line-height: 23px;
+  color: #a19baa;
+`;
+
+const StyledField = styled.input`
+  width: 378px;
+  height: 46px;
+  border: 2px solid #e3dfe8;
+  box-sizing: border-box;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 27px;
+  color: #37333e;
+  padding: 9.5px 16px;
+  font-family: inherit;
+  margin-bottom: 24px;
+
+  /* Remove Arrows from type="number" fields */
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+`;
+
+const Button = styled.button`
+  background: linear-gradient(138.12deg, #a783e2 -0.01%, #7749c2 94.77%);
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 23px;
+  font-family: inherit;
+  color: #ffffff;
+  padding: 14px 171px;
+  border: none;
+`;
+
+export default AboutCompanyForm;
