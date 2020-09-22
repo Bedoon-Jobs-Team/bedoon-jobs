@@ -2,10 +2,36 @@ import React, { FunctionComponent, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../assets/icons/Logo.svg";
 import AboutCompanyForm from "../components/Forms/OfferJob/AboutCompanyForm";
+import { Company } from "../types";
+
+const emptyCompany: Company = { name: "", description: "", size: "", phone: "", email: "" };
 
 const OfferJobPage: FunctionComponent = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const steps = new Map<number, JSX.Element>([[1, <AboutCompanyForm />]]);
+  const [currentCompanyDetails, setCurrentCompanyDetails] = useState<Company>(emptyCompany);
+
+  const steps = new Map<number, JSX.Element>([
+    [
+      1,
+      <AboutCompanyForm
+        onSubmit={(company) => {
+          setCurrentCompanyDetails(company);
+          setCurrentStep(currentStep + 1);
+        }}
+        initialValues={currentCompanyDetails}
+      />,
+    ],
+    [
+      2,
+      <AboutCompanyForm
+        onSubmit={(company) => {
+          setCurrentCompanyDetails(company);
+          setCurrentStep(currentStep + 1);
+        }}
+        initialValues={currentCompanyDetails}
+      />,
+    ],
+  ]);
 
   return (
     <PageContainer>

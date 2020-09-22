@@ -8,9 +8,12 @@ const RequiredMessage = "مطلوب";
 const PhoneLengthMessage = "رقم الهاتف يجب ان يحتوي على ٨ اعداد";
 const InvalidEmailMessage = "بريد الالكتروني غير صحيح";
 
-const AboutCompanyForm: FunctionComponent = () => {
-  const initialValues: Company = { name: "", description: "", size: "", phone: "", email: "" };
+interface Props {
+  onSubmit: (values: Company) => void;
+  initialValues: Company;
+}
 
+const AboutCompanyForm: FunctionComponent<Props> = (props) => {
   const validationSchema = Yup.object({
     name: Yup.string().required(RequiredMessage),
     description: Yup.string().required(RequiredMessage),
@@ -20,7 +23,7 @@ const AboutCompanyForm: FunctionComponent = () => {
   });
 
   const onSubmit = (values: Company, { setSubmitting }: FormikHelpers<Company>) => {
-    alert(values);
+    props.onSubmit(values);
   };
 
   return (
@@ -28,7 +31,7 @@ const AboutCompanyForm: FunctionComponent = () => {
       <FormTitle>
         أعلن عن وظيفة /<Grey> عن الشركة</Grey>
       </FormTitle>
-      <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+      <Formik initialValues={props.initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
         <Form>
           <Container>
             <FieldContainer>
