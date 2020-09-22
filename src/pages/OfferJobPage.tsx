@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../assets/icons/Logo.svg";
 import AboutCompanyForm from "../components/Forms/OfferJob/AboutCompanyForm";
@@ -25,9 +26,14 @@ const defaultJobDetails: JobDetails = {
 };
 
 const OfferJobPage: FunctionComponent = () => {
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(1);
   const [companyDetails, setCompanyDetails] = useState<Company>(defaultCompany);
   const [jobDetails, setJobDetails] = useState<JobDetails>(defaultJobDetails);
+  const [highestStep, setHighestStep] = useState(1);
+
+  useEffect(() => {
+    setHighestStep(Math.max(highestStep, currentStep));
+  }, [currentStep]);
 
   const steps = new Map<number, JSX.Element>([
     [
@@ -57,17 +63,17 @@ const OfferJobPage: FunctionComponent = () => {
       <Logo />
       <SubContainer>
         <StepsContainer>
-          <Step>
-            <StepNumber>1</StepNumber>
-            <StepTitle>عن الشركة</StepTitle>
+          <Step active={highestStep >= 1} onClick={() => highestStep > 1 && setCurrentStep(1)}>
+            <StepNumber active={highestStep >= 1}>1</StepNumber>
+            <StepTitle active={highestStep >= 1}>عن الشركة</StepTitle>
           </Step>
-          <Step>
-            <StepNumber>2</StepNumber>
-            <StepTitle>تفاصيل الوظيفة</StepTitle>
+          <Step active={highestStep >= 2} onClick={() => highestStep >= 2 && setCurrentStep(2)}>
+            <StepNumber active={highestStep >= 2}>2</StepNumber>
+            <StepTitle active={highestStep >= 2}>تفاصيل الوظيفة</StepTitle>
           </Step>
-          <Step>
-            <StepNumber>3</StepNumber>
-            <StepTitle>المتطلبات</StepTitle>
+          <Step active={highestStep >= 3} onClick={() => highestStep >= 3 && setCurrentStep(3)}>
+            <StepNumber active={highestStep >= 3}>3</StepNumber>
+            <StepTitle active={highestStep >= 3}>المتطلبات</StepTitle>
           </Step>
         </StepsContainer>
         <FormContainer>{steps.get(currentStep)}</FormContainer>
@@ -95,7 +101,7 @@ const StepsContainer = styled.div`
   flex-direction: column;
 `;
 
-const Step = styled.div`
+const Step = styled.div<{ active: boolean }>`
   background: #ffffff;
   box-shadow: 0px 34px 74px rgba(39, 52, 107, 0.12);
   border-radius: 12px;
@@ -103,10 +109,11 @@ const Step = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 15px;
+  cursor: ${(props) => (props.active ? "pointer" : "default")};
 `;
 
-const StepNumber = styled.div`
-  background: linear-gradient(136.99deg, #a783e2 0%, #7749c2 96.75%);
+const StepNumber = styled.div<{ active: boolean }>`
+  background: ${(props) => (props.active ? "linear-gradient(136.99deg, #a783e2 0%, #7749c2 96.75%)" : "#EFEBF5")};
   border-radius: 20px;
   padding: 3px 11px;
   font-weight: bold;
@@ -116,10 +123,10 @@ const StepNumber = styled.div`
   margin-left: 10px;
 `;
 
-const StepTitle = styled.div`
+const StepTitle = styled.div<{ active: boolean }>`
   font-size: 12px;
   line-height: 23px;
-  color: #37333e;
+  color: ${(props) => (props.active ? "#37333e" : "#C5BECF")};
 `;
 
 const FormContainer = styled.div`
