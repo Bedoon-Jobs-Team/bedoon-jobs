@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../assets/icons/Logo.svg";
 import AboutCompanyForm from "../components/Forms/OfferJob/AboutCompanyForm";
 import JobDetailsForm from "../components/Forms/OfferJob/JobDetailsForm";
+import JobRequirementsForm from "../components/Forms/OfferJob/JobRequirementsForm";
 import { Company } from "../types";
 
 export type JobDetails = {
@@ -16,6 +16,10 @@ export type JobDetails = {
   urgency: string;
 };
 
+export type JobRequirements = {
+  description: string;
+};
+
 const defaultCompany: Company = { name: "", description: "", size: "", phone: "", email: "" };
 const defaultJobDetails: JobDetails = {
   title: "",
@@ -24,39 +28,45 @@ const defaultJobDetails: JobDetails = {
   employeesNeeded: 1,
   urgency: "1 - 3 أيام",
 };
+const defaultJobRequirements = { description: "" };
 
 const OfferJobPage: FunctionComponent = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(3);
   const [companyDetails, setCompanyDetails] = useState<Company>(defaultCompany);
   const [jobDetails, setJobDetails] = useState<JobDetails>(defaultJobDetails);
+  const [jobRequirements, setJobRequirements] = useState<JobRequirements>(defaultJobRequirements);
   const [highestStep, setHighestStep] = useState(1);
 
   useEffect(() => {
     setHighestStep(Math.max(highestStep, currentStep));
   }, [currentStep]);
 
-  const steps = new Map<number, JSX.Element>([
-    [
-      1,
-      <AboutCompanyForm
-        onSubmit={(values) => {
-          setCompanyDetails(values);
-          setCurrentStep(currentStep + 1);
-        }}
-        initialValues={companyDetails}
-      />,
-    ],
-    [
-      2,
-      <JobDetailsForm
-        onSubmit={(values) => {
-          setJobDetails(values);
-          setCurrentStep(currentStep + 1);
-        }}
-        initialValues={jobDetails}
-      />,
-    ],
-  ]);
+  const steps = [
+    undefined,
+    <AboutCompanyForm
+      onSubmit={(values) => {
+        setCompanyDetails(values);
+        setCurrentStep(currentStep + 1);
+      }}
+      initialValues={companyDetails}
+    />,
+    <JobDetailsForm
+      onSubmit={(values) => {
+        setJobDetails(values);
+        setCurrentStep(currentStep + 1);
+      }}
+      initialValues={jobDetails}
+    />,
+    <JobRequirementsForm
+      onSubmit={(values) => {
+        setJobRequirements(values);
+        onSubmit();
+      }}
+      initialValues={jobRequirements}
+    />,
+  ];
+
+  function onSubmit() {}
 
   return (
     <PageContainer>
@@ -76,7 +86,7 @@ const OfferJobPage: FunctionComponent = () => {
             <StepTitle active={highestStep >= 3}>المتطلبات</StepTitle>
           </Step>
         </StepsContainer>
-        <FormContainer>{steps.get(currentStep)}</FormContainer>
+        <FormContainer>{steps[currentStep]}</FormContainer>
       </SubContainer>
     </PageContainer>
   );
