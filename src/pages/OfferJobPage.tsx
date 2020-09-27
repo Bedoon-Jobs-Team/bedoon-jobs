@@ -39,7 +39,7 @@ const OfferJobPage: FunctionComponent = () => {
   const [highestStep, setHighestStep] = useState(1);
 
   useEffect(() => {
-    setHighestStep(Math.max(highestStep, currentStep));
+    setHighestStep((oldHighestStep) => Math.max(oldHighestStep, currentStep));
   }, [currentStep]);
 
   const steps = [
