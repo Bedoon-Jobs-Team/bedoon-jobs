@@ -1,38 +1,41 @@
 import React, { FunctionComponent } from "react";
-import { JobAd } from "../types";
+import { JobAdPreview } from "../types";
 import { ReactComponent as CompanyIcon } from "../assets/icons/CompanyIcon.svg";
 import { ReactComponent as LocationIcon } from "../assets/icons/LocationIcon.svg";
 import styled from "styled-components";
+import Link from "../utils/UnstyledLink";
 
-const JobAdCard: FunctionComponent<{ jobAd: JobAd }> = ({ jobAd }) => {
+const JobAdCard: FunctionComponent<{ jobAd: JobAdPreview }> = ({ jobAd }) => {
   function calculateSince(datePosted: Date) {
     return "منذ 3 أيام"; // TODO: really do the calculations
   }
 
   return (
-    <Container>
-      <JobDetailsContainer>
-        <JobTitle>{jobAd.title}</JobTitle>
-        <Tags>
-          {jobAd.tags.map((tag) => (
-            <Tag>{tag}</Tag>
-          ))}
-        </Tags>
-      </JobDetailsContainer>
-      <CompanyAndLocationContainer>
-        <Company>
-          <StyledCompanyIcon />
-          شركة {jobAd.company}
-        </Company>
-        <Location>
-          <StyledLocationIcon />
-          {jobAd.provenance}: {jobAd.area}
-        </Location>
-      </CompanyAndLocationContainer>
-      <SinceContainer>
-        <Since>{calculateSince(jobAd.datePosted)}</Since>
-      </SinceContainer>
-    </Container>
+    <Link to={`/listings/${jobAd.id}`}>
+      <Container>
+        <JobDetailsContainer>
+          <JobTitle>{jobAd.title}</JobTitle>
+          <Tags>
+            {jobAd.tags.map((tag) => (
+              <Tag>{tag}</Tag>
+            ))}
+          </Tags>
+        </JobDetailsContainer>
+        <CompanyAndLocationContainer>
+          <Company>
+            <StyledCompanyIcon />
+            شركة {jobAd.companyName}
+          </Company>
+          <Location>
+            <StyledLocationIcon />
+            {jobAd.governorate}: {jobAd.area}
+          </Location>
+        </CompanyAndLocationContainer>
+        <SinceContainer>
+          <Since>{calculateSince(jobAd.datePosted)}</Since>
+        </SinceContainer>
+      </Container>
+    </Link>
   );
 };
 
@@ -72,6 +75,7 @@ const Tag = styled.p`
   margin-left: 8px;
   font-size: 12px;
   line-height: 18px;
+  color: #332d3c;
 `;
 
 const CompanyAndLocationContainer = styled(JobDetailsContainer)`
