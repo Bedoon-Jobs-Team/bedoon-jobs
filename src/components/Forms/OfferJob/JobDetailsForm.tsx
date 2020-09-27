@@ -1,9 +1,8 @@
-import { ErrorMessage, Field, Form, Formik, FormikHelpers, useField } from "formik";
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { JobDetails } from "../../../pages/OfferJobPage";
-import { Company } from "../../../types";
 
 const RequiredMessage = "مطلوب";
 const SalaryRangeErrorMessage = "حد الاعلى للراتب يجب ان يكون اعلى من الحد الادنى";
