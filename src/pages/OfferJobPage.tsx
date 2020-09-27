@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../assets/icons/Logo.svg";
 import AboutCompanyForm from "../components/Forms/OfferJob/AboutCompanyForm";
@@ -70,7 +71,9 @@ const OfferJobPage: FunctionComponent = () => {
 
   return (
     <PageContainer>
-      <Logo />
+      <Link to="/">
+        <Logo />
+      </Link>
       <SubContainer>
         <StepsContainer>
           <Step active={highestStep >= 1} onClick={() => highestStep > 1 && setCurrentStep(1)}>
