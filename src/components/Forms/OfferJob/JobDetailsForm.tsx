@@ -219,6 +219,7 @@ const Button = styled.button`
   color: #ffffff;
   padding: 14px 171px;
   border: none;
+  cursor: pointer;
 `;
 
 export default JobDetailsForm;
