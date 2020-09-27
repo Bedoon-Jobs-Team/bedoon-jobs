@@ -32,7 +32,7 @@ const defaultJobDetails: JobDetails = {
 const defaultJobRequirements = { description: "" };
 
 const OfferJobPage: FunctionComponent = () => {
-  const [currentStep, setCurrentStep] = useState(3);
+  const [currentStep, setCurrentStep] = useState(1);
   const [companyDetails, setCompanyDetails] = useState<Company>(defaultCompany);
   const [jobDetails, setJobDetails] = useState<JobDetails>(defaultJobDetails);
   const [jobRequirements, setJobRequirements] = useState<JobRequirements>(defaultJobRequirements);
@@ -67,7 +67,11 @@ const OfferJobPage: FunctionComponent = () => {
     />,
   ];
 
-  function onSubmit() {}
+  function onSubmit() {
+    console.log(companyDetails);
+    console.log(jobDetails);
+    console.log(jobRequirements);
+  }
 
   return (
     <PageContainer>

@@ -51,7 +51,9 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
               <Label htmlFor="type">ما هو نوع هذه الوظيفة؟</Label>
               <Field as={StyledSelect} id="type" name="type">
                 {JobTypes.map((jobType) => (
-                  <option value={jobType}>{jobType}</option>
+                  <option key={jobType} value={jobType}>
+                    {jobType}
+                  </option>
                 ))}
               </Field>
               <ErrorMessage name="type" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
@@ -77,7 +79,9 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
                 />
                 <Field as={StyledMiniSelect} id="salaryPeriod" name="salaryPeriod">
                   {SalaryPeriods.map((period) => (
-                    <option value={period}>{period}</option>
+                    <option key={period} value={period}>
+                      {period}
+                    </option>
                   ))}
                 </Field>
               </RangeContainer>
@@ -94,7 +98,9 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
               <Label htmlFor="email">ما مدى سرعة احتياجك للقيام بالتوظيف؟</Label>
               <Field as={StyledSelect} id="email" name="email" type="email">
                 {Urgencies.map((urgency) => (
-                  <option value={urgency}>{urgency}</option>
+                  <option key={urgency} value={urgency}>
+                    {urgency}
+                  </option>
                 ))}
               </Field>
               <ErrorMessage name="email" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
