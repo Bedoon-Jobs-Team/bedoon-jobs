@@ -5,6 +5,7 @@ import MainPage from "./pages/MainPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ScrollToTop from "./utils/ScrollToTop";
 import OfferJobPage from "./pages/OfferJobPage";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route exact path="/" component={MainPage} />
           <Route exact path="/listings/:id" component={JobDetailsPage} />
           <Route exact path="/offer-job" component={OfferJobPage} />
+          <Route exact path="/login" component={LoginPage} />
         </Switch>
       </>
     </Router>
