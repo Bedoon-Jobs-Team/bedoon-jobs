@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { ReactComponent as Logo } from "../assets/icons/Logo.svg";
 import { ReactComponent as GoogleIcon } from "../assets/icons/GoogleIcon.svg";
 import { ReactComponent as FacebookIcon } from "../assets/icons/FacebookIcon.svg";
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import Link from "../utils/UnstyledLink";
 
