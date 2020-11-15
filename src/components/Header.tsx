@@ -15,7 +15,9 @@ const Header: FunctionComponent = (props) => {
         <Link to="/offer-job">
           <ButtonTrans>أعلن عن وظيفة</ButtonTrans>
         </Link>
-        <Button>تسجيل الدخول</Button>
+        <Link to="/login">
+          <Button>تسجيل الدخول</Button>
+        </Link>
       </LeftContainer>
     </Container>
   );
