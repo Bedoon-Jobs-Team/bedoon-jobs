@@ -2,8 +2,18 @@ import React, { FunctionComponent } from "react";
 import { ReactComponent as LogoSmall } from "../assets/icons/LogoSmall.svg";
 import styled from "styled-components";
 import Link from "../utils/UnstyledLink";
+import { useCurrentUser } from "../hooks/useCurrentUser";
+import { logout } from "../firebase/authentication";
 
 const Header: FunctionComponent = (props) => {
+  const currentUser = useCurrentUser();
+  console.log(currentUser);
+
+  function onLogout() {
+    logout();
+    window.location.reload();
+  }
+
   return (
     <Container>
       <RightContainer>
@@ -15,9 +25,13 @@ const Header: FunctionComponent = (props) => {
         <Link to="/offer-job">
           <ButtonTrans>أعلن عن وظيفة</ButtonTrans>
         </Link>
-        <Link to="/login">
-          <Button>تسجيل الدخول</Button>
-        </Link>
+        {currentUser ? (
+          <Button onClick={onLogout}>تسجيل الخروج</Button>
+        ) : (
+          <Link to="/login">
+            <Button>تسجيل الدخول</Button>
+          </Link>
+        )}
       </LeftContainer>
     </Container>
   );
@@ -68,6 +82,7 @@ const ButtonTrans = styled.div`
 const Button = styled(ButtonTrans)`
   color: #643f9f;
   background-color: #ffffff;
+  cursor: pointer;
 `;
 
 export default Header;

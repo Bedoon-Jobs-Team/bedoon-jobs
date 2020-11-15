@@ -6,6 +6,8 @@ import { ReactComponent as FacebookIcon } from "../assets/icons/FacebookIcon.svg
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import Link from "../utils/UnstyledLink";
+import { signInWithGoogle } from "../firebase/authentication";
+import { useHistory } from "react-router-dom";
 
 const emailPlaceholder = "عنوان البريد الإلكتروني";
 const passwordPlaceholder = "كلمة المرور";
@@ -15,6 +17,7 @@ const InvalidEmailMessage = "بريد الالكتروني غير صحيح";
 const InvalidPasswordMessage = "كلمة المرور يجب ان تكون أطول من ٦ حروف";
 
 const LoginPage: FunctionComponent = () => {
+  const history = useHistory();
   const initialValues = { email: "", password: "", rememberMe: false };
 
   const validationSchema = Yup.object({
@@ -25,6 +28,13 @@ const LoginPage: FunctionComponent = () => {
   const onSubmit = (values: { email: string; password: string }) => {
     console.log(values);
   };
+
+  async function onGoogleLogin() {
+    const result = await signInWithGoogle();
+    if (result.user) {
+      history.push("/");
+    }
+  }
 
   return (
     <PageContainer>
@@ -74,7 +84,7 @@ const LoginPage: FunctionComponent = () => {
           <P>أو</P>
           <Hr />
         </DividerContainer>
-        <SocialButton>
+        <SocialButton onClick={() => onGoogleLogin()}>
           <StyledGoogleIcon />
           تسجيل الدخول باستخدام حساب جوجل
         </SocialButton>
