@@ -13,9 +13,10 @@ export type JobDetails = {
   title: string;
   type: string;
   field: string;
-  salaryLowerEnd: number;
-  salaryHigherEnd: number;
+  salaryLowerEnd?: number;
+  salaryHigherEnd?: number;
   salaryPeriod: string;
+  area: string;
   employeesNeeded: number;
   urgency: string;
 };
@@ -32,8 +33,7 @@ const defaultJobDetails: JobDetails = {
   salaryPeriod: "شهرياً",
   employeesNeeded: 1,
   urgency: "1 - 3 أيام",
-  salaryLowerEnd: 0,
-  salaryHigherEnd: 0,
+  area: "عمل عن بعد",
 };
 const defaultJobRequirements = { description: "" };
 

@@ -2,7 +2,7 @@ import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
-import { fields } from "../../../constants";
+import { areas, fields } from "../../../constants";
 import { JobDetails } from "../../../pages/OfferJobPage";
 
 const RequiredMessage = "مطلوب";
@@ -10,7 +10,7 @@ const SalaryRangeErrorMessage = "حد الاعلى للراتب يجب ان يك
 const employeesNeededErrorMessage = "عمليات التوظيف يجب ان تكون واحد او اكثر";
 
 const JobTypes = ["دوام كامل", "دوام جزئي", "مؤقت", "عقد", "فترة تدريب", "عمولة", "لحديثي التخرج", "دائم"];
-const SalaryPeriods = ["شهرياً"];
+const SalaryPeriods = ["شهرياً", "اسبوعياً"];
 const Urgencies = ["1 - 3 أيام"];
 
 interface Props {
@@ -26,6 +26,7 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
     salaryLowerEnd: Yup.number().required(RequiredMessage),
     salaryHigherEnd: Yup.number().min(Yup.ref("salaryLowerEnd"), SalaryRangeErrorMessage).required(RequiredMessage),
     salaryPeriod: Yup.string().required(RequiredMessage),
+    area: Yup.string().required(RequiredMessage),
     employeesNeeded: Yup.number().min(1, employeesNeededErrorMessage).required(RequiredMessage),
     urgency: Yup.string().required(RequiredMessage),
   });
@@ -49,7 +50,7 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
             </FieldContainer>
 
             <FieldContainer>
-              <Label htmlFor="type">ما هو نوع هذه الوظيفة؟</Label>
+              <Label htmlFor="type">نوع الوظيفة</Label>
               <Field as={StyledSelect} id="type" name="type">
                 {JobTypes.map((jobType) => (
                   <option key={jobType} value={jobType}>
@@ -61,19 +62,19 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
             </FieldContainer>
 
             <FieldContainer>
-              <Label htmlFor="type">ما هو مجال هذه الوظيفة؟</Label>
-              <Field as={StyledSelect} id="type" name="type">
+              <Label htmlFor="field">مجال الوظيفة</Label>
+              <Field as={StyledSelect} id="field" name="field">
                 {fields.map((field) => (
                   <option key={field} value={field}>
                     {field}
                   </option>
                 ))}
               </Field>
-              <ErrorMessage name="type" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+              <ErrorMessage name="field" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
             </FieldContainer>
 
             <FieldContainer>
-              <Label>ما راتب هذه الوظيفة؟</Label>
+              <Label>راتب الوظيفة</Label>
               <RangeContainer>
                 <Field
                   as={StyledMiniField}
@@ -99,6 +100,18 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
                 </Field>
               </RangeContainer>
               <ErrorMessage name="salaryHigherEnd" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+            </FieldContainer>
+
+            <FieldContainer>
+              <Label htmlFor="area">مكان الوظيفة</Label>
+              <Field as={StyledSelect} id="area" name="area">
+                {areas.map((area) => (
+                  <option key={area} value={area}>
+                    {area}
+                  </option>
+                ))}
+              </Field>
+              <ErrorMessage name="area" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
             </FieldContainer>
 
             <FieldContainer>
