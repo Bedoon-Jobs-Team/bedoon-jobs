@@ -1,18 +1,19 @@
 export type JobAdPreview = {
-  id: string;
+  id?: string;
   title: string;
   tags: string[];
   companyId: string;
   companyName: string;
-  governorate: string;
   area: string;
   datePosted: Date;
+  ownerId: string;
 };
 
 export type JobAdDetails = {
+  id?: string;
+  jobAdPreview: JobAdPreview;
+  company: Company;
   description: string;
-  responsibilities: string;
-  qualifications: string;
   salaryLowerEnd: number;
   salaryHigherEnd: number;
 };
@@ -26,4 +27,5 @@ export type Company = {
   email: string;
   website?: string;
   trademarkURL?: string;
+  ownerId?: string;
 };

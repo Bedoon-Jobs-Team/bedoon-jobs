@@ -28,7 +28,7 @@ const JobAdCard: FunctionComponent<{ jobAd: JobAdPreview }> = ({ jobAd }) => {
           </Company>
           <Location>
             <StyledLocationIcon />
-            {jobAd.governorate}: {jobAd.area}
+            {jobAd.area}
           </Location>
         </CompanyAndLocationContainer>
         <SinceContainer>

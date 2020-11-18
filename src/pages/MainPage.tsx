@@ -20,9 +20,9 @@ const MainPage: FunctionComponent = (props) => {
         tags: ["هندسة", "راتب شهري"],
         companyId: "321",
         companyName: "Light Blue",
-        governorate: "مدينة الكويت",
         area: "الشرق",
         datePosted: new Date(),
+        ownerId: "123321",
       };
 
       for (let i = 0; i < 8; i++) {
