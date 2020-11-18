@@ -14,7 +14,7 @@ function App() {
         <ScrollToTop />
         <Switch>
           <Route exact path="/" component={MainPage} />
-          <Route exact path="/listings/:id" component={JobDetailsPage} />
+          <Route exact path="/jobAds/:id" component={JobDetailsPage} />
           <Route exact path="/offer-job" component={OfferJobPage} />
           <Route exact path="/login" component={LoginPage} />
         </Switch>

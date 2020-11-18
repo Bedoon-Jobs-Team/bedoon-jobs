@@ -11,7 +11,7 @@ const JobAdCard: FunctionComponent<{ jobAd: JobAdPreview }> = ({ jobAd }) => {
   }
 
   return (
-    <Link to={`/listings/${jobAd.id}`}>
+    <Link to={`/jobAds/${jobAd.id}`}>
       <Container>
         <JobDetailsContainer>
           <JobTitle>{jobAd.title}</JobTitle>
