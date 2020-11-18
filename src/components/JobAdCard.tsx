@@ -51,8 +51,8 @@ const Container = styled.div`
 const JobDetailsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
   margin: 27px 24px 29px 27px;
+  flex: 2 0 0;
 `;
 
 const JobTitle = styled.p`
@@ -80,6 +80,7 @@ const Tag = styled.p`
 
 const CompanyAndLocationContainer = styled(JobDetailsContainer)`
   margin-top: 32px;
+  flex-grow: 2;
 `;
 
 const Company = styled.p`
@@ -108,6 +109,7 @@ const StyledLocationIcon = styled(LocationIcon)`
 
 const SinceContainer = styled(CompanyAndLocationContainer)`
   margin-top: 33px;
+  flex: 1 0 0;
 `;
 
 const Since = styled.p`
