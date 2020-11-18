@@ -3,12 +3,13 @@ import styled from "styled-components";
 import Header from "../components/Header";
 import { JobAdPreview } from "../types";
 import JobAdCard from "../components/JobAdCard";
-import PaginationButtons from "../components/PaginationButtons";
 import ScrollMenu from "../components/ScrollMenu";
 import { useJobAds } from "../hooks/useJobAds";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { CircularProgress } from "@material-ui/core";
 
 const MainPage: FunctionComponent = (props) => {
-  const jobAds = useJobAds();
+  const { jobAds, fetchMoreJobAds, hasMoreAds } = useJobAds();
 
   return (
     <PageContainer>
@@ -19,11 +20,17 @@ const MainPage: FunctionComponent = (props) => {
       </TopSectionContainer>
       <ContentContainer>
         <CardsContainer>
-          <PageCount>صفحة 1 من 120 صفحة</PageCount>
-          {jobAds.map((jobAd) => (
-            <JobAdCard jobAd={jobAd} />
-          ))}
-          <PaginationButtons currentPage={1} />
+          <InfiniteScroll
+            style={{ overflow: "hidden" }}
+            dataLength={jobAds.length} //This is important field to render the next data
+            next={fetchMoreJobAds}
+            hasMore={hasMoreAds}
+            loader={<CircularProgress color="secondary" />}
+          >
+            {jobAds.map((jobAd) => (
+              <JobAdCard jobAd={jobAd} />
+            ))}
+          </InfiniteScroll>
         </CardsContainer>
       </ContentContainer>
     </PageContainer>
@@ -67,13 +74,6 @@ const CardsContainer = styled.div`
   width: 1042px;
   flex-shrink: 1;
   margin-bottom: 28px;
-`;
-
-const PageCount = styled.p`
-  font-size: 14px;
-  line-height: 27px;
-  color: #9891a3;
-  margin-bottom: 16px;
 `;
 
 export default MainPage;
