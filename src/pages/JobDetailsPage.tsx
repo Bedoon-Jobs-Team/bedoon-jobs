@@ -1,44 +1,38 @@
 import React, { FunctionComponent } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as CompanyIcon } from "../assets/icons/CompanyIcon.svg";
 import { ReactComponent as MoneyIcon } from "../assets/icons/MoneyIcon.svg";
+import { useJobDetails } from "../hooks/useJobDetails";
 
 const JobDetailsPage: FunctionComponent = () => {
+  const { id } = useParams<{ id: string }>();
+  const jobDetails = useJobDetails(id);
+
   return (
     <PageContainer>
-      <ContentContainer>
-        <JobDetailsContainer>
-          <Since>منذ 3 أيام</Since>
-          <Title>مسؤول مبيعات و علاقات عامة</Title>
-          <Company>
-            <StyledCompanyIcon />
-            شركة <Red>&nbsp;True Culture</Red>
-          </Company>
-          <Salary>
-            <StyledMoneyIcon />
-            بين ٣٤٤٥ و ٣٤٤٢ راتب شهري
-          </Salary>
-          <Tags>
-            <Tag>هندسة</Tag>
-            <Tag>راتب شهري</Tag>
-          </Tags>
-          <Description>
-            تقدم Nestle فرصة عمل في الكويت بمنصب مدير مبيعات. سيقوم المتقدم الناجح بالعمل على تكييف استراتيجيات الفئات
-            الموجودة في الشركة مع احتياجات البلد، ومن ثم قيادة هذه المنتجات وإدارتها عبر العملاء المختلفين. بالإضافة إلى
-            متابعة تنفيذ خطط العلامة التجارية لتحقيق مؤشرات الأداء الرئيسية.
-          </Description>
-          <SubTitle>مسؤوليات الوظيفة:</SubTitle>
-          <P>
-            سيكون المتقدم الناجح مسؤولًا عن ضمان تحقيق قيمة إضافية للمنتج والعمل على زيادة نمو المنتج الداخلي حسب البلد
-            والميزانية الموجود فيها.
-          </P>
-          <SubTitle>معايير أهلية الوظيفة:</SubTitle>
-          <P>امتلاك 3 سنوات من الخبرة في مجال المبيعات/ التسويق التجاري </P>
-          <ButtonContainer>
-            <Button>تقديم على الوظيفة</Button>
-          </ButtonContainer>
-        </JobDetailsContainer>
-      </ContentContainer>
+      {jobDetails ? (
+        <ContentContainer>
+          <JobDetailsContainer>
+            <Since>منذ 3 أيام</Since>
+            <Title>{jobDetails.jobAdPreview.title}</Title>
+            <Company>
+              <StyledCompanyIcon />
+              شركة <Red>&nbsp;{jobDetails.company.name}</Red>
+            </Company>
+            <Salary>
+              <StyledMoneyIcon />
+              {`بين ${jobDetails.salaryLowerEnd} و ${jobDetails.salaryHigherEnd} راتب شهري`}
+            </Salary>
+            <Tags>
+              {jobDetails.jobAdPreview.tags.map((tag) => (
+                <Tag>{tag}</Tag>
+              ))}
+            </Tags>
+            <Description>{jobDetails.description}</Description>
+          </JobDetailsContainer>
+        </ContentContainer>
+      ) : null}
     </PageContainer>
   );
 };

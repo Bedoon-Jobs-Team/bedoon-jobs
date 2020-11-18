@@ -56,5 +56,5 @@ async function submitJobAdPreview(jobAdPreview: JobAdPreview) {
 }
 
 async function submitJobAdDetails(jobAdDetails: JobAdDetails) {
-  await firebase.firestore().collection("jobAdDetails").add(jobAdDetails);
+  await firebase.firestore().collection("jobAdDetails").doc(`${jobAdDetails.jobAdPreview.id}`).set(jobAdDetails);
 }
