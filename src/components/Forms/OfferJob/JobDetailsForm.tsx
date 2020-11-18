@@ -2,6 +2,7 @@ import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
+import { fields } from "../../../constants";
 import { JobDetails } from "../../../pages/OfferJobPage";
 
 const RequiredMessage = "مطلوب";
@@ -21,6 +22,7 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
   const validationSchema = Yup.object({
     title: Yup.string().required(RequiredMessage),
     type: Yup.string().required(RequiredMessage),
+    field: Yup.string().required(RequiredMessage),
     salaryLowerEnd: Yup.number().required(RequiredMessage),
     salaryHigherEnd: Yup.number().min(Yup.ref("salaryLowerEnd"), SalaryRangeErrorMessage).required(RequiredMessage),
     salaryPeriod: Yup.string().required(RequiredMessage),
@@ -52,6 +54,18 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
                 {JobTypes.map((jobType) => (
                   <option key={jobType} value={jobType}>
                     {jobType}
+                  </option>
+                ))}
+              </Field>
+              <ErrorMessage name="type" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+            </FieldContainer>
+
+            <FieldContainer>
+              <Label htmlFor="type">ما هو مجال هذه الوظيفة؟</Label>
+              <Field as={StyledSelect} id="type" name="type">
+                {fields.map((field) => (
+                  <option key={field} value={field}>
+                    {field}
                   </option>
                 ))}
               </Field>

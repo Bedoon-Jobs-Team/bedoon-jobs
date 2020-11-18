@@ -21,19 +21,20 @@ export async function submitJobAd({
 
   const datePosted = new Date();
   const jobAdPreview: JobAdPreview = {
-    ...jobDetails,
+    title: jobDetails.title,
     companyId,
     companyName: companyDetails.name,
     datePosted,
-    tags: [], //Todo: implement this.
+    tags: [jobDetails.field, jobDetails.type, jobDetails.salaryPeriod],
     area: "الشرق", //Todo: implement this.
     ownerId: currentUser.uid,
   };
   const submittedJobAdPreview = await submitJobAdPreview(jobAdPreview);
 
   const jobAdDetails: JobAdDetails = {
-    ...jobDetails,
     ...jobRequirements,
+    salaryLowerEnd: jobDetails.salaryLowerEnd,
+    salaryHigherEnd: jobDetails.salaryHigherEnd,
     jobAdPreview: submittedJobAdPreview,
     company: companyDetails,
   };

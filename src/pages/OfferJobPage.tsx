@@ -12,6 +12,7 @@ import { Company } from "../types";
 export type JobDetails = {
   title: string;
   type: string;
+  field: string;
   salaryLowerEnd: number;
   salaryHigherEnd: number;
   salaryPeriod: string;
@@ -27,6 +28,7 @@ const defaultCompany: Company = { name: "", description: "", size: "", phone: ""
 const defaultJobDetails: JobDetails = {
   title: "",
   type: "دوام كامل",
+  field: "هندسة",
   salaryPeriod: "شهرياً",
   employeesNeeded: 1,
   urgency: "1 - 3 أيام",

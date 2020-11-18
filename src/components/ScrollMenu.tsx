@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import { ReactComponent as Arrow } from "../assets/icons/arrow.svg";
 import styled from "styled-components";
 
-const ScrollMenu: FunctionComponent = props => {
+const ScrollMenu: FunctionComponent = (props) => {
   return (
     <Menu>
       <Container>
