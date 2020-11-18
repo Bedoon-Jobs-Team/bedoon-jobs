@@ -5,35 +5,10 @@ import { JobAdPreview } from "../types";
 import JobAdCard from "../components/JobAdCard";
 import PaginationButtons from "../components/PaginationButtons";
 import ScrollMenu from "../components/ScrollMenu";
+import { useJobAds } from "../hooks/useJobAds";
 
 const MainPage: FunctionComponent = (props) => {
-  const [jobAds, setJobAds] = useState<JobAdPreview[]>([]);
-
-  useEffect(() => {
-    async function fetchJobAds() {
-      //TODO: make it fetch real data when we have a data source
-      const fetchedJobAds = [];
-
-      const fakeJobAd: JobAdPreview = {
-        id: "321",
-        title: "مسؤول مبيعات و علاقات عامة",
-        tags: ["هندسة", "راتب شهري"],
-        companyId: "321",
-        companyName: "Light Blue",
-        area: "الشرق",
-        datePosted: new Date(),
-        ownerId: "123321",
-      };
-
-      for (let i = 0; i < 8; i++) {
-        fetchedJobAds.push(fakeJobAd);
-      }
-
-      setJobAds(fetchedJobAds);
-    }
-
-    fetchJobAds();
-  }, []);
+  const jobAds = useJobAds();
 
   return (
     <PageContainer>
