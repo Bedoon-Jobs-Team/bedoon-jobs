@@ -1,4 +1,4 @@
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
+import { ErrorMessage, Field, Form, Formik, FormikHelpers, useFormikContext } from "formik";
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
@@ -7,7 +7,8 @@ import { JobDetails } from "../../../pages/OfferJobPage";
 
 const RequiredMessage = "مطلوب";
 const SalaryRangeErrorMessage = "حد الاعلى للراتب يجب ان يكون اعلى من الحد الادنى";
-const employeesNeededErrorMessage = "عمليات التوظيف يجب ان تكون واحد او اكثر";
+const EmployeesNeededErrorMessage = "عمليات التوظيف يجب ان تكون واحد او اكثر";
+const NumberErrorMessage = "يجب ان يكون رقم";
 
 const JobTypes = ["دوام كامل", "دوام جزئي", "مؤقت", "عقد", "فترة تدريب", "عمولة", "لحديثي التخرج", "دائم"];
 const SalaryPeriods = ["شهرياً", "اسبوعياً"];
@@ -23,13 +24,27 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
     title: Yup.string().required(RequiredMessage),
     type: Yup.string().required(RequiredMessage),
     field: Yup.string().required(RequiredMessage),
-    salaryLowerEnd: Yup.number().required(RequiredMessage),
-    salaryHigherEnd: Yup.number().min(Yup.ref("salaryLowerEnd"), SalaryRangeErrorMessage).required(RequiredMessage),
+    salaryLowerEnd: Yup.number().typeError(NumberErrorMessage).required(RequiredMessage),
+    salaryHigherEnd: Yup.number()
+      .typeError(NumberErrorMessage)
+      .min(Yup.ref("salaryLowerEnd"), SalaryRangeErrorMessage)
+      .required(RequiredMessage),
     salaryPeriod: Yup.string().required(RequiredMessage),
     area: Yup.string().required(RequiredMessage),
-    employeesNeeded: Yup.number().min(1, employeesNeededErrorMessage).required(RequiredMessage),
+    employeesNeeded: Yup.number()
+      .typeError(NumberErrorMessage)
+      .min(1, EmployeesNeededErrorMessage)
+      .required(RequiredMessage),
     urgency: Yup.string().required(RequiredMessage),
   });
+
+  function handleNumberInputChange(e: React.ChangeEvent<any>, callback: (value: string) => void) {
+    const { value } = e.target;
+    const englishValue = value.replace(/[٠-٩]/g, (arabicNumber: string) =>
+      "٠١٢٣٤٥٦٧٨٩".indexOf(arabicNumber).toString()
+    );
+    if (Number(englishValue) || englishValue === "") callback(englishValue);
+  }
 
   const onSubmit = (values: JobDetails, { setSubmitting }: FormikHelpers<JobDetails>) => {
     props.onSubmit(values);
@@ -41,100 +56,114 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
         أعلن عن وظيفة /<Grey> تفاصيل الوظيفة</Grey>
       </FormTitle>
       <Formik initialValues={props.initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-        <Form>
-          <Container>
-            <FieldContainer>
-              <Label htmlFor="title">اسم الوظيفة</Label>
-              <Field as={StyledField} id="title" name="title" />
-              <ErrorMessage name="title" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
-            </FieldContainer>
+        {(formikProps) => (
+          <Form>
+            <Container>
+              <FieldContainer>
+                <Label htmlFor="title">اسم الوظيفة</Label>
+                <Field as={StyledField} id="title" name="title" />
+                <ErrorMessage name="title" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+              </FieldContainer>
 
-            <FieldContainer>
-              <Label htmlFor="type">نوع الوظيفة</Label>
-              <Field as={StyledSelect} id="type" name="type">
-                {JobTypes.map((jobType) => (
-                  <option key={jobType} value={jobType}>
-                    {jobType}
-                  </option>
-                ))}
-              </Field>
-              <ErrorMessage name="type" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
-            </FieldContainer>
-
-            <FieldContainer>
-              <Label htmlFor="field">مجال الوظيفة</Label>
-              <Field as={StyledSelect} id="field" name="field">
-                {fields.map((field) => (
-                  <option key={field} value={field}>
-                    {field}
-                  </option>
-                ))}
-              </Field>
-              <ErrorMessage name="field" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
-            </FieldContainer>
-
-            <FieldContainer>
-              <Label>راتب الوظيفة</Label>
-              <RangeContainer>
-                <Field
-                  as={StyledMiniField}
-                  id="salaryLowerEnd"
-                  name="salaryLowerEnd"
-                  type="number"
-                  placeholder="500 Kd"
-                />
-                <ToText>إلى</ToText>
-                <Field
-                  as={StyledMiniField}
-                  id="salaryHigherEnd"
-                  name="salaryHigherEnd"
-                  type="number"
-                  placeholder="2000 Kd"
-                />
-                <Field as={StyledMiniSelect} id="salaryPeriod" name="salaryPeriod">
-                  {SalaryPeriods.map((period) => (
-                    <option key={period} value={period}>
-                      {period}
+              <FieldContainer>
+                <Label htmlFor="type">نوع الوظيفة</Label>
+                <Field as={StyledSelect} id="type" name="type">
+                  {JobTypes.map((jobType) => (
+                    <option key={jobType} value={jobType}>
+                      {jobType}
                     </option>
                   ))}
                 </Field>
-              </RangeContainer>
-              <ErrorMessage name="salaryHigherEnd" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
-            </FieldContainer>
+                <ErrorMessage name="type" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+              </FieldContainer>
 
-            <FieldContainer>
-              <Label htmlFor="area">مكان الوظيفة</Label>
-              <Field as={StyledSelect} id="area" name="area">
-                {areas.map((area) => (
-                  <option key={area} value={area}>
-                    {area}
-                  </option>
-                ))}
-              </Field>
-              <ErrorMessage name="area" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
-            </FieldContainer>
+              <FieldContainer>
+                <Label htmlFor="field">مجال الوظيفة</Label>
+                <Field as={StyledSelect} id="field" name="field">
+                  {fields.map((field) => (
+                    <option key={field} value={field}>
+                      {field}
+                    </option>
+                  ))}
+                </Field>
+                <ErrorMessage name="field" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+              </FieldContainer>
 
-            <FieldContainer>
-              <Label htmlFor="employeesNeeded">كم عدد عمليات التوظيف المطلوبة لهذا المنصب؟</Label>
-              <Field as={StyledField} id="employeesNeeded" name="employeesNeeded" type="number" />
-              <ErrorMessage name="employeesNeeded" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
-            </FieldContainer>
+              <FieldContainer>
+                <Label>راتب الوظيفة</Label>
+                <RangeContainer>
+                  <Field
+                    as={StyledMiniField}
+                    id="salaryLowerEnd"
+                    name="salaryLowerEnd"
+                    placeholder="500 Kd"
+                    onChange={(e: React.ChangeEvent<any>) =>
+                      handleNumberInputChange(e, (value: string) => formikProps.setFieldValue("salaryLowerEnd", value))
+                    }
+                  />
+                  <ToText>إلى</ToText>
+                  <Field
+                    as={StyledMiniField}
+                    id="salaryHigherEnd"
+                    name="salaryHigherEnd"
+                    placeholder="2000 Kd"
+                    onChange={(e: React.ChangeEvent<any>) =>
+                      handleNumberInputChange(e, (value: string) => formikProps.setFieldValue("salaryHigherEnd", value))
+                    }
+                  />
+                  <Field as={StyledMiniSelect} id="salaryPeriod" name="salaryPeriod">
+                    {SalaryPeriods.map((period) => (
+                      <option key={period} value={period}>
+                        {period}
+                      </option>
+                    ))}
+                  </Field>
+                </RangeContainer>
+                <ErrorMessage name="salaryLowerEnd" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+                <ErrorMessage name="salaryHigherEnd" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+              </FieldContainer>
 
-            <FieldContainer>
-              <Label htmlFor="email">ما مدى سرعة احتياجك للقيام بالتوظيف؟</Label>
-              <Field as={StyledSelect} id="email" name="email" type="email">
-                {Urgencies.map((urgency) => (
-                  <option key={urgency} value={urgency}>
-                    {urgency}
-                  </option>
-                ))}
-              </Field>
-              <ErrorMessage name="email" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
-            </FieldContainer>
+              <FieldContainer>
+                <Label htmlFor="area">مكان الوظيفة</Label>
+                <Field as={StyledSelect} id="area" name="area">
+                  {areas.map((area) => (
+                    <option key={area} value={area}>
+                      {area}
+                    </option>
+                  ))}
+                </Field>
+                <ErrorMessage name="area" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+              </FieldContainer>
 
-            <Button type="submit">متابعة</Button>
-          </Container>
-        </Form>
+              <FieldContainer>
+                <Label htmlFor="employeesNeeded">كم عدد عمليات التوظيف المطلوبة لهذا المنصب؟</Label>
+                <Field
+                  as={StyledField}
+                  id="employeesNeeded"
+                  name="employeesNeeded"
+                  onChange={(e: React.ChangeEvent<any>) =>
+                    handleNumberInputChange(e, (value: string) => formikProps.setFieldValue("employeesNeeded", value))
+                  }
+                />
+                <ErrorMessage name="employeesNeeded" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+              </FieldContainer>
+
+              <FieldContainer>
+                <Label htmlFor="email">ما مدى سرعة احتياجك للقيام بالتوظيف؟</Label>
+                <Field as={StyledSelect} id="email" name="email" type="email">
+                  {Urgencies.map((urgency) => (
+                    <option key={urgency} value={urgency}>
+                      {urgency}
+                    </option>
+                  ))}
+                </Field>
+                <ErrorMessage name="email" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+              </FieldContainer>
+
+              <Button type="submit">متابعة</Button>
+            </Container>
+          </Form>
+        )}
       </Formik>
     </Container>
   );
