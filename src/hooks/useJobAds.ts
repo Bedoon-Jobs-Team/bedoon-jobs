@@ -11,7 +11,7 @@ export function useJobAds() {
 
   async function fetchJobAds() {
     try {
-      const jobAdsSnapshot = await jobAdPreviewsRef.get();
+      const jobAdsSnapshot = await jobAdPreviewsRef.orderBy("datePosted", "desc").get();
       const fetchedJobAds: JobAdPreview[] = jobAdsSnapshot.docs.map((doc) => doc.data() as JobAdPreview);
       setJobAds(fetchedJobAds);
     } catch (err) {
