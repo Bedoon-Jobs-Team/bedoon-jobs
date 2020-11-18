@@ -67,11 +67,15 @@ const OfferJobPage: FunctionComponent = () => {
     <JobRequirementsForm
       onSubmit={(values) => {
         setJobRequirements(values);
-        onSubmit();
       }}
       initialValues={jobRequirements}
     />,
   ];
+
+  useEffect(() => {
+    //Because setState is async we need to wait for jobRequirements to be set before calling onSubmit
+    if (jobRequirements) onSubmit();
+  }, [jobRequirements]);
 
   async function onSubmit() {
     try {
