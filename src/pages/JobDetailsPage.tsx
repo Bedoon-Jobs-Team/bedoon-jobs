@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { ReactComponent as CompanyIcon } from "../assets/icons/CompanyIcon.svg";
 import { ReactComponent as MoneyIcon } from "../assets/icons/MoneyIcon.svg";
 import Footer from "../components/Footer";
+import Header from "../components/Header";
 import { useJobDetails } from "../hooks/useJobDetails";
 
 const JobDetailsPage: FunctionComponent = () => {
@@ -13,6 +14,7 @@ const JobDetailsPage: FunctionComponent = () => {
 
   return (
     <PageContainer>
+      <Header alternative />
       <ContentContainer>
         {jobDetails ? (
           <JobDetailsContainer>
@@ -33,9 +35,7 @@ const JobDetailsPage: FunctionComponent = () => {
             </Tags>
             <Description>{jobDetails.description}</Description>
           </JobDetailsContainer>
-        ) : (
-          <LinearProgress color="secondary" style={{ width: "100vw", position: "absolute", right: 0 }} />
-        )}
+        ) : null}
       </ContentContainer>
       <Footer />
     </PageContainer>
