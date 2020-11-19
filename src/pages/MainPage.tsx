@@ -42,7 +42,7 @@ const MainPage: FunctionComponent = (props) => {
 };
 
 const PageContainer = styled.div`
-  height: 100vh;
+  flex: 0 0 100%;
   display: flex;
   flex-direction: column;
 `;

@@ -66,7 +66,7 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   background: #f7f5fa;
-  min-height: 100vh;
+  flex: 0 0 100%;
 `;
 
 const ContentContainer = styled.div`
