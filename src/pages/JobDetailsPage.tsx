@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as CompanyIcon } from "../assets/icons/CompanyIcon.svg";
 import { ReactComponent as MoneyIcon } from "../assets/icons/MoneyIcon.svg";
+import { ReactComponent as WebsiteIcon } from "../assets/icons/WebsiteIcon.svg";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useJobDetails } from "../hooks/useJobDetails";
@@ -16,25 +17,44 @@ const JobDetailsPage: FunctionComponent = () => {
     <PageContainer>
       <Header alternative />
       <ContentContainer>
+        <Breadcrumbs>
+          <Grey>الصفحة الرئيسية&nbsp;&nbsp;/&nbsp; فرص &nbsp;/&nbsp;&nbsp;</Grey>فرص عمل
+        </Breadcrumbs>
         {jobDetails ? (
-          <JobDetailsContainer>
-            <Since>منذ 3 أيام</Since>
-            <Title>{jobDetails.jobAdPreview.title}</Title>
-            <Company>
-              <StyledCompanyIcon />
-              شركة <Red>&nbsp;{jobDetails.company.name}</Red>
-            </Company>
-            <Salary>
-              <StyledMoneyIcon />
-              {`بين ${jobDetails.salaryLowerEnd} و ${jobDetails.salaryHigherEnd} راتب شهري`}
-            </Salary>
-            <Tags>
-              {jobDetails.jobAdPreview.tags.map((tag) => (
-                <Tag>{tag}</Tag>
-              ))}
-            </Tags>
-            <Description>{jobDetails.description}</Description>
-          </JobDetailsContainer>
+          <DetailsAndCompanyContainer>
+            <JobDetailsContainer>
+              <Since>منذ 3 أيام</Since>
+              <Title>{jobDetails.jobAdPreview.title}</Title>
+              <CompanyName>
+                <StyledCompanyIcon />
+                شركة <Red>&nbsp;{jobDetails.company.name}</Red>
+              </CompanyName>
+              <Salary>
+                <StyledMoneyIcon />
+                {`بين ${jobDetails.salaryLowerEnd} و ${jobDetails.salaryHigherEnd} راتب شهري`}
+              </Salary>
+              <Tags>
+                {jobDetails.jobAdPreview.tags.map((tag) => (
+                  <Tag>{tag}</Tag>
+                ))}
+              </Tags>
+              <Description>{jobDetails.description + jobDetails.description}</Description>
+            </JobDetailsContainer>
+            <CompanyContainer>
+              <CompanyName bold>
+                شركة <Red>&nbsp;{jobDetails.company.name}</Red>
+              </CompanyName>
+              <CompanyDescription>{jobDetails.company.description}</CompanyDescription>
+              {jobDetails.company.website && (
+                <a href={`https://www.${jobDetails.company.website}`} style={{ textDecoration: "none" }}>
+                  <CompanyWebsite>
+                    <StyledWebsiteIcon />
+                    {jobDetails.company.website}
+                  </CompanyWebsite>
+                </a>
+              )}
+            </CompanyContainer>
+          </DetailsAndCompanyContainer>
         ) : null}
       </ContentContainer>
       <Footer />
@@ -46,16 +66,34 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   background: #f7f5fa;
-  height: 100vh;
+  min-height: 100vh;
 `;
 
 const ContentContainer = styled.div`
-  margin: 0 200px 165px 200px;
+  margin: 77px 0 165px 0;
+  width: 1044px;
+  align-self: center;
   flex-grow: 1;
 `;
 
+const Breadcrumbs = styled.div`
+  margin-bottom: 11px;
+  font-size: 15px;
+  line-height: 36px;
+  color: #242227;
+`;
+
+const Grey = styled.span`
+  color: #8f879b;
+`;
+
+const DetailsAndCompanyContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+`;
+
 const JobDetailsContainer = styled.div`
-  margin-top: 11px;
   width: 688px;
   background: #ffffff;
   border-radius: 12px;
@@ -76,12 +114,13 @@ const Title = styled.p`
   margin-bottom: 10px;
 `;
 
-const Company = styled.p`
+const CompanyName = styled.p<{ bold?: boolean }>`
   font-size: 14px;
   line-height: 27px;
   display: flex;
   align-items: center;
   margin-bottom: 12px;
+  font-weight: ${(props) => (props.bold ? "bold" : "normal")};
 `;
 
 const Red = styled.span`
@@ -94,7 +133,7 @@ const StyledCompanyIcon = styled(CompanyIcon)`
   margin-left: 8px;
 `;
 
-const Salary = styled(Company)``;
+const Salary = styled(CompanyName)``;
 
 const StyledMoneyIcon = styled(MoneyIcon)`
   margin-left: 8px;
@@ -146,6 +185,32 @@ const Button = styled.p`
   border-radius: 6px;
   padding: 15px 40px;
   font-weight: bold;
+`;
+
+const CompanyContainer = styled(JobDetailsContainer)`
+  width: 332px;
+  margin-right: 24px;
+`;
+
+const CompanyDescription = styled(Description)`
+  font-size: 12px;
+  line-height: 28px;
+`;
+
+const CompanyWebsite = styled.span`
+  padding: 6px 12px;
+  background: #f4f2f8;
+  font-size: 12px;
+  line-height: 18px;
+  color: #332d3c;
+  border-radius: 8px;
+`;
+
+const StyledWebsiteIcon = styled(WebsiteIcon)`
+  height: 20px;
+  width: 20px;
+  margin-left: 12px;
+  margin-bottom: -6px; //Don't judge me.
 `;
 
 export default JobDetailsPage;
