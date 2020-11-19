@@ -5,41 +5,49 @@ import { QuerySnapshot, QueryDocumentSnapshot } from "@firebase/firestore-types"
 
 const AdsPerFetch = 7;
 
-export function useJobAds() {
+export function useJobAds(fieldFilter?: string) {
   const [jobAds, setJobAds] = useState<JobAdPreview[]>([]);
   const [lastAdDoc, setLastAdDoc] = useState<QueryDocumentSnapshot>();
   const [hasMoreAds, setHasMoreAds] = useState(true);
 
   useEffect(() => {
+    setLastAdDoc(undefined);
+    setHasMoreAds(true);
     fetchJobAds();
-  }, []);
+  }, [fieldFilter]);
 
-  async function fetchJobAds() {
+  async function fetchJobAds(fetchingMore?: boolean) {
     try {
-      const jobAdsSnapshot = await jobAdPreviewsRef.orderBy("datePosted", "desc").limit(AdsPerFetch).get();
-      handleJobAdsSnapshot(jobAdsSnapshot);
+      let query = jobAdPreviewsRef.orderBy("datePosted", "desc").limit(AdsPerFetch);
+      if (fieldFilter) query = query.where("tags", "array-contains", fieldFilter);
+      if (fetchingMore && lastAdDoc) query = query.startAfter(lastAdDoc);
+
+      const jobAdsSnapshot = await query.get();
+      handleJobAdsSnapshot(jobAdsSnapshot, fetchingMore);
     } catch (err) {
+      console.log(err);
       alert("Something went wrong please try again."); //Todo convert this to toast message
     }
   }
 
-  function handleJobAdsSnapshot(jobAdsSnapshot: QuerySnapshot) {
+  function handleJobAdsSnapshot(jobAdsSnapshot: QuerySnapshot, fetchingMore?: boolean) {
     const fetchedJobAds: JobAdPreview[] = jobAdsSnapshot.docs.map((doc) => doc.data() as JobAdPreview);
+
     if (!fetchedJobAds.length) {
       setHasMoreAds(false);
-      return;
+    } else {
+      setLastAdDoc(jobAdsSnapshot.docs[jobAdsSnapshot.docs.length - 1]);
     }
-    setLastAdDoc(jobAdsSnapshot.docs[jobAdsSnapshot.docs.length - 1]);
-    setJobAds((prevAds) => [...prevAds, ...fetchedJobAds]);
+
+    if (fetchingMore) {
+      setJobAds((prevAds) => [...prevAds, ...fetchedJobAds]);
+    } else {
+      setJobAds(fetchedJobAds);
+    }
   }
 
   async function fetchMoreJobAds() {
-    const jobAdsSnapshot = await jobAdPreviewsRef
-      .orderBy("datePosted", "desc")
-      .limit(AdsPerFetch)
-      .startAfter(lastAdDoc)
-      .get();
-    handleJobAdsSnapshot(jobAdsSnapshot);
+    fetchJobAds(true);
   }
 
   return { jobAds, fetchMoreJobAds, hasMoreAds };

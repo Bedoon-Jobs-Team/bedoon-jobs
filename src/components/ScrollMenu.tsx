@@ -4,14 +4,17 @@ import styled from "styled-components";
 import { fields } from "../constants";
 import ScrollContainer from "react-indiana-drag-scroll";
 
-const ScrollMenu: FunctionComponent = (props) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+interface Props {
+  activeIndex: number;
+  onSelectIndex: (index: number) => void;
+}
 
+const ScrollMenu: FunctionComponent<Props> = ({ activeIndex, onSelectIndex }) => {
   return (
     <Menu>
       <ItemsContainer>
         {["جميع الوظائف", ...fields].map((field, index) => (
-          <Button key={field} active={index === activeIndex} onClick={() => setActiveIndex(index)}>
+          <Button key={field} active={index === activeIndex} onClick={() => onSelectIndex(index)}>
             {field}
           </Button>
         ))}

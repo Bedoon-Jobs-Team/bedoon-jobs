@@ -7,16 +7,18 @@ import ScrollMenu from "../components/ScrollMenu";
 import { useJobAds } from "../hooks/useJobAds";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { CircularProgress } from "@material-ui/core";
+import { fields } from "../constants";
 
 const MainPage: FunctionComponent = (props) => {
-  const { jobAds, fetchMoreJobAds, hasMoreAds } = useJobAds();
+  const [activeFieldIndex, setActiveFieldIndex] = useState(0);
+  const { jobAds, fetchMoreJobAds, hasMoreAds } = useJobAds(fields[activeFieldIndex - 1]); //fields[-1] == undefined -> no filter
 
   return (
     <PageContainer>
       <TopSectionContainer>
         <Header />
         <BigText>المكان المناسب للعثور على وظيفة في الكويت</BigText>
-        <ScrollMenu />
+        <ScrollMenu activeIndex={activeFieldIndex} onSelectIndex={setActiveFieldIndex} />
       </TopSectionContainer>
       <ContentContainer>
         <CardsContainer>
