@@ -1,25 +1,24 @@
-import React, { FunctionComponent } from "react";
-import { ReactComponent as Arrow } from "../assets/icons/arrow.svg";
+import React, { FunctionComponent, useState } from "react";
+import { ReactComponent as Arrow } from "../assets/icons/LeftArrowIcon.svg";
 import styled from "styled-components";
+import { fields } from "../constants";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 const ScrollMenu: FunctionComponent = (props) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
   return (
     <Menu>
-      <Container>
-                <ActiveButton>جميع الوظائف</ActiveButton>
-                <InactiveButton>هندسة</InactiveButton>
-                <InactiveButton>طب وتمريض</InactiveButton>
-                <InactiveButton>مناديب</InactiveButton>
-                <InactiveButton>أمن وسلامة</InactiveButton>
-                <InactiveButton>سكرتارية</InactiveButton>
-                <InactiveButton>رياضة</InactiveButton>
-                <InactiveButton>وظائف إدارية</InactiveButton>
-      </Container>
-      <ScrollArow>
-                
-        <StyledArrow />
-              
-      </ScrollArow>
+      <ItemsContainer>
+        {["جميع الوظائف", ...fields].map((field, index) => (
+          <Button key={field} active={index === activeIndex} onClick={() => setActiveIndex(index)}>
+            {field}
+          </Button>
+        ))}
+      </ItemsContainer>
+      <ArrowContainer>
+        <Arrow />
+      </ArrowContainer>
     </Menu>
   );
 };
@@ -28,46 +27,43 @@ const Menu = styled.div`
   position: absolute;
   margin-top: 392px;
   width: 1044px;
-  height: 77px;
   align-items: center;
   background-color: #ffffff;
-  box-shadow: 0px 34px 74px rgba (39,  52,  107,  0.12);
   border-radius: 15px;
+  box-shadow: 0px 34px 74px rgba(39, 52, 107, 0.12);
+  padding: 0 10px 0 29px;
 `;
 
-const Container = styled.div`
+const ItemsContainer = styled(ScrollContainer)`
   display: flex;
-  overflow-x: scroll;
 `;
 
-const ActiveButton = styled.div`
-  background-color: #f8507b;
-  color: #ffffff;
+const Button = styled.div<{ active: boolean }>`
+  background-color: ${(props) => (props.active ? "#f8507b" : "#ebe3f6")};
+  color: ${(props) => (props.active ? "#ffffff" : "#332d3c")};
+  font-weight: ${(props) => (props.active ? "bold" : "normal")};
+  font-size: 14px;
+  line-height: 27px;
   border-radius: 12px;
   border: 1px solid #ffffff;
-  float: right;
   padding: 10px 28px;
-  margin-top: 10px;
+  margin: 10px 0 10px 10px;
+  flex: 1 0 auto;
+  cursor: pointer;
 `;
 
-const InactiveButton = styled(ActiveButton)`
-  background-color: #ebe3f6;
-  color: #332d3c;
-`;
-
-const ScrollArow = styled.div`
+const ArrowContainer = styled.div`
   position: absolute;
   width: 29px;
-  height: 77px;
+  height: 100%;
   left: 0px;
   top: 0px;
   background-color: #ffffff;
   box-shadow: 20px 4px 40px rgba (22,  8,  46,  0.1);
   border-radius: 12px 0px 0px 12px;
-`;
-
-const StyledArrow = styled(Arrow)`
-  margin-top: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default ScrollMenu;
