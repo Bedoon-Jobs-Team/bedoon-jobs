@@ -8,6 +8,7 @@ import { useJobAds } from "../hooks/useJobAds";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { CircularProgress } from "@material-ui/core";
 import { fields } from "../constants";
+import Footer from "../components/Footer";
 
 const MainPage: FunctionComponent = (props) => {
   const [activeFieldIndex, setActiveFieldIndex] = useState(0);
@@ -35,6 +36,7 @@ const MainPage: FunctionComponent = (props) => {
           </InfiniteScroll>
         </CardsContainer>
       </ContentContainer>
+      <Footer />
     </PageContainer>
   );
 };
@@ -68,8 +70,8 @@ const ContentContainer = styled.div`
   background-color: #f7f5fa;
   display: flex;
   justify-content: center;
-  align-items: center;
   padding: 95px 200px 80px 200px;
+  flex-grow: 1;
 `;
 
 const CardsContainer = styled.div`

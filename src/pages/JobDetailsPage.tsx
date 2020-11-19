@@ -1,8 +1,10 @@
+import { CircularProgress, LinearProgress } from "@material-ui/core";
 import React, { FunctionComponent } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as CompanyIcon } from "../assets/icons/CompanyIcon.svg";
 import { ReactComponent as MoneyIcon } from "../assets/icons/MoneyIcon.svg";
+import Footer from "../components/Footer";
 import { useJobDetails } from "../hooks/useJobDetails";
 
 const JobDetailsPage: FunctionComponent = () => {
@@ -11,8 +13,8 @@ const JobDetailsPage: FunctionComponent = () => {
 
   return (
     <PageContainer>
-      {jobDetails ? (
-        <ContentContainer>
+      <ContentContainer>
+        {jobDetails ? (
           <JobDetailsContainer>
             <Since>منذ 3 أيام</Since>
             <Title>{jobDetails.jobAdPreview.title}</Title>
@@ -31,8 +33,11 @@ const JobDetailsPage: FunctionComponent = () => {
             </Tags>
             <Description>{jobDetails.description}</Description>
           </JobDetailsContainer>
-        </ContentContainer>
-      ) : null}
+        ) : (
+          <LinearProgress color="secondary" style={{ width: "100vw", position: "absolute", right: 0 }} />
+        )}
+      </ContentContainer>
+      <Footer />
     </PageContainer>
   );
 };
@@ -41,13 +46,16 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   background: #f7f5fa;
+  height: 100vh;
 `;
 
 const ContentContainer = styled.div`
-  margin: 11px 200px 165px 200px;
+  margin: 0 200px 165px 200px;
+  flex-grow: 1;
 `;
 
 const JobDetailsContainer = styled.div`
+  margin-top: 11px;
   width: 688px;
   background: #ffffff;
   border-radius: 12px;
