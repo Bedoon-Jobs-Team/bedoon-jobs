@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useRef, useState } from "react";
 import { ReactComponent as Arrow } from "../assets/icons/LeftArrowIcon.svg";
 import styled from "styled-components";
 import { fields } from "../constants";
@@ -10,16 +10,22 @@ interface Props {
 }
 
 const ScrollMenu: FunctionComponent<Props> = ({ activeIndex, onSelectIndex }) => {
+  const scrollContainerRef = useRef<HTMLElement>(null);
+
+  function scrollToEnd() {
+    scrollContainerRef.current?.scrollTo({ left: -1000, behavior: "smooth" });
+  }
+
   return (
     <Menu>
-      <ItemsContainer>
+      <ItemsContainer innerRef={scrollContainerRef}>
         {["جميع الوظائف", ...fields].map((field, index) => (
           <Button key={field} active={index === activeIndex} onClick={() => onSelectIndex(index)}>
             {field}
           </Button>
         ))}
       </ItemsContainer>
-      <ArrowContainer>
+      <ArrowContainer onClick={scrollToEnd}>
         <Arrow />
       </ArrowContainer>
     </Menu>
@@ -67,6 +73,7 @@ const ArrowContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 
 export default ScrollMenu;
