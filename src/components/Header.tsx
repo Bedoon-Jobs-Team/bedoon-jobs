@@ -55,7 +55,9 @@ const Header: FunctionComponent<Props> = ({ alternative }) => {
           </Link>
           {currentUser ? (
             <>
-              <Button onClick={onOpenPopover}>أهلاً {currentUser.displayName?.split(" ")[0]}!</Button>
+              <Button alternative={alternative} onClick={onOpenPopover}>
+                أهلاً {currentUser.displayName?.split(" ")[0]}!
+              </Button>
               <Popover
                 open={openPopover}
                 anchorEl={anchorEl}
