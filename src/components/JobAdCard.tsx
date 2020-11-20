@@ -14,7 +14,7 @@ const JobAdCard: FunctionComponent<{ jobAd: JobAdPreview }> = ({ jobAd }) => {
           <JobTitle>{jobAd.title}</JobTitle>
           <Tags>
             {jobAd.tags.map((tag) => (
-              <Tag>{tag}</Tag>
+              <Tag key={tag}>{tag}</Tag>
             ))}
           </Tags>
         </JobDetailsContainer>

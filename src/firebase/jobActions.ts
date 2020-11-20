@@ -1,7 +1,7 @@
 import { JobDetails, JobRequirements } from "../pages/OfferJobPage";
 import { Company, JobAdDetails, JobAdPreview } from "../types";
 import { jobAdDetailsRef, jobAdPreviewsRef } from "./firestoreRefs";
-import firebase from "firebase";
+import firebase from "firebase/app";
 
 export async function submitJobAd({
   companyDetails,

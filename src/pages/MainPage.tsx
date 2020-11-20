@@ -30,7 +30,7 @@ const MainPage: FunctionComponent = (props) => {
             loader={<CircularProgress color="secondary" />}
           >
             {jobAds.map((jobAd) => (
-              <JobAdCard jobAd={jobAd} />
+              <JobAdCard key={jobAd.id!} jobAd={jobAd} />
             ))}
           </InfiniteScroll>
         </CardsContainer>
