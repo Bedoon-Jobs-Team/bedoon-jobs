@@ -1,45 +1,98 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as CompanyIcon } from "../assets/icons/CompanyIcon.svg";
 import { ReactComponent as MoneyIcon } from "../assets/icons/MoneyIcon.svg";
+import { ReactComponent as WebsiteIcon } from "../assets/icons/WebsiteIcon.svg";
+import Dialog from "../components/Dialog";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import Mailto from "../components/Mailto";
+import { removeJob } from "../firebase/jobActions";
+import { useCurrentUser } from "../hooks/useCurrentUser";
+import { useJobDetails } from "../hooks/useJobDetails";
+import { calculateSinceTime } from "../utils/DateFunctions";
 
 const JobDetailsPage: FunctionComponent = () => {
+  const { id } = useParams<{ id: string }>();
+  const history = useHistory();
+  const jobDetails = useJobDetails(id);
+  const currentUser = useCurrentUser();
+  const isOwner = currentUser?.uid === jobDetails?.jobAdPreview.ownerId;
+  const [openDeleteConfirmation, setOpenDeleteConfirmation] = useState(false);
+
+  async function onRemoveJob() {
+    await removeJob(id);
+    history.replace("/");
+  }
+
   return (
-    <PageContainer>
-      <ContentContainer>
-        <JobDetailsContainer>
-          <Since>منذ 3 أيام</Since>
-          <Title>مسؤول مبيعات و علاقات عامة</Title>
-          <Company>
-            <StyledCompanyIcon />
-            شركة <Red>&nbsp;True Culture</Red>
-          </Company>
-          <Salary>
-            <StyledMoneyIcon />
-            بين ٣٤٤٥ و ٣٤٤٢ راتب شهري
-          </Salary>
-          <Tags>
-            <Tag>هندسة</Tag>
-            <Tag>راتب شهري</Tag>
-          </Tags>
-          <Description>
-            تقدم Nestle فرصة عمل في الكويت بمنصب مدير مبيعات. سيقوم المتقدم الناجح بالعمل على تكييف استراتيجيات الفئات
-            الموجودة في الشركة مع احتياجات البلد، ومن ثم قيادة هذه المنتجات وإدارتها عبر العملاء المختلفين. بالإضافة إلى
-            متابعة تنفيذ خطط العلامة التجارية لتحقيق مؤشرات الأداء الرئيسية.
-          </Description>
-          <SubTitle>مسؤوليات الوظيفة:</SubTitle>
-          <P>
-            سيكون المتقدم الناجح مسؤولًا عن ضمان تحقيق قيمة إضافية للمنتج والعمل على زيادة نمو المنتج الداخلي حسب البلد
-            والميزانية الموجود فيها.
-          </P>
-          <SubTitle>معايير أهلية الوظيفة:</SubTitle>
-          <P>امتلاك 3 سنوات من الخبرة في مجال المبيعات/ التسويق التجاري </P>
-          <ButtonContainer>
-            <Button>تقديم على الوظيفة</Button>
-          </ButtonContainer>
-        </JobDetailsContainer>
-      </ContentContainer>
-    </PageContainer>
+    <>
+      <PageContainer>
+        <Header alternative />
+        <ContentContainer>
+          <Breadcrumbs>
+            <Grey>الصفحة الرئيسية&nbsp;&nbsp;/&nbsp; فرص &nbsp;/&nbsp;&nbsp;</Grey>فرص عمل
+          </Breadcrumbs>
+          {jobDetails ? (
+            <DetailsAndCompanyContainer>
+              <JobDetailsContainer>
+                <Since>{calculateSinceTime(jobDetails.jobAdPreview.datePosted)}</Since>
+                <Title>{jobDetails.jobAdPreview.title}</Title>
+                <CompanyName>
+                  <StyledCompanyIcon />
+                  شركة <Red>&nbsp;{jobDetails.company.name}</Red>
+                </CompanyName>
+                <Salary>
+                  <StyledMoneyIcon />
+                  {`بين ${jobDetails.salaryLowerEnd} و ${jobDetails.salaryHigherEnd} راتب شهري`}
+                </Salary>
+                <Tags>
+                  {jobDetails.jobAdPreview.tags.map((tag) => (
+                    <Tag>{tag}</Tag>
+                  ))}
+                </Tags>
+                <Description>{jobDetails.description + jobDetails.description}</Description>
+                <ButtonContainer>
+                  {isOwner ? (
+                    <Button alternative onClick={() => setOpenDeleteConfirmation(true)}>
+                      إزالة الوظيفة
+                    </Button>
+                  ) : (
+                    <Mailto jobDetails={jobDetails}>
+                      <Button>تقديم على الوظيفة</Button>
+                    </Mailto>
+                  )}
+                </ButtonContainer>
+              </JobDetailsContainer>
+              <CompanyContainer>
+                <CompanyName bold>
+                  شركة <Red>&nbsp;{jobDetails.company.name}</Red>
+                </CompanyName>
+                <CompanyDescription>{jobDetails.company.description}</CompanyDescription>
+                {jobDetails.company.website && (
+                  <OutsideLink href={`https://www.${jobDetails.company.website}`}>
+                    <CompanyWebsite>
+                      <StyledWebsiteIcon />
+                      {jobDetails.company.website}
+                    </CompanyWebsite>
+                  </OutsideLink>
+                )}
+              </CompanyContainer>
+            </DetailsAndCompanyContainer>
+          ) : null}
+        </ContentContainer>
+        <Footer />
+      </PageContainer>
+      <Dialog
+        alternative
+        open={openDeleteConfirmation}
+        message="هل انت متأكد من إزالة الاعلان؟"
+        confirmMessage="إزالة الاعلان"
+        onConfirm={onRemoveJob}
+        onClose={() => setOpenDeleteConfirmation(false)}
+      />
+    </>
   );
 };
 
@@ -47,10 +100,31 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   background: #f7f5fa;
+  flex: 0 0 100%;
 `;
 
 const ContentContainer = styled.div`
-  margin: 11px 200px 165px 200px;
+  margin: 77px 0 165px 0;
+  width: 1044px;
+  align-self: center;
+  flex-grow: 1;
+`;
+
+const Breadcrumbs = styled.div`
+  margin-bottom: 11px;
+  font-size: 15px;
+  line-height: 36px;
+  color: #242227;
+`;
+
+const Grey = styled.span`
+  color: #8f879b;
+`;
+
+const DetailsAndCompanyContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 `;
 
 const JobDetailsContainer = styled.div`
@@ -74,12 +148,13 @@ const Title = styled.p`
   margin-bottom: 10px;
 `;
 
-const Company = styled.p`
+const CompanyName = styled.p<{ bold?: boolean }>`
   font-size: 14px;
   line-height: 27px;
   display: flex;
   align-items: center;
   margin-bottom: 12px;
+  font-weight: ${(props) => (props.bold ? "bold" : "normal")};
 `;
 
 const Red = styled.span`
@@ -92,7 +167,7 @@ const StyledCompanyIcon = styled(CompanyIcon)`
   margin-left: 8px;
 `;
 
-const Salary = styled(Company)``;
+const Salary = styled(CompanyName)``;
 
 const StyledMoneyIcon = styled(MoneyIcon)`
   margin-left: 8px;
@@ -117,33 +192,55 @@ const Description = styled.p`
   font-size: 15px;
   line-height: 30px;
   color: #242227;
-  margin-bottom: 48px;
-`;
-
-const SubTitle = styled.p`
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 38px;
-  color: #242227;
-  margin-bottom: 12px;
-`;
-
-const P = styled(Description)`
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
 `;
 
-const Button = styled.p`
+const Button = styled.p<{ alternative?: boolean }>`
   font-size: 12px;
   line-height: 23px;
   color: #ffffff;
-  background: linear-gradient(138.12deg, #a783e2 -0.01%, #7749c2 94.77%);
+  background: ${(props) =>
+    props.alternative
+      ? "linear-gradient(138.12deg, #f87495 -0.01%, #f8507b 94.77%)"
+      : "linear-gradient(138.12deg, #a783e2 -0.01%, #7749c2 94.77%)"};
   border-radius: 6px;
   padding: 15px 40px;
   font-weight: bold;
+  cursor: pointer;
+`;
+
+const CompanyContainer = styled(JobDetailsContainer)`
+  width: 332px;
+  margin-right: 24px;
+`;
+
+const CompanyDescription = styled(Description)`
+  font-size: 12px;
+  line-height: 28px;
+`;
+
+const CompanyWebsite = styled.span`
+  padding: 6px 12px;
+  background: #f4f2f8;
+  font-size: 12px;
+  line-height: 18px;
+  color: #332d3c;
+  border-radius: 8px;
+`;
+
+const OutsideLink = styled.a`
+  text-decoration: none;
+`;
+
+const StyledWebsiteIcon = styled(WebsiteIcon)`
+  height: 20px;
+  width: 20px;
+  margin-left: 12px;
+  margin-bottom: -6px; //Don't judge me.
 `;
 
 export default JobDetailsPage;

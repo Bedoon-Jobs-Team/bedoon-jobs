@@ -1,62 +1,47 @@
-import React, { FunctionComponent, useState, useEffect } from "react";
+import React, { FunctionComponent, useState } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
-import { JobAdPreview } from "../types";
 import JobAdCard from "../components/JobAdCard";
-import PaginationButtons from "../components/PaginationButtons";
 import ScrollMenu from "../components/ScrollMenu";
+import { useJobAds } from "../hooks/useJobAds";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { CircularProgress } from "@material-ui/core";
+import { fields } from "../constants";
+import Footer from "../components/Footer";
 
 const MainPage: FunctionComponent = (props) => {
-  const [jobAds, setJobAds] = useState<JobAdPreview[]>([]);
-
-  useEffect(() => {
-    async function fetchJobAds() {
-      //TODO: make it fetch real data when we have a data source
-      const fetchedJobAds = [];
-
-      const fakeJobAd: JobAdPreview = {
-        id: "321",
-        title: "مسؤول مبيعات و علاقات عامة",
-        tags: ["هندسة", "راتب شهري"],
-        companyId: "321",
-        companyName: "Light Blue",
-        governorate: "مدينة الكويت",
-        area: "الشرق",
-        datePosted: new Date(),
-      };
-
-      for (let i = 0; i < 8; i++) {
-        fetchedJobAds.push(fakeJobAd);
-      }
-
-      setJobAds(fetchedJobAds);
-    }
-
-    fetchJobAds();
-  }, []);
+  const [activeFieldIndex, setActiveFieldIndex] = useState(0);
+  const { jobAds, fetchMoreJobAds, hasMoreAds } = useJobAds(fields[activeFieldIndex - 1]); //fields[-1] == undefined -> no filter
 
   return (
     <PageContainer>
       <TopSectionContainer>
         <Header />
         <BigText>المكان المناسب للعثور على وظيفة في الكويت</BigText>
-        <ScrollMenu />
+        <ScrollMenu activeIndex={activeFieldIndex} onSelectIndex={setActiveFieldIndex} />
       </TopSectionContainer>
       <ContentContainer>
         <CardsContainer>
-          <PageCount>صفحة 1 من 120 صفحة</PageCount>
-          {jobAds.map((jobAd) => (
-            <JobAdCard jobAd={jobAd} />
-          ))}
-          <PaginationButtons currentPage={1} />
+          <InfiniteScroll
+            style={{ overflow: "hidden" }}
+            dataLength={jobAds.length} //This is important field to render the next data
+            next={fetchMoreJobAds}
+            hasMore={hasMoreAds}
+            loader={<CircularProgress color="secondary" />}
+          >
+            {jobAds.map((jobAd) => (
+              <JobAdCard key={jobAd.id!} jobAd={jobAd} />
+            ))}
+          </InfiniteScroll>
         </CardsContainer>
       </ContentContainer>
+      <Footer />
     </PageContainer>
   );
 };
 
 const PageContainer = styled.div`
-  height: 100vh;
+  flex: 0 0 100%;
   display: flex;
   flex-direction: column;
 `;
@@ -84,21 +69,14 @@ const ContentContainer = styled.div`
   background-color: #f7f5fa;
   display: flex;
   justify-content: center;
-  align-items: center;
   padding: 95px 200px 80px 200px;
+  flex-grow: 1;
 `;
 
 const CardsContainer = styled.div`
   width: 1042px;
   flex-shrink: 1;
   margin-bottom: 28px;
-`;
-
-const PageCount = styled.p`
-  font-size: 14px;
-  line-height: 27px;
-  color: #9891a3;
-  margin-bottom: 16px;
 `;
 
 export default MainPage;

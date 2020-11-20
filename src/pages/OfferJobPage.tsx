@@ -1,18 +1,22 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../assets/icons/Logo.svg";
 import AboutCompanyForm from "../components/Forms/OfferJob/AboutCompanyForm";
 import JobDetailsForm from "../components/Forms/OfferJob/JobDetailsForm";
 import JobRequirementsForm from "../components/Forms/OfferJob/JobRequirementsForm";
+import { submitJobAd } from "../firebase/jobActions";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 import { Company } from "../types";
 
 export type JobDetails = {
   title: string;
   type: string;
+  field: string;
   salaryLowerEnd?: number;
   salaryHigherEnd?: number;
   salaryPeriod: string;
+  area: string;
   employeesNeeded: number;
   urgency: string;
 };
@@ -25,22 +29,26 @@ const defaultCompany: Company = { name: "", description: "", size: "", phone: ""
 const defaultJobDetails: JobDetails = {
   title: "",
   type: "دوام كامل",
+  field: "هندسة",
   salaryPeriod: "شهرياً",
   employeesNeeded: 1,
   urgency: "1 - 3 أيام",
+  area: "عمل عن بعد",
 };
 const defaultJobRequirements = { description: "" };
 
 const OfferJobPage: FunctionComponent = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [highestStep, setHighestStep] = useState(1);
   const [companyDetails, setCompanyDetails] = useState<Company>(defaultCompany);
   const [jobDetails, setJobDetails] = useState<JobDetails>(defaultJobDetails);
   const [jobRequirements, setJobRequirements] = useState<JobRequirements>(defaultJobRequirements);
-  const [highestStep, setHighestStep] = useState(1);
+  const currentUser = useCurrentUser();
+  const history = useHistory();
 
   useEffect(() => {
     setHighestStep((oldHighestStep) => Math.max(oldHighestStep, currentStep));
-  }, [currentStep]);
+  }, [currentStep, setHighestStep]);
 
   const steps = [
     undefined,
@@ -61,16 +69,26 @@ const OfferJobPage: FunctionComponent = () => {
     <JobRequirementsForm
       onSubmit={(values) => {
         setJobRequirements(values);
-        onSubmit();
       }}
       initialValues={jobRequirements}
     />,
   ];
 
-  function onSubmit() {
-    console.log(companyDetails);
-    console.log(jobDetails);
-    console.log(jobRequirements);
+  useEffect(() => {
+    //Because setState is async we need to wait for jobRequirements to be set before calling onSubmit
+    if (jobRequirements) onSubmit();
+    // eslint-disable-next-line
+  }, [jobRequirements]);
+
+  async function onSubmit() {
+    try {
+      if (currentUser) {
+        await submitJobAd({ companyDetails, jobDetails, jobRequirements, currentUser });
+        history.replace("/");
+      }
+    } catch (err) {
+      alert("Something went wrong, please try again."); // Todo: make it show a toast message instead
+    }
   }
 
   return (
