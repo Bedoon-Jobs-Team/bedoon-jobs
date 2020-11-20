@@ -19,7 +19,7 @@ const Dialog: FunctionComponent<Props> = ({ open, message, confirmMessage, onCon
       </Content>
       <DialogActions>
         <ButtonTrans onClick={onClose}>الغاء</ButtonTrans>
-        <ButtonFilled alternative onClick={onConfirm}>
+        <ButtonFilled alternative={alternative} onClick={onConfirm}>
           {confirmMessage}
         </ButtonFilled>
       </DialogActions>
@@ -30,12 +30,13 @@ const Dialog: FunctionComponent<Props> = ({ open, message, confirmMessage, onCon
 export default Dialog;
 
 const Content = styled(DialogContent)`
-  padding: 40px;
+  margin-left: 40px;
 `;
 
 const Message = styled.p`
-  color: #643f9f;
+  color: #37333e;
   font-size: 16px;
+  font-weight: bold;
   margin-left: 20px;
   margin-bottom: 20px;
 `;
@@ -44,7 +45,6 @@ const ButtonTrans = styled.div`
   color: #643f9f;
   border-radius: 6px;
   border: 1px solid #643f9f;
-  float: left;
   margin-right: 10px;
   padding: 8px 20px;
   font-size: 12px;
