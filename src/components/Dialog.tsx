@@ -36,7 +36,7 @@ const Content = styled(DialogContent)`
 const Message = styled.p`
   color: #37333e;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: normal;
   margin-left: 20px;
   margin-bottom: 20px;
 `;
@@ -46,6 +46,7 @@ const ButtonTrans = styled.div`
   border-radius: 6px;
   border: 1px solid #643f9f;
   margin-right: 10px;
+  margin-bottom: 5px;
   padding: 8px 20px;
   font-size: 12px;
   line-height: 23px;

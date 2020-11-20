@@ -7,6 +7,7 @@ import { useCurrentUser } from "../hooks/useCurrentUser";
 import { makeStyles, Popover } from "@material-ui/core";
 import { logout } from "../firebase/authentication";
 import Dialog from "./Dialog";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -20,10 +21,12 @@ interface Props {
 
 const Header: FunctionComponent<Props> = ({ alternative }) => {
   const currentUser = useCurrentUser();
+  const history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [openPopover, setOpenPopover] = useState(false);
   const [openLogoutConfirmation, setOpenLogoutConfirmation] = useState(false);
+  const [openLoginConfirmation, setOpenLoginConfirmation] = useState(false);
 
   function onOpenPopover(event: any) {
     setAnchorEl(event.currentTarget);
@@ -37,6 +40,18 @@ const Header: FunctionComponent<Props> = ({ alternative }) => {
   function onOpenLogoutConfirmation() {
     setOpenPopover(false);
     setOpenLogoutConfirmation(true);
+  }
+
+  function onOfferJob() {
+    if (currentUser) {
+      history.push("/offer-job");
+    } else {
+      setOpenLoginConfirmation(true);
+    }
+  }
+
+  function onLogin() {
+    history.push("/login");
   }
 
   function onLogout() {
@@ -55,9 +70,9 @@ const Header: FunctionComponent<Props> = ({ alternative }) => {
           <StyledLink alternative={alternative}>الشركات</StyledLink>
         </RightContainer>
         <LeftContainer>
-          <Link to="/offer-job">
-            <ButtonTrans alternative={alternative}>أعلن عن وظيفة</ButtonTrans>
-          </Link>
+          <ButtonTrans alternative={alternative} onClick={onOfferJob}>
+            أعلن عن وظيفة
+          </ButtonTrans>
           {currentUser ? (
             <>
               <Button alternative={alternative} onClick={onOpenPopover}>
@@ -87,6 +102,13 @@ const Header: FunctionComponent<Props> = ({ alternative }) => {
         confirmMessage="تسجيل الخروج"
         onConfirm={onLogout}
         onClose={() => setOpenLogoutConfirmation(false)}
+      />
+      <Dialog
+        open={openLoginConfirmation}
+        message="يجب عليك تسجيل الدخول قبل ان تعلن عن وظيفة"
+        confirmMessage="تسجيل الدخول"
+        onConfirm={onLogin}
+        onClose={() => setOpenLoginConfirmation(false)}
       />
     </>
   );
@@ -135,6 +157,7 @@ const ButtonTrans = styled.div<{ alternative?: boolean }>`
   font-size: 12px;
   line-height: 23px;
   font-weight: bold;
+  cursor: pointer;
 `;
 
 const Button = styled(ButtonTrans)`
@@ -142,8 +165,6 @@ const Button = styled(ButtonTrans)`
   background: ${(props) =>
     props.alternative ? "linear-gradient(138.12deg, #A783E2 -0.01%, #7749C2 94.77%)" : "#ffffff"};
   border: none;
-
-  cursor: pointer;
 `;
 
 const PopoverItem = styled.p`
