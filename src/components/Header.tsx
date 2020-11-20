@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { ReactComponent as LogoSmall } from "../assets/icons/LogoSmall.svg";
 import { ReactComponent as LogoSmallAlternative } from "../assets/icons/LogoSmallAlternative.svg";
 import styled from "styled-components";

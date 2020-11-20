@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef, useState } from "react";
+import React, { FunctionComponent, useRef } from "react";
 import { ReactComponent as Arrow } from "../assets/icons/LeftArrowIcon.svg";
 import styled from "styled-components";
 import { fields } from "../constants";

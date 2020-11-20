@@ -7,6 +7,7 @@ export function useJobDetails(jobAdId: string) {
 
   useEffect(() => {
     fetchJobDetails();
+    // eslint-disable-next-line
   }, []);
 
   async function fetchJobDetails() {
@@ -14,7 +15,7 @@ export function useJobDetails(jobAdId: string) {
       const jobDetailsDoc = await jobAdDetailsRef.doc(`${jobAdId}`).get();
       setJobDetails(jobDetailsDoc.data() as JobAdDetails);
     } catch (err) {
-      //   alert("Something went wrong please try again."); //Todo convert this to toast message
+      alert("Something went wrong please try again."); //Todo convert this to toast message
     }
   }
 

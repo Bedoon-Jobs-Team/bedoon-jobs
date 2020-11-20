@@ -48,7 +48,7 @@ const OfferJobPage: FunctionComponent = () => {
 
   useEffect(() => {
     setHighestStep((oldHighestStep) => Math.max(oldHighestStep, currentStep));
-  }, [currentStep]);
+  }, [currentStep, setHighestStep]);
 
   const steps = [
     undefined,
@@ -77,6 +77,7 @@ const OfferJobPage: FunctionComponent = () => {
   useEffect(() => {
     //Because setState is async we need to wait for jobRequirements to be set before calling onSubmit
     if (jobRequirements) onSubmit();
+    // eslint-disable-next-line
   }, [jobRequirements]);
 
   async function onSubmit() {

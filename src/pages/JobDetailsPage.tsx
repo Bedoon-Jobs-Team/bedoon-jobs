@@ -1,4 +1,3 @@
-import { CircularProgress, LinearProgress } from "@material-ui/core";
 import React, { FunctionComponent } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -39,6 +38,9 @@ const JobDetailsPage: FunctionComponent = () => {
                 ))}
               </Tags>
               <Description>{jobDetails.description + jobDetails.description}</Description>
+              <ButtonContainer>
+                <Button>تقديم على الوظيفة</Button>
+              </ButtonContainer>
             </JobDetailsContainer>
             <CompanyContainer>
               <CompanyName bold>
@@ -46,12 +48,12 @@ const JobDetailsPage: FunctionComponent = () => {
               </CompanyName>
               <CompanyDescription>{jobDetails.company.description}</CompanyDescription>
               {jobDetails.company.website && (
-                <a href={`https://www.${jobDetails.company.website}`} style={{ textDecoration: "none" }}>
+                <OutsideLink href={`https://www.${jobDetails.company.website}`}>
                   <CompanyWebsite>
                     <StyledWebsiteIcon />
                     {jobDetails.company.website}
                   </CompanyWebsite>
-                </a>
+                </OutsideLink>
               )}
             </CompanyContainer>
           </DetailsAndCompanyContainer>
@@ -158,19 +160,7 @@ const Description = styled.p`
   font-size: 15px;
   line-height: 30px;
   color: #242227;
-  margin-bottom: 48px;
-`;
-
-const SubTitle = styled.p`
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 38px;
-  color: #242227;
-  margin-bottom: 12px;
-`;
-
-const P = styled(Description)`
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 `;
 
 const ButtonContainer = styled.div`
@@ -185,6 +175,7 @@ const Button = styled.p`
   border-radius: 6px;
   padding: 15px 40px;
   font-weight: bold;
+  cursor: pointer;
 `;
 
 const CompanyContainer = styled(JobDetailsContainer)`
@@ -204,6 +195,10 @@ const CompanyWebsite = styled.span`
   line-height: 18px;
   color: #332d3c;
   border-radius: 8px;
+`;
+
+const OutsideLink = styled.a`
+  text-decoration: none;
 `;
 
 const StyledWebsiteIcon = styled(WebsiteIcon)`

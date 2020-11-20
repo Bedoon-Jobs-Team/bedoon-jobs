@@ -14,6 +14,7 @@ export function useJobAds(fieldFilter?: string) {
     setLastAdDoc(undefined);
     setHasMoreAds(true);
     fetchJobAds();
+    // eslint-disable-next-line
   }, [fieldFilter]);
 
   async function fetchJobAds(fetchingMore?: boolean) {
