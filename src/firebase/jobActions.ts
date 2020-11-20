@@ -1,6 +1,7 @@
 import { JobDetails, JobRequirements } from "../pages/OfferJobPage";
 import { Company, JobAdDetails, JobAdPreview } from "../types";
 import firebase from "./firebase";
+import { jobAdDetailsRef, jobAdPreviewsRef } from "./firestoreRefs";
 
 export async function submitJobAd({
   companyDetails,
@@ -58,4 +59,21 @@ async function submitJobAdPreview(jobAdPreview: JobAdPreview) {
 
 async function submitJobAdDetails(jobAdDetails: JobAdDetails) {
   await firebase.firestore().collection("jobAdDetails").doc(`${jobAdDetails.jobAdPreview.id}`).set(jobAdDetails);
+}
+
+export async function removeJob(jobId: string) {
+  const ref = firebase.firestore();
+  const batch = ref.batch();
+
+  const adPreviewDoc = jobAdPreviewsRef.doc(jobId);
+  batch.delete(adPreviewDoc);
+
+  const adDetailsDoc = jobAdDetailsRef.doc(jobId);
+  batch.delete(adDetailsDoc);
+
+  try {
+    await batch.commit();
+  } catch (err) {
+    alert("Something went wrong please try again."); //Todo convert this to toast message
+  }
 }

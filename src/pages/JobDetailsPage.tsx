@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from "react";
-import { useParams } from "react-router-dom";
+import React, { FunctionComponent, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as CompanyIcon } from "../assets/icons/CompanyIcon.svg";
 import { ReactComponent as MoneyIcon } from "../assets/icons/MoneyIcon.svg";
@@ -7,16 +7,21 @@ import { ReactComponent as WebsiteIcon } from "../assets/icons/WebsiteIcon.svg";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Mailto from "../components/Mailto";
+import { removeJob } from "../firebase/jobActions";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import { useJobDetails } from "../hooks/useJobDetails";
 
 const JobDetailsPage: FunctionComponent = () => {
   const { id } = useParams<{ id: string }>();
+  const history = useHistory();
   const jobDetails = useJobDetails(id);
   const currentUser = useCurrentUser();
   const isOwner = currentUser?.uid === jobDetails?.jobAdPreview.ownerId;
 
-  function onApply() {}
+  async function onRemoveJob() {
+    await removeJob(id);
+    history.replace("/");
+  }
 
   return (
     <PageContainer>
@@ -46,7 +51,9 @@ const JobDetailsPage: FunctionComponent = () => {
               <Description>{jobDetails.description + jobDetails.description}</Description>
               <ButtonContainer>
                 {isOwner ? (
-                  <Button alternative>إزالة الوظيفة</Button>
+                  <Button alternative onClick={onRemoveJob}>
+                    إزالة الوظيفة
+                  </Button>
                 ) : (
                   <Mailto jobDetails={jobDetails}>
                     <Button>تقديم على الوظيفة</Button>
