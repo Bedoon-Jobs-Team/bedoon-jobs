@@ -1,7 +1,7 @@
 import { JobDetails, JobRequirements } from "../pages/OfferJobPage";
 import { Company, JobAdDetails, JobAdPreview } from "../types";
-import firebase from "./firebase";
 import { jobAdDetailsRef, jobAdPreviewsRef } from "./firestoreRefs";
+import firebase from "firebase";
 
 export async function submitJobAd({
   companyDetails,
@@ -20,7 +20,8 @@ export async function submitJobAd({
     companyId = await submitCompany(companyDetails);
   }
 
-  const datePosted = new Date();
+  const nowTimestampInSeconds = +new Date() / 1000;
+  const datePosted = new firebase.firestore.Timestamp(nowTimestampInSeconds, 0);
   const jobAdPreview: JobAdPreview = {
     title: jobDetails.title,
     companyId,

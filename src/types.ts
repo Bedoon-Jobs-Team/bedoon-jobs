@@ -1,3 +1,5 @@
+import { Timestamp } from "@firebase/firestore-types";
+
 export type JobAdPreview = {
   id?: string;
   title: string;
@@ -5,7 +7,7 @@ export type JobAdPreview = {
   companyId: string;
   companyName: string;
   area: string;
-  datePosted: Date;
+  datePosted: Timestamp;
   ownerId: string;
 };
 

@@ -11,6 +11,7 @@ import Mailto from "../components/Mailto";
 import { removeJob } from "../firebase/jobActions";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import { useJobDetails } from "../hooks/useJobDetails";
+import { calculateSinceTime } from "../utils/DateFunctions";
 
 const JobDetailsPage: FunctionComponent = () => {
   const { id } = useParams<{ id: string }>();
@@ -36,7 +37,7 @@ const JobDetailsPage: FunctionComponent = () => {
           {jobDetails ? (
             <DetailsAndCompanyContainer>
               <JobDetailsContainer>
-                <Since>منذ 3 أيام</Since>
+                <Since>{calculateSinceTime(jobDetails.jobAdPreview.datePosted)}</Since>
                 <Title>{jobDetails.jobAdPreview.title}</Title>
                 <CompanyName>
                   <StyledCompanyIcon />

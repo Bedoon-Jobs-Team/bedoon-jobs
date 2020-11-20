@@ -4,12 +4,9 @@ import { ReactComponent as CompanyIcon } from "../assets/icons/CompanyIcon.svg";
 import { ReactComponent as LocationIcon } from "../assets/icons/LocationIcon.svg";
 import styled from "styled-components";
 import Link from "../utils/UnstyledLink";
+import { calculateSinceTime } from "../utils/DateFunctions";
 
 const JobAdCard: FunctionComponent<{ jobAd: JobAdPreview }> = ({ jobAd }) => {
-  function calculateSince(datePosted: Date) {
-    return "منذ 3 أيام"; // TODO: really do the calculations
-  }
-
   return (
     <Link to={`/jobAds/${jobAd.id}`}>
       <Container>
@@ -32,7 +29,7 @@ const JobAdCard: FunctionComponent<{ jobAd: JobAdPreview }> = ({ jobAd }) => {
           </Location>
         </CompanyAndLocationContainer>
         <SinceContainer>
-          <Since>{calculateSince(jobAd.datePosted)}</Since>
+          <Since>{calculateSinceTime(jobAd.datePosted)}</Since>
         </SinceContainer>
       </Container>
     </Link>
