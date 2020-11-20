@@ -131,3 +131,8 @@ export const areas = [
   "الفنيطيس",
   "مبارك الكبير",
 ];
+
+export const devices = {
+  mobile: "(max-width: 600px)",
+  tablet: "(max-width: 800px)",
+};

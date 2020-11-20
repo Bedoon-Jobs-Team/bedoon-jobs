@@ -6,7 +6,7 @@ import ScrollMenu from "../components/ScrollMenu";
 import { useJobAds } from "../hooks/useJobAds";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { CircularProgress } from "@material-ui/core";
-import { fields } from "../constants";
+import { devices, fields } from "../constants";
 import Footer from "../components/Footer";
 
 const MainPage: FunctionComponent = (props) => {
@@ -18,9 +18,9 @@ const MainPage: FunctionComponent = (props) => {
       <TopSectionContainer>
         <Header />
         <BigText>المكان المناسب للعثور على وظيفة في الكويت</BigText>
-        <ScrollMenu activeIndex={activeFieldIndex} onSelectIndex={setActiveFieldIndex} />
+        {/* <ScrollMenu activeIndex={activeFieldIndex} onSelectIndex={setActiveFieldIndex} /> */}
       </TopSectionContainer>
-      <ContentContainer>
+      {/* <ContentContainer>
         <CardsContainer>
           <InfiniteScroll
             style={{ overflow: "hidden" }}
@@ -35,7 +35,7 @@ const MainPage: FunctionComponent = (props) => {
           </InfiniteScroll>
         </CardsContainer>
       </ContentContainer>
-      <Footer />
+      <Footer /> */}
     </PageContainer>
   );
 };
@@ -63,6 +63,11 @@ const BigText = styled.p`
   text-align: center;
   margin-top: 93px;
   width: 650px;
+
+  @media ${devices.mobile} {
+    font-size: 24px;
+    width: 80vw;
+  }
 `;
 
 const ContentContainer = styled.div`

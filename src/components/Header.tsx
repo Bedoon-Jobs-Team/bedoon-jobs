@@ -8,6 +8,7 @@ import { makeStyles, Popover } from "@material-ui/core";
 import { logout } from "../firebase/authentication";
 import Dialog from "./Dialog";
 import { useHistory } from "react-router-dom";
+import { devices } from "../constants";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -119,12 +120,15 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   margin-top: 40px;
-  padding: 0;
   align-self: center;
+
+  @media ${devices.mobile} {
+    max-width: 90vw;
+    margin-top: 10px;
+  }
 `;
 
 const LeftContainer = styled.div`
-  padding: 0;
   display: flex;
   align-items: center;
 `;
@@ -143,6 +147,10 @@ const StyledLink = styled.p<{ alternative?: boolean }>`
   margin-left: 40px;
   margin-top: 0;
   margin-bottom: 0;
+
+  @media ${devices.mobile} {
+    display: none;
+  }
 `;
 
 const ButtonTrans = styled.div<{ alternative?: boolean }>`
@@ -151,13 +159,17 @@ const ButtonTrans = styled.div<{ alternative?: boolean }>`
   border-width: 1px;
   border-style: solid;
   border-color: ${(props) => (props.alternative ? "#7749C2" : "#ffffff")};
-  float: left;
   margin-right: 29px;
   padding: 8px 20px;
   font-size: 12px;
   line-height: 23px;
   font-weight: bold;
   cursor: pointer;
+
+  @media ${devices.mobile} {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
 `;
 
 const Button = styled(ButtonTrans)`
@@ -165,6 +177,10 @@ const Button = styled(ButtonTrans)`
   background: ${(props) =>
     props.alternative ? "linear-gradient(138.12deg, #A783E2 -0.01%, #7749C2 94.77%)" : "#ffffff"};
   border: none;
+
+  @media ${devices.mobile} {
+    display: none;
+  }
 `;
 
 const PopoverItem = styled.p`
