@@ -4,9 +4,9 @@ import { ReactComponent as LogoSmallAlternative } from "../assets/icons/LogoSmal
 import styled from "styled-components";
 import Link from "../utils/UnstyledLink";
 import { useCurrentUser } from "../hooks/useCurrentUser";
-
 import { makeStyles, Popover } from "@material-ui/core";
-import LogoutConfirmationDialog from "./LogoutConfirmationDialog";
+import { logout } from "../firebase/authentication";
+import Dialog from "./Dialog";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,6 +37,11 @@ const Header: FunctionComponent<Props> = ({ alternative }) => {
   function onOpenLogoutConfirmation() {
     setOpenPopover(false);
     setOpenLogoutConfirmation(true);
+  }
+
+  function onLogout() {
+    logout();
+    window.location.reload();
   }
 
   return (
@@ -76,7 +81,13 @@ const Header: FunctionComponent<Props> = ({ alternative }) => {
           )}
         </LeftContainer>
       </Container>
-      <LogoutConfirmationDialog open={openLogoutConfirmation} onClose={() => setOpenLogoutConfirmation(false)} />
+      <Dialog
+        open={openLogoutConfirmation}
+        message="هل انت متأكد من تسجيل الخروج؟"
+        confirmMessage="تسجيل الخروج"
+        onConfirm={onLogout}
+        onClose={() => setOpenLogoutConfirmation(false)}
+      />
     </>
   );
 };

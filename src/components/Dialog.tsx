@@ -1,31 +1,30 @@
-import { Dialog, DialogActions, DialogContent } from "@material-ui/core";
+import { Dialog as MuiDialog, DialogActions, DialogContent } from "@material-ui/core";
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
-import { logout } from "../firebase/authentication";
 
 interface Props {
   open: boolean;
+  message: string;
+  confirmMessage: string;
+  onConfirm: () => void;
   onClose: () => void;
 }
 
-const LogoutConfirmationDialog: FunctionComponent<Props> = ({ open, onClose }) => {
-  function onLogout() {
-    logout();
-    window.location.reload();
-  }
-
+const Dialog: FunctionComponent<Props> = ({ open, message, confirmMessage, onConfirm, onClose }) => {
   return (
-    <Dialog onClose={onClose} open={open}>
+    <MuiDialog onClose={onClose} open={open}>
       <Content>
-        <Message>هل انت متأكد من تسجيل الخروج؟</Message>
+        <Message>{message}</Message>
       </Content>
       <DialogActions>
         <ButtonTrans onClick={onClose}>الغاء</ButtonTrans>
-        <ButtonFilled onClick={onLogout}>تسجيل الخروج</ButtonFilled>
+        <ButtonFilled onClick={onConfirm}>{confirmMessage}</ButtonFilled>
       </DialogActions>
-    </Dialog>
+    </MuiDialog>
   );
 };
+
+export default Dialog;
 
 const Content = styled(DialogContent)`
   padding: 40px;
@@ -56,4 +55,3 @@ const ButtonFilled = styled(ButtonTrans)`
   background: #7749c2;
   border: none;
 `;
-export default LogoutConfirmationDialog;
