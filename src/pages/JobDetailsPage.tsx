@@ -6,11 +6,17 @@ import { ReactComponent as MoneyIcon } from "../assets/icons/MoneyIcon.svg";
 import { ReactComponent as WebsiteIcon } from "../assets/icons/WebsiteIcon.svg";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import Mailto from "../components/Mailto";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 import { useJobDetails } from "../hooks/useJobDetails";
 
 const JobDetailsPage: FunctionComponent = () => {
   const { id } = useParams<{ id: string }>();
   const jobDetails = useJobDetails(id);
+  const currentUser = useCurrentUser();
+  const isOwner = currentUser?.uid === jobDetails?.jobAdPreview.ownerId;
+
+  function onApply() {}
 
   return (
     <PageContainer>
@@ -39,7 +45,13 @@ const JobDetailsPage: FunctionComponent = () => {
               </Tags>
               <Description>{jobDetails.description + jobDetails.description}</Description>
               <ButtonContainer>
-                <Button>تقديم على الوظيفة</Button>
+                {isOwner ? (
+                  <Button alternative>إزالة الوظيفة</Button>
+                ) : (
+                  <Mailto jobDetails={jobDetails}>
+                    <Button>تقديم على الوظيفة</Button>
+                  </Mailto>
+                )}
               </ButtonContainer>
             </JobDetailsContainer>
             <CompanyContainer>
@@ -167,11 +179,14 @@ const ButtonContainer = styled.div`
   display: flex;
 `;
 
-const Button = styled.p`
+const Button = styled.p<{ alternative?: boolean }>`
   font-size: 12px;
   line-height: 23px;
   color: #ffffff;
-  background: linear-gradient(138.12deg, #a783e2 -0.01%, #7749c2 94.77%);
+  background: ${(props) =>
+    props.alternative
+      ? "linear-gradient(138.12deg, #f87495 -0.01%, #f8507b 94.77%)"
+      : "linear-gradient(138.12deg, #a783e2 -0.01%, #7749c2 94.77%)"};
   border-radius: 6px;
   padding: 15px 40px;
   font-weight: bold;

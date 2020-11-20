@@ -52,6 +52,6 @@ const ButtonTrans = styled.div`
 
 const ButtonFilled = styled(ButtonTrans)`
   color: #ffffff;
-  background: #7749c2;
+  background: linear-gradient(138.12deg, #a783e2 -0.01%, #7749c2 94.77%);
   border: none;
 `;
