@@ -8,9 +8,10 @@ interface Props {
   confirmMessage: string;
   onConfirm: () => void;
   onClose: () => void;
+  alternative?: boolean;
 }
 
-const Dialog: FunctionComponent<Props> = ({ open, message, confirmMessage, onConfirm, onClose }) => {
+const Dialog: FunctionComponent<Props> = ({ open, message, confirmMessage, onConfirm, onClose, alternative }) => {
   return (
     <MuiDialog onClose={onClose} open={open}>
       <Content>
@@ -18,7 +19,9 @@ const Dialog: FunctionComponent<Props> = ({ open, message, confirmMessage, onCon
       </Content>
       <DialogActions>
         <ButtonTrans onClick={onClose}>الغاء</ButtonTrans>
-        <ButtonFilled onClick={onConfirm}>{confirmMessage}</ButtonFilled>
+        <ButtonFilled alternative onClick={onConfirm}>
+          {confirmMessage}
+        </ButtonFilled>
       </DialogActions>
     </MuiDialog>
   );
@@ -50,8 +53,11 @@ const ButtonTrans = styled.div`
   cursor: pointer;
 `;
 
-const ButtonFilled = styled(ButtonTrans)`
+const ButtonFilled = styled(ButtonTrans)<{ alternative?: boolean }>`
   color: #ffffff;
-  background: linear-gradient(138.12deg, #a783e2 -0.01%, #7749c2 94.77%);
+  background: ${(props) =>
+    props.alternative
+      ? "linear-gradient(138.12deg, #f87495 -0.01%, #f8507b 94.77%)"
+      : "linear-gradient(138.12deg, #a783e2 -0.01%, #7749c2 94.77%)"};
   border: none;
 `;

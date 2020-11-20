@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { ReactComponent as CompanyIcon } from "../assets/icons/CompanyIcon.svg";
 import { ReactComponent as MoneyIcon } from "../assets/icons/MoneyIcon.svg";
 import { ReactComponent as WebsiteIcon } from "../assets/icons/WebsiteIcon.svg";
+import Dialog from "../components/Dialog";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Mailto from "../components/Mailto";
@@ -17,6 +18,7 @@ const JobDetailsPage: FunctionComponent = () => {
   const jobDetails = useJobDetails(id);
   const currentUser = useCurrentUser();
   const isOwner = currentUser?.uid === jobDetails?.jobAdPreview.ownerId;
+  const [openDeleteConfirmation, setOpenDeleteConfirmation] = useState(false);
 
   async function onRemoveJob() {
     await removeJob(id);
@@ -24,62 +26,72 @@ const JobDetailsPage: FunctionComponent = () => {
   }
 
   return (
-    <PageContainer>
-      <Header alternative />
-      <ContentContainer>
-        <Breadcrumbs>
-          <Grey>الصفحة الرئيسية&nbsp;&nbsp;/&nbsp; فرص &nbsp;/&nbsp;&nbsp;</Grey>فرص عمل
-        </Breadcrumbs>
-        {jobDetails ? (
-          <DetailsAndCompanyContainer>
-            <JobDetailsContainer>
-              <Since>منذ 3 أيام</Since>
-              <Title>{jobDetails.jobAdPreview.title}</Title>
-              <CompanyName>
-                <StyledCompanyIcon />
-                شركة <Red>&nbsp;{jobDetails.company.name}</Red>
-              </CompanyName>
-              <Salary>
-                <StyledMoneyIcon />
-                {`بين ${jobDetails.salaryLowerEnd} و ${jobDetails.salaryHigherEnd} راتب شهري`}
-              </Salary>
-              <Tags>
-                {jobDetails.jobAdPreview.tags.map((tag) => (
-                  <Tag>{tag}</Tag>
-                ))}
-              </Tags>
-              <Description>{jobDetails.description + jobDetails.description}</Description>
-              <ButtonContainer>
-                {isOwner ? (
-                  <Button alternative onClick={onRemoveJob}>
-                    إزالة الوظيفة
-                  </Button>
-                ) : (
-                  <Mailto jobDetails={jobDetails}>
-                    <Button>تقديم على الوظيفة</Button>
-                  </Mailto>
+    <>
+      <PageContainer>
+        <Header alternative />
+        <ContentContainer>
+          <Breadcrumbs>
+            <Grey>الصفحة الرئيسية&nbsp;&nbsp;/&nbsp; فرص &nbsp;/&nbsp;&nbsp;</Grey>فرص عمل
+          </Breadcrumbs>
+          {jobDetails ? (
+            <DetailsAndCompanyContainer>
+              <JobDetailsContainer>
+                <Since>منذ 3 أيام</Since>
+                <Title>{jobDetails.jobAdPreview.title}</Title>
+                <CompanyName>
+                  <StyledCompanyIcon />
+                  شركة <Red>&nbsp;{jobDetails.company.name}</Red>
+                </CompanyName>
+                <Salary>
+                  <StyledMoneyIcon />
+                  {`بين ${jobDetails.salaryLowerEnd} و ${jobDetails.salaryHigherEnd} راتب شهري`}
+                </Salary>
+                <Tags>
+                  {jobDetails.jobAdPreview.tags.map((tag) => (
+                    <Tag>{tag}</Tag>
+                  ))}
+                </Tags>
+                <Description>{jobDetails.description + jobDetails.description}</Description>
+                <ButtonContainer>
+                  {isOwner ? (
+                    <Button alternative onClick={() => setOpenDeleteConfirmation(true)}>
+                      إزالة الوظيفة
+                    </Button>
+                  ) : (
+                    <Mailto jobDetails={jobDetails}>
+                      <Button>تقديم على الوظيفة</Button>
+                    </Mailto>
+                  )}
+                </ButtonContainer>
+              </JobDetailsContainer>
+              <CompanyContainer>
+                <CompanyName bold>
+                  شركة <Red>&nbsp;{jobDetails.company.name}</Red>
+                </CompanyName>
+                <CompanyDescription>{jobDetails.company.description}</CompanyDescription>
+                {jobDetails.company.website && (
+                  <OutsideLink href={`https://www.${jobDetails.company.website}`}>
+                    <CompanyWebsite>
+                      <StyledWebsiteIcon />
+                      {jobDetails.company.website}
+                    </CompanyWebsite>
+                  </OutsideLink>
                 )}
-              </ButtonContainer>
-            </JobDetailsContainer>
-            <CompanyContainer>
-              <CompanyName bold>
-                شركة <Red>&nbsp;{jobDetails.company.name}</Red>
-              </CompanyName>
-              <CompanyDescription>{jobDetails.company.description}</CompanyDescription>
-              {jobDetails.company.website && (
-                <OutsideLink href={`https://www.${jobDetails.company.website}`}>
-                  <CompanyWebsite>
-                    <StyledWebsiteIcon />
-                    {jobDetails.company.website}
-                  </CompanyWebsite>
-                </OutsideLink>
-              )}
-            </CompanyContainer>
-          </DetailsAndCompanyContainer>
-        ) : null}
-      </ContentContainer>
-      <Footer />
-    </PageContainer>
+              </CompanyContainer>
+            </DetailsAndCompanyContainer>
+          ) : null}
+        </ContentContainer>
+        <Footer />
+      </PageContainer>
+      <Dialog
+        alternative
+        open={openDeleteConfirmation}
+        message="هل انت متأكد من إزالة الاعلان؟"
+        confirmMessage="إزالة الاعلان"
+        onConfirm={onRemoveJob}
+        onClose={() => setOpenDeleteConfirmation(false)}
+      />
+    </>
   );
 };
 
