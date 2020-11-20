@@ -8,6 +8,15 @@ const RequiredMessage = "مطلوب";
 const PhoneLengthMessage = "رقم الهاتف يجب ان يحتوي على ٨ اعداد";
 const InvalidEmailMessage = "بريد الالكتروني غير صحيح";
 
+// prettier-ignore
+const CompanySizes = [
+  "",
+  "1-9 موظفين",
+  "10-49 موظف",
+  "50-249 موظف",
+  "250+ موظف",
+];
+
 interface Props {
   onSubmit: (values: Company) => void;
   initialValues: Company;
@@ -17,8 +26,8 @@ const AboutCompanyForm: FunctionComponent<Props> = (props) => {
   const validationSchema = Yup.object({
     name: Yup.string().required(RequiredMessage),
     description: Yup.string().required(RequiredMessage),
-    size: Yup.string().required(RequiredMessage),
-    phone: Yup.string().length(8, PhoneLengthMessage).required(RequiredMessage),
+    size: Yup.string(),
+    phone: Yup.string().length(8, PhoneLengthMessage),
     email: Yup.string().email(InvalidEmailMessage).required(RequiredMessage),
   });
 
@@ -35,20 +44,26 @@ const AboutCompanyForm: FunctionComponent<Props> = (props) => {
         <Form>
           <Container>
             <FieldContainer>
-              <Label htmlFor="name">اسم شركتك*</Label>
+              <Label htmlFor="name">اسم الشركة*</Label>
               <Field as={StyledField} id="name" name="name" />
               <ErrorMessage name="name" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
             </FieldContainer>
 
             <FieldContainer>
-              <Label htmlFor="description">وصف الشركة</Label>
-              <Field as={StyledField} id="description" name="description" />
+              <Label htmlFor="description">وصف الشركة*</Label>
+              <Field as={StyledTextArea} id="description" name="description" />
               <ErrorMessage name="description" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
             </FieldContainer>
 
             <FieldContainer>
               <Label htmlFor="size">حجم الشركة</Label>
-              <Field as={StyledField} id="size" name="size" />
+              <Field as={StyledSelect} id="size" name="size">
+                {CompanySizes.map((size) => (
+                  <option key={size} value={size}>
+                    {size}
+                  </option>
+                ))}
+              </Field>
               <ErrorMessage name="size" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
             </FieldContainer>
 
@@ -59,7 +74,7 @@ const AboutCompanyForm: FunctionComponent<Props> = (props) => {
             </FieldContainer>
 
             <FieldContainer>
-              <Label htmlFor="email">البريد الالكتروني</Label>
+              <Label htmlFor="email">البريد الالكتروني*</Label>
               <Field as={StyledField} id="email" name="email" type="email" />
               <ErrorMessage name="email" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
             </FieldContainer>
@@ -126,6 +141,27 @@ const StyledField = styled.input`
     -webkit-appearance: none;
     margin: 0;
   }
+`;
+
+const StyledTextArea = styled(StyledField).attrs({ as: "textarea" })`
+  height: 80px;
+`;
+
+const StyledSelect = styled.select`
+  width: 378px;
+  height: 46px;
+  border: 2px solid #e3dfe8;
+  box-sizing: border-box;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 27px;
+  color: #37333e;
+  padding: 9.5px 16px;
+  font-family: inherit;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; /* Remove default arrow */
 `;
 
 const StyledErrorMessage = styled.p`
