@@ -1,6 +1,7 @@
 import { Dialog as MuiDialog, DialogActions, DialogContent } from "@material-ui/core";
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
+import { devices } from "../constants";
 
 interface Props {
   open: boolean;
@@ -31,14 +32,24 @@ export default Dialog;
 
 const Content = styled(DialogContent)`
   margin-left: 40px;
+
+  @media ${devices.mobile} {
+    margin-left: 0;
+  }
 `;
 
 const Message = styled.p`
   color: #37333e;
   font-size: 16px;
+  line-height: 24px;
   font-weight: normal;
   margin-left: 20px;
   margin-bottom: 20px;
+
+  @media ${devices.mobile} {
+    font-size: 14px;
+    margin-left: 0;
+  }
 `;
 
 const ButtonTrans = styled.div`
@@ -52,6 +63,10 @@ const ButtonTrans = styled.div`
   line-height: 23px;
   font-weight: bold;
   cursor: pointer;
+
+  @media ${devices.mobile} {
+    font-size: 10px;
+  }
 `;
 
 const ButtonFilled = styled(ButtonTrans)<{ alternative?: boolean }>`
