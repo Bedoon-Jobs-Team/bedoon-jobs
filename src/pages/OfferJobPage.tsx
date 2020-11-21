@@ -5,6 +5,7 @@ import { ReactComponent as Logo } from "../assets/icons/Logo.svg";
 import AboutCompanyForm from "../components/Forms/OfferJob/AboutCompanyForm";
 import JobDetailsForm from "../components/Forms/OfferJob/JobDetailsForm";
 import JobRequirementsForm from "../components/Forms/OfferJob/JobRequirementsForm";
+import { devices } from "../constants";
 import { submitJobAd } from "../firebase/jobActions";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import { Company } from "../types";
@@ -129,11 +130,21 @@ const PageContainer = styled.div`
 const SubContainer = styled.div`
   display: flex;
   margin-top: 38px;
+
+  @media ${devices.mobile} {
+    flex-direction: column;
+    width: 90vw;
+  }
 `;
 
 const StepsContainer = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media ${devices.mobile} {
+    flex-direction: row;
+    justify-content: space-around;
+  }
 `;
 
 const Step = styled.div<{ active: boolean }>`
@@ -145,6 +156,10 @@ const Step = styled.div<{ active: boolean }>`
   align-items: center;
   margin-bottom: 15px;
   cursor: ${(props) => (props.active ? "pointer" : "default")};
+
+  @media ${devices.mobile} {
+    padding: 12px 24px;
+  }
 `;
 
 const StepNumber = styled.div<{ active: boolean }>`
@@ -156,12 +171,21 @@ const StepNumber = styled.div<{ active: boolean }>`
   line-height: 23px;
   color: #ffffff;
   margin-left: 10px;
+
+  @media ${devices.mobile} {
+    margin-left: 0;
+  }
 `;
 
 const StepTitle = styled.div<{ active: boolean }>`
   font-size: 12px;
   line-height: 23px;
   color: ${(props) => (props.active ? "#37333e" : "#C5BECF")};
+
+  @media ${devices.mobile} {
+    display: none;
+    font-size: 10px;
+  }
 `;
 
 const FormContainer = styled.div`
@@ -171,6 +195,11 @@ const FormContainer = styled.div`
   box-shadow: 0px 34px 74px rgba(39, 52, 107, 0.12);
   border-radius: 20px;
   margin-right: 24px;
+
+  @media ${devices.mobile} {
+    margin-right: 0;
+    padding: 30px 39px;
+  }
 `;
 
 export default OfferJobPage;

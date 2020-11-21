@@ -2,8 +2,10 @@ import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
-import { areas, fields } from "../../../constants";
+import { areas, devices, fields } from "../../../constants";
 import { JobDetails } from "../../../pages/OfferJobPage";
+import Input from "../../Input";
+import Select from "../../Select";
 
 const RequiredMessage = "مطلوب";
 const SalaryRangeErrorMessage = "حد الاعلى للراتب يجب ان يكون اعلى من الحد الادنى";
@@ -61,13 +63,13 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
             <Container>
               <FieldContainer>
                 <Label htmlFor="title">اسم الوظيفة</Label>
-                <Field as={StyledField} id="title" name="title" />
+                <Field as={Input} id="title" name="title" />
                 <ErrorMessage name="title" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
               </FieldContainer>
 
               <FieldContainer>
                 <Label htmlFor="type">نوع الوظيفة</Label>
-                <Field as={StyledSelect} id="type" name="type">
+                <Field as={Select} id="type" name="type">
                   {JobTypes.map((jobType) => (
                     <option key={jobType} value={jobType}>
                       {jobType}
@@ -79,7 +81,7 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
 
               <FieldContainer>
                 <Label htmlFor="field">مجال الوظيفة</Label>
-                <Field as={StyledSelect} id="field" name="field">
+                <Field as={Select} id="field" name="field">
                   {fields.map((field) => (
                     <option key={field} value={field}>
                       {field}
@@ -125,7 +127,7 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
 
               <FieldContainer>
                 <Label htmlFor="area">مكان الوظيفة</Label>
-                <Field as={StyledSelect} id="area" name="area">
+                <Field as={Select} id="area" name="area">
                   {areas.map((area) => (
                     <option key={area} value={area}>
                       {area}
@@ -138,7 +140,7 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
               <FieldContainer>
                 <Label htmlFor="employeesNeeded">كم عدد عمليات التوظيف المطلوبة لهذا المنصب؟</Label>
                 <Field
-                  as={StyledField}
+                  as={Input}
                   id="employeesNeeded"
                   name="employeesNeeded"
                   onChange={(e: React.ChangeEvent<any>) =>
@@ -150,7 +152,7 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
 
               <FieldContainer>
                 <Label htmlFor="email">ما مدى سرعة احتياجك للقيام بالتوظيف؟</Label>
-                <Field as={StyledSelect} id="email" name="email" type="email">
+                <Field as={Select} id="email" name="email" type="email">
                   {Urgencies.map((urgency) => (
                     <option key={urgency} value={urgency}>
                       {urgency}
@@ -184,6 +186,11 @@ const FormTitle = styled.div`
   line-height: 42px;
   color: #37333e;
   margin-bottom: 24px;
+
+  @media ${devices.mobile} {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
 `;
 
 const Grey = styled.span`
@@ -194,81 +201,30 @@ const FieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 24px;
+
+  @media ${devices.mobile} {
+    margin-bottom: 20px;
+  }
 `;
 
 const Label = styled.label`
   font-size: 12px;
   line-height: 23px;
   color: #a19baa;
-`;
 
-const StyledField = styled.input`
-  width: 378px;
-  height: 46px;
-  border: 2px solid #e3dfe8;
-  box-sizing: border-box;
-  border-radius: 6px;
-  font-size: 14px;
-  line-height: 27px;
-  color: #37333e;
-  padding: 9.5px 16px;
-  font-family: inherit;
-
-  /* Remove Arrows from type="number" fields */
-  ::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  @media ${devices.mobile} {
+    font-size: 10px;
   }
-  ::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-`;
-
-const StyledSelect = styled.select`
-  width: 378px;
-  height: 46px;
-  border: 2px solid #e3dfe8;
-  box-sizing: border-box;
-  border-radius: 6px;
-  font-size: 14px;
-  line-height: 27px;
-  color: #37333e;
-  padding: 9.5px 16px;
-  font-family: inherit;
-
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none; /* Remove default arrow */
-`;
-
-const RangeContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const StyledMiniField = styled(StyledField)`
-  width: 95px;
-`;
-
-const StyledMiniSelect = styled(StyledSelect)`
-  width: 113px;
-  background: #efebf5;
-  margin-right: 21px;
-  border: 1px solid #efebf5;
-`;
-
-const ToText = styled.p`
-  margin: 0 8px;
-  font-size: 12px;
-  line-height: 23px;
-  color: #37333e;
 `;
 
 const StyledErrorMessage = styled.p`
   font-size: 12px;
   line-height: 23px;
   color: #d1365d;
+
+  @media ${devices.mobile} {
+    font-size: 10px;
+  }
 `;
 
 const Button = styled.button`
@@ -281,6 +237,56 @@ const Button = styled.button`
   padding: 14px 171px;
   border: none;
   cursor: pointer;
+
+  @media ${devices.mobile} {
+    padding: 14px;
+  }
+`;
+
+const RangeContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  @media ${devices.mobile} {
+    flex-wrap: wrap;
+  }
+`;
+
+const StyledMiniField = styled(Input)`
+  width: 95px;
+
+  @media ${devices.mobile} {
+    width: 80px;
+    flex-grow: 1;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+`;
+
+const StyledMiniSelect = styled(Select)`
+  width: 113px;
+  background: #efebf5;
+  margin-right: 21px;
+  border: 1px solid #efebf5;
+
+  @media ${devices.mobile} {
+    width: 100%;
+    flex-grow: 1;
+    font-size: 12px;
+    margin-right: 0;
+  }
+`;
+
+const ToText = styled.p`
+  margin: 0 8px;
+  font-size: 12px;
+  line-height: 23px;
+  color: #37333e;
+
+  @media ${devices.mobile} {
+    font-size: 10px;
+    margin-bottom: 10px;
+  }
 `;
 
 export default JobDetailsForm;

@@ -2,7 +2,10 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
+import { devices } from "../../../constants";
 import { Company } from "../../../types";
+import Input from "../../Input";
+import Select from "../../Select";
 
 const RequiredMessage = "مطلوب";
 const PhoneLengthMessage = "رقم الهاتف يجب ان يحتوي على ٨ اعداد";
@@ -45,7 +48,7 @@ const AboutCompanyForm: FunctionComponent<Props> = (props) => {
           <Container>
             <FieldContainer>
               <Label htmlFor="name">اسم الشركة*</Label>
-              <Field as={StyledField} id="name" name="name" />
+              <Field as={Input} id="name" name="name" />
               <ErrorMessage name="name" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
             </FieldContainer>
 
@@ -57,7 +60,7 @@ const AboutCompanyForm: FunctionComponent<Props> = (props) => {
 
             <FieldContainer>
               <Label htmlFor="size">حجم الشركة</Label>
-              <Field as={StyledSelect} id="size" name="size">
+              <Field as={Select} id="size" name="size">
                 {CompanySizes.map((size) => (
                   <option key={size} value={size}>
                     {size}
@@ -69,13 +72,13 @@ const AboutCompanyForm: FunctionComponent<Props> = (props) => {
 
             <FieldContainer>
               <Label htmlFor="phone">رقم الهاتف</Label>
-              <Field as={StyledField} id="phone" name="phone" type="number" />
+              <Field as={Input} id="phone" name="phone" type="number" />
               <ErrorMessage name="phone" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
             </FieldContainer>
 
             <FieldContainer>
               <Label htmlFor="email">البريد الالكتروني*</Label>
-              <Field as={StyledField} id="email" name="email" type="email" />
+              <Field as={Input} id="email" name="email" type="email" />
               <ErrorMessage name="email" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
             </FieldContainer>
 
@@ -102,6 +105,11 @@ const FormTitle = styled.div`
   line-height: 42px;
   color: #37333e;
   margin-bottom: 24px;
+
+  @media ${devices.mobile} {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
 `;
 
 const Grey = styled.span`
@@ -112,62 +120,34 @@ const FieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 24px;
+
+  @media ${devices.mobile} {
+    margin-bottom: 20px;
+  }
 `;
 
 const Label = styled.label`
   font-size: 12px;
   line-height: 23px;
   color: #a19baa;
-`;
 
-const StyledField = styled.input`
-  width: 378px;
-  height: 46px;
-  border: 2px solid #e3dfe8;
-  box-sizing: border-box;
-  border-radius: 6px;
-  font-size: 14px;
-  line-height: 27px;
-  color: #37333e;
-  padding: 9.5px 16px;
-  font-family: inherit;
-
-  /* Remove Arrows from type="number" fields */
-  ::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  ::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  @media ${devices.mobile} {
+    font-size: 10px;
   }
 `;
 
-const StyledTextArea = styled(StyledField).attrs({ as: "textarea" })`
+const StyledTextArea = styled(Input).attrs({ as: "textarea" })`
   height: 80px;
-`;
-
-const StyledSelect = styled.select`
-  width: 378px;
-  height: 46px;
-  border: 2px solid #e3dfe8;
-  box-sizing: border-box;
-  border-radius: 6px;
-  font-size: 14px;
-  line-height: 27px;
-  color: #37333e;
-  padding: 9.5px 16px;
-  font-family: inherit;
-
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none; /* Remove default arrow */
 `;
 
 const StyledErrorMessage = styled.p`
   font-size: 12px;
   line-height: 23px;
   color: #d1365d;
+
+  @media ${devices.mobile} {
+    font-size: 10px;
+  }
 `;
 
 const Button = styled.button`
@@ -180,6 +160,10 @@ const Button = styled.button`
   padding: 14px 171px;
   border: none;
   cursor: pointer;
+
+  @media ${devices.mobile} {
+    padding: 14px;
+  }
 `;
 
 export default AboutCompanyForm;
