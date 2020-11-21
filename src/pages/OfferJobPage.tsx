@@ -124,7 +124,8 @@ const PageContainer = styled.div`
   background-color: #efebf5;
   align-items: center;
   padding: 55px 0 55px 0;
-  flex: 1 1 0;
+  flex: 0 0 100%;
+  min-height: 100vh;
 `;
 
 const SubContainer = styled.div`

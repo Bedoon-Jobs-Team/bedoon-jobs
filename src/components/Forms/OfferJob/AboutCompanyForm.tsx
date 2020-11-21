@@ -98,6 +98,10 @@ const Container = styled.div`
   input[type="number"] {
     -moz-appearance: textfield;
   }
+
+  @media ${devices.mobile} {
+    flex-grow: 1;
+  }
 `;
 
 const FormTitle = styled.div`

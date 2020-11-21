@@ -44,6 +44,7 @@ const PageContainer = styled.div`
   flex: 0 0 100%;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 `;
 
 const TopSectionContainer = styled.div`
