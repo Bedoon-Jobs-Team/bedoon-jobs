@@ -18,9 +18,9 @@ const MainPage: FunctionComponent = (props) => {
       <TopSectionContainer>
         <Header />
         <BigText>المكان المناسب للعثور على وظيفة في الكويت</BigText>
-        {/* <ScrollMenu activeIndex={activeFieldIndex} onSelectIndex={setActiveFieldIndex} /> */}
+        <ScrollMenu activeIndex={activeFieldIndex} onSelectIndex={setActiveFieldIndex} />
       </TopSectionContainer>
-      {/* <ContentContainer>
+      <ContentContainer>
         <CardsContainer>
           <InfiniteScroll
             style={{ overflow: "hidden" }}
@@ -35,7 +35,7 @@ const MainPage: FunctionComponent = (props) => {
           </InfiniteScroll>
         </CardsContainer>
       </ContentContainer>
-      <Footer /> */}
+      <Footer />
     </PageContainer>
   );
 };
@@ -76,12 +76,20 @@ const ContentContainer = styled.div`
   justify-content: center;
   padding: 95px 200px 80px 200px;
   flex-grow: 1;
+
+  @media ${devices.mobile} {
+    padding: 95px 0;
+  }
 `;
 
 const CardsContainer = styled.div`
   width: 1042px;
   flex-shrink: 1;
   margin-bottom: 28px;
+
+  @media ${devices.mobile} {
+    width: auto;
+  }
 `;
 
 export default MainPage;
