@@ -13,25 +13,26 @@ export function useJobAds(fieldFilter?: string) {
   useEffect(() => {
     setLastAdDoc(undefined);
     setHasMoreAds(true);
+    setJobAds([]);
     fetchJobAds();
     // eslint-disable-next-line
   }, [fieldFilter]);
 
-  async function fetchJobAds(fetchingMore?: boolean) {
+  async function fetchJobAds() {
     try {
       let query = jobAdPreviewsRef.orderBy("datePosted", "desc").limit(AdsPerFetch);
       if (fieldFilter) query = query.where("tags", "array-contains", fieldFilter);
-      if (fetchingMore && lastAdDoc) query = query.startAfter(lastAdDoc);
+      if (lastAdDoc) query = query.startAfter(lastAdDoc);
 
       const jobAdsSnapshot = await query.get();
-      handleJobAdsSnapshot(jobAdsSnapshot, fetchingMore);
+      handleJobAdsSnapshot(jobAdsSnapshot);
     } catch (err) {
       console.log(err);
       alert("Something went wrong please try again."); //Todo convert this to toast message
     }
   }
 
-  function handleJobAdsSnapshot(jobAdsSnapshot: QuerySnapshot, fetchingMore?: boolean) {
+  function handleJobAdsSnapshot(jobAdsSnapshot: QuerySnapshot) {
     const fetchedJobAds: JobAdPreview[] = jobAdsSnapshot.docs.map((doc) => doc.data() as JobAdPreview);
 
     if (!fetchedJobAds.length) {
@@ -40,16 +41,8 @@ export function useJobAds(fieldFilter?: string) {
       setLastAdDoc(jobAdsSnapshot.docs[jobAdsSnapshot.docs.length - 1]);
     }
 
-    if (fetchingMore) {
-      setJobAds((prevAds) => [...prevAds, ...fetchedJobAds]);
-    } else {
-      setJobAds(fetchedJobAds);
-    }
+    setJobAds((prevAds) => [...prevAds, ...fetchedJobAds]);
   }
 
-  async function fetchMoreJobAds() {
-    fetchJobAds(true);
-  }
-
-  return { jobAds, fetchMoreJobAds, hasMoreAds };
+  return { jobAds, fetchJobAds, hasMoreAds };
 }

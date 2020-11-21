@@ -11,7 +11,7 @@ import Footer from "../components/Footer";
 
 const MainPage: FunctionComponent = (props) => {
   const [activeFieldIndex, setActiveFieldIndex] = useState(0);
-  const { jobAds, fetchMoreJobAds, hasMoreAds } = useJobAds(fields[activeFieldIndex - 1]); //fields[-1] == undefined -> no filter
+  const { jobAds, fetchJobAds, hasMoreAds } = useJobAds(fields[activeFieldIndex - 1]); //fields[-1] == undefined -> no filter
 
   return (
     <PageContainer>
@@ -24,8 +24,8 @@ const MainPage: FunctionComponent = (props) => {
         <CardsContainer>
           <InfiniteScroll
             style={{ overflow: "hidden" }}
-            dataLength={jobAds.length} //This is important field to render the next data
-            next={fetchMoreJobAds}
+            dataLength={jobAds.length}
+            next={fetchJobAds}
             hasMore={hasMoreAds}
             loader={<CircularProgress color="secondary" />}
           >
