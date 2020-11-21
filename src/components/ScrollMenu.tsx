@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useRef } from "react";
 import { ReactComponent as Arrow } from "../assets/icons/LeftArrowIcon.svg";
 import styled from "styled-components";
-import { fields } from "../constants";
+import { devices, fields } from "../constants";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 interface Props {
@@ -41,6 +41,10 @@ const Menu = styled.div`
   border-radius: 15px;
   box-shadow: 0px 34px 74px rgba(39, 52, 107, 0.12);
   padding: 0 10px 0 29px;
+
+  @media ${devices.mobile} {
+    width: 80vw;
+  }
 `;
 
 const ItemsContainer = styled(ScrollContainer)`
@@ -59,6 +63,11 @@ const Button = styled.div<{ active: boolean }>`
   margin: 10px 0 10px 10px;
   flex: 1 0 auto;
   cursor: pointer;
+
+  @media ${devices.mobile} {
+    font-size: 12px;
+    padding: 8px 18px;
+  }
 `;
 
 const ArrowContainer = styled.div`

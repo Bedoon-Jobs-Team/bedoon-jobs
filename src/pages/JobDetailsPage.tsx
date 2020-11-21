@@ -8,6 +8,7 @@ import Dialog from "../components/Dialog";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Mailto from "../components/Mailto";
+import { devices } from "../constants";
 import { removeJob } from "../firebase/jobActions";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import { useJobDetails } from "../hooks/useJobDetails";
@@ -108,6 +109,10 @@ const ContentContainer = styled.div`
   width: 1044px;
   align-self: center;
   flex-grow: 1;
+
+  @media ${devices.mobile} {
+    width: 90vw;
+  }
 `;
 
 const Breadcrumbs = styled.div`
@@ -115,6 +120,10 @@ const Breadcrumbs = styled.div`
   font-size: 15px;
   line-height: 36px;
   color: #242227;
+
+  @media ${devices.mobile} {
+    font-size: 12px;
+  }
 `;
 
 const Grey = styled.span`
@@ -125,6 +134,11 @@ const DetailsAndCompanyContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+
+  @media ${devices.mobile} {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const JobDetailsContainer = styled.div`
@@ -132,6 +146,11 @@ const JobDetailsContainer = styled.div`
   background: #ffffff;
   border-radius: 12px;
   padding: 32px;
+
+  @media ${devices.mobile} {
+    width: 75vw;
+    padding: 26px;
+  }
 `;
 
 const Since = styled.p`
@@ -139,6 +158,10 @@ const Since = styled.p`
   line-height: 23px;
   color: #9891a3;
   margin-bottom: 1px;
+
+  @media ${devices.mobile} {
+    font-size: 10px;
+  }
 `;
 
 const Title = styled.p`
@@ -146,6 +169,11 @@ const Title = styled.p`
   line-height: 53px;
   color: #242227;
   margin-bottom: 10px;
+
+  @media ${devices.mobile} {
+    font-size: 24px;
+    line-height: 28px;
+  }
 `;
 
 const CompanyName = styled.p<{ bold?: boolean }>`
@@ -155,6 +183,10 @@ const CompanyName = styled.p<{ bold?: boolean }>`
   align-items: center;
   margin-bottom: 12px;
   font-weight: ${(props) => (props.bold ? "bold" : "normal")};
+
+  @media ${devices.mobile} {
+    font-size: 12px;
+  }
 `;
 
 const Red = styled.span`
@@ -185,6 +217,10 @@ const Tag = styled.p`
   border-radius: 8px;
   padding: 4px 10px;
   margin-left: 8px;
+
+  @media ${devices.mobile} {
+    font-size: 10px;
+  }
 `;
 
 const Description = styled.p`
@@ -193,6 +229,11 @@ const Description = styled.p`
   line-height: 30px;
   color: #242227;
   margin-bottom: 28px;
+
+  @media ${devices.mobile} {
+    font-size: 13px;
+    line-height: 24px;
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -211,16 +252,30 @@ const Button = styled.p<{ alternative?: boolean }>`
   padding: 15px 40px;
   font-weight: bold;
   cursor: pointer;
+
+  @media ${devices.mobile} {
+    font-size: 10px;
+  }
 `;
 
 const CompanyContainer = styled(JobDetailsContainer)`
   width: 332px;
   margin-right: 24px;
+
+  @media ${devices.mobile} {
+    width: 75vw;
+    margin-right: 0;
+    margin-top: 24px;
+  }
 `;
 
 const CompanyDescription = styled(Description)`
   font-size: 12px;
   line-height: 28px;
+
+  @media ${devices.mobile} {
+    font-size: 10px;
+  }
 `;
 
 const CompanyWebsite = styled.span`
@@ -230,6 +285,10 @@ const CompanyWebsite = styled.span`
   line-height: 18px;
   color: #332d3c;
   border-radius: 8px;
+
+  @media ${devices.mobile} {
+    font-size: 10px;
+  }
 `;
 
 const OutsideLink = styled.a`

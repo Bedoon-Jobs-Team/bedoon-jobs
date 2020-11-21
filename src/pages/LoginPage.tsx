@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import Link from "../utils/UnstyledLink";
 import { signInWithGoogle } from "../firebase/authentication";
 import { useHistory } from "react-router-dom";
+import { devices } from "../constants";
 
 const emailPlaceholder = "عنوان البريد الإلكتروني";
 const passwordPlaceholder = "كلمة المرور";
@@ -111,6 +112,10 @@ const Title = styled.p`
   line-height: 42px;
   color: #37333e;
   margin-bottom: 16px;
+
+  @media ${devices.mobile} {
+    font-size: 18px;
+  }
 `;
 
 const FormContainer = styled.div`
@@ -122,6 +127,10 @@ const FormContainer = styled.div`
   border-radius: 20px;
   margin-top: 23px;
   width: 350px;
+
+  @media ${devices.mobile} {
+    width: 70vw;
+  }
 `;
 
 const FieldsContainer = styled.div`
@@ -151,12 +160,20 @@ const StyledField = styled.input`
   color: #37333e;
   padding: 9.5px 16px;
   font-family: inherit;
+
+  @media ${devices.mobile} {
+    font-size: 12px;
+  }
 `;
 
 const StyledErrorMessage = styled.p`
   font-size: 12px;
   line-height: 23px;
   color: #d1365d;
+
+  @media ${devices.mobile} {
+    font-size: 10px;
+  }
 `;
 
 const LinkText = styled.p`
@@ -165,6 +182,10 @@ const LinkText = styled.p`
   margin-bottom: 6px;
   color: #442675;
   align-self: flex-end;
+
+  @media ${devices.mobile} {
+    font-size: 10px;
+  }
 `;
 
 const ForgotPasswordContainer = styled.div`
@@ -180,6 +201,10 @@ const Label = styled.label`
   font-size: 12px;
   line-height: 23px;
   color: #706a79;
+
+  @media ${devices.mobile} {
+    font-size: 10px;
+  }
 `;
 
 const SubmitButton = styled.button`
@@ -194,6 +219,10 @@ const SubmitButton = styled.button`
   border: none;
   cursor: pointer;
   flex: 1;
+
+  @media ${devices.mobile} {
+    font-size: 10px;
+  }
 `;
 
 const DividerContainer = styled.div`
@@ -215,6 +244,10 @@ const P = styled.p`
   line-height: 23px;
   color: #706a79;
   margin: 4px;
+
+  @media ${devices.mobile} {
+    font-size: 10px;
+  }
 `;
 
 const SocialButton = styled(SubmitButton)`

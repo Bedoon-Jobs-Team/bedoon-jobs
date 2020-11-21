@@ -6,12 +6,12 @@ import ScrollMenu from "../components/ScrollMenu";
 import { useJobAds } from "../hooks/useJobAds";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { CircularProgress } from "@material-ui/core";
-import { fields } from "../constants";
+import { devices, fields } from "../constants";
 import Footer from "../components/Footer";
 
 const MainPage: FunctionComponent = (props) => {
   const [activeFieldIndex, setActiveFieldIndex] = useState(0);
-  const { jobAds, fetchMoreJobAds, hasMoreAds } = useJobAds(fields[activeFieldIndex - 1]); //fields[-1] == undefined -> no filter
+  const { jobAds, fetchJobAds, hasMoreAds } = useJobAds(fields[activeFieldIndex - 1]); //fields[-1] == undefined -> no filter
 
   return (
     <PageContainer>
@@ -24,8 +24,8 @@ const MainPage: FunctionComponent = (props) => {
         <CardsContainer>
           <InfiniteScroll
             style={{ overflow: "hidden" }}
-            dataLength={jobAds.length} //This is important field to render the next data
-            next={fetchMoreJobAds}
+            dataLength={jobAds.length}
+            next={fetchJobAds}
             hasMore={hasMoreAds}
             loader={<CircularProgress color="secondary" />}
           >
@@ -44,6 +44,7 @@ const PageContainer = styled.div`
   flex: 0 0 100%;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 `;
 
 const TopSectionContainer = styled.div`
@@ -63,6 +64,11 @@ const BigText = styled.p`
   text-align: center;
   margin-top: 93px;
   width: 650px;
+
+  @media ${devices.mobile} {
+    font-size: 24px;
+    width: 80vw;
+  }
 `;
 
 const ContentContainer = styled.div`
@@ -71,12 +77,20 @@ const ContentContainer = styled.div`
   justify-content: center;
   padding: 95px 200px 80px 200px;
   flex-grow: 1;
+
+  @media ${devices.mobile} {
+    padding: 95px 0;
+  }
 `;
 
 const CardsContainer = styled.div`
   width: 1042px;
   flex-shrink: 1;
   margin-bottom: 28px;
+
+  @media ${devices.mobile} {
+    width: auto;
+  }
 `;
 
 export default MainPage;
