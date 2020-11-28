@@ -44,10 +44,12 @@ const JobDetailsPage: FunctionComponent = () => {
                   <StyledCompanyIcon />
                   شركة <Red>&nbsp;{jobDetails.company.name}</Red>
                 </CompanyName>
-                <Salary>
-                  <StyledMoneyIcon />
-                  {`بين ${jobDetails.salaryLowerEnd} و ${jobDetails.salaryHigherEnd} راتب شهري`}
-                </Salary>
+                {jobDetails.salaryLowerEnd && jobDetails.salaryHigherEnd && (
+                  <Salary>
+                    <StyledMoneyIcon />
+                    {`بين ${jobDetails.salaryLowerEnd} و ${jobDetails.salaryHigherEnd} راتب شهري`}
+                  </Salary>
+                )}
                 <Tags>
                   {jobDetails.jobAdPreview.tags.map((tag) => (
                     <Tag>{tag}</Tag>

@@ -9,7 +9,8 @@ import Input from "../../Input";
 import Select from "../../Select";
 
 const RequiredMessage = "مطلوب";
-const SalaryRangeErrorMessage = "حد الاعلى للراتب يجب ان يكون اعلى من الحد الادنى";
+const LowerEndErrorMessage = "حد الادنى للراتب يجب ان يكون اقل من الحد الاعلى";
+const HigherEndErrorMessage = "حد الاعلى للراتب يجب ان يكون اعلى من الحد الادنى";
 const EmployeesNeededErrorMessage = "عمليات التوظيف يجب ان تكون واحد او اكثر";
 const NumberErrorMessage = "يجب ان يكون رقم";
 
@@ -27,11 +28,8 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
     title: Yup.string().required(RequiredMessage),
     type: Yup.string().required(RequiredMessage),
     field: Yup.string().required(RequiredMessage),
-    salaryLowerEnd: Yup.number().typeError(NumberErrorMessage).required(RequiredMessage),
-    salaryHigherEnd: Yup.number()
-      .typeError(NumberErrorMessage)
-      .min(Yup.ref("salaryLowerEnd"), SalaryRangeErrorMessage)
-      .required(RequiredMessage),
+    salaryLowerEnd: Yup.number().typeError(NumberErrorMessage).max(Yup.ref("salaryHigherEnd"), LowerEndErrorMessage),
+    salaryHigherEnd: Yup.number().typeError(NumberErrorMessage).min(Yup.ref("salaryLowerEnd"), HigherEndErrorMessage),
     salaryPeriod: Yup.string().required(RequiredMessage),
     area: Yup.string().required(RequiredMessage),
     employeesNeeded: Yup.number()
