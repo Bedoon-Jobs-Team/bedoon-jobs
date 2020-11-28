@@ -143,6 +143,7 @@ const Label = styled.label`
 
 const StyledTextArea = styled(Input).attrs({ as: "textarea" })`
   height: 80px;
+  max-width: 378px;
 `;
 
 const StyledErrorMessage = styled.p`
