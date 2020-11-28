@@ -4,6 +4,7 @@ import styled from "styled-components";
 import * as Yup from "yup";
 import { areas, devices, fields } from "../../../constants";
 import { JobDetails } from "../../../pages/OfferJobPage";
+import EnglishInput from "../../EnglishInput";
 import Input from "../../Input";
 import Select from "../../Select";
 
@@ -45,6 +46,7 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
     const englishValue = value.replace(/[٠-٩]/g, (arabicNumber: string) =>
       "٠١٢٣٤٥٦٧٨٩".indexOf(arabicNumber).toString()
     );
+
     if (Number(englishValue) || englishValue === "") callback(englishValue);
   }
 
@@ -140,7 +142,7 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
               <FieldContainer>
                 <Label htmlFor="employeesNeeded">كم عدد عمليات التوظيف المطلوبة لهذا المنصب؟</Label>
                 <Field
-                  as={Input}
+                  as={EnglishInput}
                   id="employeesNeeded"
                   name="employeesNeeded"
                   onChange={(e: React.ChangeEvent<any>) =>
@@ -256,7 +258,7 @@ const RangeContainer = styled.div`
   }
 `;
 
-const StyledMiniField = styled(Input)`
+const StyledMiniField = styled(EnglishInput)`
   width: 95px;
 
   @media ${devices.mobile} {
