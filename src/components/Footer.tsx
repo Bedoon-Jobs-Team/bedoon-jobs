@@ -14,8 +14,8 @@ const Footer: FunctionComponent = () => {
           <StyledTwitterIcon />
           <StyledFacebookIcon />
         </SocialContainer>
-        <CopyrightContainer>جميع الحقوق محفوظة ٢٠٢٠. Coded.Itd</CopyrightContainer>
-        <MadeByContainer>صنع بشغف و حب من قبل فريق CODED</MadeByContainer>
+        <CopyrightContainer>جميع الحقوق محفوظة ٢٠٢٠</CopyrightContainer>
+        <MadeByContainer>صنع بشغف و حب من قبل فريق وظيفة</MadeByContainer>
       </ContentContainer>
     </Container>
   );
