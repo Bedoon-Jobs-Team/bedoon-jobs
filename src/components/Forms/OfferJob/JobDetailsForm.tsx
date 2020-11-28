@@ -151,15 +151,15 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
               </FieldContainer>
 
               <FieldContainer>
-                <Label htmlFor="email">ما مدى سرعة احتياجك للقيام بالتوظيف؟</Label>
-                <Field as={Select} id="email" name="email" type="email">
+                <Label htmlFor="urgency">ما مدى سرعة احتياجك للقيام بالتوظيف؟</Label>
+                <Field as={Select} id="urgency" name="urgency" type="urgency">
                   {Urgencies.map((urgency) => (
                     <option key={urgency} value={urgency}>
                       {urgency}
                     </option>
                   ))}
                 </Field>
-                <ErrorMessage name="email" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+                <ErrorMessage name="urgency" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
               </FieldContainer>
 
               <Button type="submit">متابعة</Button>
