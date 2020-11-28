@@ -53,7 +53,7 @@ const JobDetailsPage: FunctionComponent = () => {
                     <Tag>{tag}</Tag>
                   ))}
                 </Tags>
-                <Description>{jobDetails.description + jobDetails.description}</Description>
+                <Description>{jobDetails.description}</Description>
                 <ButtonContainer>
                   {isOwner ? (
                     <Button alternative onClick={() => setOpenDeleteConfirmation(true)}>
@@ -224,6 +224,8 @@ const Tag = styled.p`
 `;
 
 const Description = styled.p`
+  max-width: 88%;
+  white-space: pre-line;
   width: 88%;
   font-size: 15px;
   line-height: 30px;
