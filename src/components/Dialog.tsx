@@ -10,16 +10,25 @@ interface Props {
   onConfirm: () => void;
   onClose: () => void;
   alternative?: boolean;
+  isNotice?: boolean;
 }
 
-const Dialog: FunctionComponent<Props> = ({ open, message, confirmMessage, onConfirm, onClose, alternative }) => {
+const Dialog: FunctionComponent<Props> = ({
+  open,
+  message,
+  confirmMessage,
+  onConfirm,
+  onClose,
+  alternative,
+  isNotice,
+}) => {
   return (
     <MuiDialog onClose={onClose} open={open}>
       <Content>
         <Message>{message}</Message>
       </Content>
       <DialogActions>
-        <ButtonTrans onClick={onClose}>الغاء</ButtonTrans>
+        {!isNotice && <ButtonTrans onClick={onClose}>الغاء</ButtonTrans>}
         <ButtonFilled alternative={alternative} onClick={onConfirm}>
           {confirmMessage}
         </ButtonFilled>

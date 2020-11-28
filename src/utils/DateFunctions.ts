@@ -10,5 +10,7 @@ export function calculateSinceTime(datePosted: Timestamp): string {
   if (diffInHours > 0) return `منذ ${diffInHours} ساعات`;
 
   const diffInMinutes = Math.floor((diffInMilliseconds / (1000 * 60)) % 60);
-  return `منذ ${diffInMinutes} دقائق`;
+  if (diffInMinutes > 0) return `منذ ${diffInMinutes} دقائق`;
+
+  return "منذ لحظات";
 }

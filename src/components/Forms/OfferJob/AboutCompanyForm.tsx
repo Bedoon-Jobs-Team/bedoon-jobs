@@ -4,6 +4,7 @@ import styled from "styled-components";
 import * as Yup from "yup";
 import { devices } from "../../../constants";
 import { Company } from "../../../types";
+import EnglishInput from "../../EnglishInput";
 import Input from "../../Input";
 import Select from "../../Select";
 
@@ -72,13 +73,13 @@ const AboutCompanyForm: FunctionComponent<Props> = (props) => {
 
             <FieldContainer>
               <Label htmlFor="phone">رقم الهاتف</Label>
-              <Field as={Input} id="phone" name="phone" type="number" />
+              <Field as={EnglishInput} id="phone" name="phone" type="number" />
               <ErrorMessage name="phone" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
             </FieldContainer>
 
             <FieldContainer>
               <Label htmlFor="email">البريد الالكتروني*</Label>
-              <Field as={Input} id="email" name="email" type="email" />
+              <Field as={EnglishInput} id="email" name="email" type="email" />
               <ErrorMessage name="email" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
             </FieldContainer>
 
@@ -142,6 +143,7 @@ const Label = styled.label`
 
 const StyledTextArea = styled(Input).attrs({ as: "textarea" })`
   height: 80px;
+  max-width: 378px;
 `;
 
 const StyledErrorMessage = styled.p`

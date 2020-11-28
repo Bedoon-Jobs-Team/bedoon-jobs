@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { jobAdPreviewsRef } from "../firebase/firestoreRefs";
 import { JobAdPreview } from "../types";
 import { QuerySnapshot, QueryDocumentSnapshot } from "@firebase/firestore-types";
@@ -7,12 +7,12 @@ const AdsPerFetch = 7;
 
 export function useJobAds(fieldFilter?: string) {
   const [jobAds, setJobAds] = useState<JobAdPreview[]>([]);
-  const [lastAdDoc, setLastAdDoc] = useState<QueryDocumentSnapshot>();
-  const [hasMoreAds, setHasMoreAds] = useState(true);
+  const [hasMoreAds, setHasMoreAds] = useState(false);
+  const lastAdDoc = useRef<QueryDocumentSnapshot>();
 
   useEffect(() => {
-    setLastAdDoc(undefined);
-    setHasMoreAds(true);
+    lastAdDoc.current = undefined;
+    setHasMoreAds(false);
     setJobAds([]);
     fetchJobAds();
     // eslint-disable-next-line
@@ -20,9 +20,9 @@ export function useJobAds(fieldFilter?: string) {
 
   async function fetchJobAds() {
     try {
-      let query = jobAdPreviewsRef.orderBy("datePosted", "desc").limit(AdsPerFetch);
+      let query = jobAdPreviewsRef.orderBy("datePosted", "desc").where("isVerified", "==", true).limit(AdsPerFetch);
       if (fieldFilter) query = query.where("tags", "array-contains", fieldFilter);
-      if (lastAdDoc) query = query.startAfter(lastAdDoc);
+      if (lastAdDoc.current) query = query.startAfter(lastAdDoc.current);
 
       const jobAdsSnapshot = await query.get();
       handleJobAdsSnapshot(jobAdsSnapshot);
@@ -38,7 +38,8 @@ export function useJobAds(fieldFilter?: string) {
     if (!fetchedJobAds.length) {
       setHasMoreAds(false);
     } else {
-      setLastAdDoc(jobAdsSnapshot.docs[jobAdsSnapshot.docs.length - 1]);
+      lastAdDoc.current = jobAdsSnapshot.docs[jobAdsSnapshot.docs.length - 1];
+      setHasMoreAds(true);
     }
 
     setJobAds((prevAds) => [...prevAds, ...fetchedJobAds]);

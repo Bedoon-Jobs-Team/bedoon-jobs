@@ -4,11 +4,13 @@ import styled from "styled-components";
 import * as Yup from "yup";
 import { areas, devices, fields } from "../../../constants";
 import { JobDetails } from "../../../pages/OfferJobPage";
+import EnglishInput from "../../EnglishInput";
 import Input from "../../Input";
 import Select from "../../Select";
 
 const RequiredMessage = "مطلوب";
-const SalaryRangeErrorMessage = "حد الاعلى للراتب يجب ان يكون اعلى من الحد الادنى";
+const LowerEndErrorMessage = "حد الادنى للراتب يجب ان يكون اقل من الحد الاعلى";
+const HigherEndErrorMessage = "حد الاعلى للراتب يجب ان يكون اعلى من الحد الادنى";
 const EmployeesNeededErrorMessage = "عمليات التوظيف يجب ان تكون واحد او اكثر";
 const NumberErrorMessage = "يجب ان يكون رقم";
 
@@ -26,11 +28,8 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
     title: Yup.string().required(RequiredMessage),
     type: Yup.string().required(RequiredMessage),
     field: Yup.string().required(RequiredMessage),
-    salaryLowerEnd: Yup.number().typeError(NumberErrorMessage).required(RequiredMessage),
-    salaryHigherEnd: Yup.number()
-      .typeError(NumberErrorMessage)
-      .min(Yup.ref("salaryLowerEnd"), SalaryRangeErrorMessage)
-      .required(RequiredMessage),
+    salaryLowerEnd: Yup.number().typeError(NumberErrorMessage).max(Yup.ref("salaryHigherEnd"), LowerEndErrorMessage),
+    salaryHigherEnd: Yup.number().typeError(NumberErrorMessage).min(Yup.ref("salaryLowerEnd"), HigherEndErrorMessage),
     salaryPeriod: Yup.string().required(RequiredMessage),
     area: Yup.string().required(RequiredMessage),
     employeesNeeded: Yup.number()
@@ -45,6 +44,7 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
     const englishValue = value.replace(/[٠-٩]/g, (arabicNumber: string) =>
       "٠١٢٣٤٥٦٧٨٩".indexOf(arabicNumber).toString()
     );
+
     if (Number(englishValue) || englishValue === "") callback(englishValue);
   }
 
@@ -140,7 +140,7 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
               <FieldContainer>
                 <Label htmlFor="employeesNeeded">كم عدد عمليات التوظيف المطلوبة لهذا المنصب؟</Label>
                 <Field
-                  as={Input}
+                  as={EnglishInput}
                   id="employeesNeeded"
                   name="employeesNeeded"
                   onChange={(e: React.ChangeEvent<any>) =>
@@ -151,15 +151,15 @@ const JobDetailsForm: FunctionComponent<Props> = (props) => {
               </FieldContainer>
 
               <FieldContainer>
-                <Label htmlFor="email">ما مدى سرعة احتياجك للقيام بالتوظيف؟</Label>
-                <Field as={Select} id="email" name="email" type="email">
+                <Label htmlFor="urgency">ما مدى سرعة احتياجك للقيام بالتوظيف؟</Label>
+                <Field as={Select} id="urgency" name="urgency" type="urgency">
                   {Urgencies.map((urgency) => (
                     <option key={urgency} value={urgency}>
                       {urgency}
                     </option>
                   ))}
                 </Field>
-                <ErrorMessage name="email" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+                <ErrorMessage name="urgency" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
               </FieldContainer>
 
               <Button type="submit">متابعة</Button>
@@ -256,7 +256,7 @@ const RangeContainer = styled.div`
   }
 `;
 
-const StyledMiniField = styled(Input)`
+const StyledMiniField = styled(EnglishInput)`
   width: 95px;
 
   @media ${devices.mobile} {

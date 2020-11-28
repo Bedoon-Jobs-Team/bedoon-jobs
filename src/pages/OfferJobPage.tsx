@@ -2,10 +2,12 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../assets/icons/Logo.svg";
+import Dialog from "../components/Dialog";
 import AboutCompanyForm from "../components/Forms/OfferJob/AboutCompanyForm";
 import JobDetailsForm from "../components/Forms/OfferJob/JobDetailsForm";
 import JobRequirementsForm from "../components/Forms/OfferJob/JobRequirementsForm";
 import { devices } from "../constants";
+import { verifyUser } from "../firebase/authentication";
 import { submitJobAd } from "../firebase/jobActions";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import { Company } from "../types";
@@ -44,6 +46,8 @@ const OfferJobPage: FunctionComponent = () => {
   const [companyDetails, setCompanyDetails] = useState<Company>(defaultCompany);
   const [jobDetails, setJobDetails] = useState<JobDetails>(defaultJobDetails);
   const [jobRequirements, setJobRequirements] = useState<JobRequirements>(defaultJobRequirements);
+  const [openValidationNotice, setOpenValidationNotice] = useState(false);
+
   const currentUser = useCurrentUser();
   const history = useHistory();
 
@@ -84,10 +88,15 @@ const OfferJobPage: FunctionComponent = () => {
   async function onSubmit() {
     try {
       if (currentUser) {
-        await submitJobAd({ companyDetails, jobDetails, jobRequirements, currentUser });
-        history.replace("/");
+        const isVerified = await verifyUser(currentUser);
+        await submitJobAd({ companyDetails, jobDetails, jobRequirements, currentUser }, isVerified);
+
+        if (!isVerified) {
+          setOpenValidationNotice(true);
+        }
       }
     } catch (err) {
+      console.log(err);
       alert("Something went wrong, please try again."); // Todo: make it show a toast message instead
     }
   }
@@ -114,6 +123,14 @@ const OfferJobPage: FunctionComponent = () => {
         </StepsContainer>
         <FormContainer>{steps[currentStep]}</FormContainer>
       </SubContainer>
+      <Dialog
+        open={openValidationNotice}
+        isNotice
+        message="شكراً لاعلانك عن وظيفة! اعلانك حالياً تحت التوثيق، سنعود اليك في اقرب وقت"
+        confirmMessage="حسناً"
+        onConfirm={() => history.replace("/")}
+        onClose={() => history.replace("/")}
+      />
     </PageContainer>
   );
 };
