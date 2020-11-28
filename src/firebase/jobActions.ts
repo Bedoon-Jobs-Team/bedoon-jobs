@@ -3,20 +3,24 @@ import { Company, JobAdDetails, JobAdPreview } from "../types";
 import { jobAdDetailsRef, jobAdPreviewsRef } from "./firestoreRefs";
 import firebase from "firebase/app";
 
-export async function submitJobAd({
-  companyDetails,
-  jobDetails,
-  jobRequirements,
-  currentUser,
-}: {
-  companyDetails: Company;
-  jobDetails: JobDetails;
-  jobRequirements: JobRequirements;
-  currentUser: firebase.User;
-}) {
+export async function submitJobAd(
+  {
+    companyDetails,
+    jobDetails,
+    jobRequirements,
+    currentUser,
+  }: {
+    companyDetails: Company;
+    jobDetails: JobDetails;
+    jobRequirements: JobRequirements;
+    currentUser: firebase.User;
+  },
+  isVerified: boolean
+) {
   let companyId = companyDetails.id;
   if (!companyId) {
     companyDetails.ownerId = currentUser.uid;
+    companyDetails.isVerified = isVerified;
     companyId = await submitCompany(companyDetails);
   }
 
@@ -30,16 +34,21 @@ export async function submitJobAd({
     tags: [jobDetails.field, jobDetails.type, jobDetails.salaryPeriod],
     area: jobDetails.area,
     ownerId: currentUser.uid,
+    isVerified,
   };
   const submittedJobAdPreview = await submitJobAdPreview(jobAdPreview);
 
-  const jobAdDetails: JobAdDetails = {
+  let jobAdDetails: JobAdDetails = {
     ...jobRequirements,
-    salaryLowerEnd: jobDetails.salaryLowerEnd!,
-    salaryHigherEnd: jobDetails.salaryHigherEnd!,
     jobAdPreview: submittedJobAdPreview,
     company: companyDetails,
   };
+
+  if (jobDetails.salaryLowerEnd && jobDetails.salaryHigherEnd) {
+    jobAdDetails.salaryLowerEnd = jobDetails.salaryLowerEnd;
+    jobAdDetails.salaryHigherEnd = jobDetails.salaryHigherEnd;
+  }
+
   await submitJobAdDetails(jobAdDetails);
 }
 

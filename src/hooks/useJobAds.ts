@@ -20,7 +20,7 @@ export function useJobAds(fieldFilter?: string) {
 
   async function fetchJobAds() {
     try {
-      let query = jobAdPreviewsRef.orderBy("datePosted", "desc").limit(AdsPerFetch);
+      let query = jobAdPreviewsRef.orderBy("datePosted", "desc").where("isVerified", "==", true).limit(AdsPerFetch);
       if (fieldFilter) query = query.where("tags", "array-contains", fieldFilter);
       if (lastAdDoc.current) query = query.startAfter(lastAdDoc.current);
 

@@ -10,3 +10,14 @@ export async function signInWithGoogle() {
 export async function logout() {
   return firebase.auth().signOut();
 }
+
+export async function verifyUser(currentUser: firebase.User) {
+  const verifiedUsersSnapshot = await firebase
+    .firestore()
+    .collection("verifiedUsers")
+    .where("uid", "==", currentUser.uid)
+    .limit(1)
+    .get();
+
+  return verifiedUsersSnapshot.docs.length !== 0;
+}

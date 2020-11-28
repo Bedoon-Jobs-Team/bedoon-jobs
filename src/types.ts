@@ -9,6 +9,7 @@ export type JobAdPreview = {
   area: string;
   datePosted: Timestamp;
   ownerId: string;
+  isVerified: boolean;
 };
 
 export type JobAdDetails = {
@@ -16,8 +17,8 @@ export type JobAdDetails = {
   jobAdPreview: JobAdPreview;
   company: Company;
   description: string;
-  salaryLowerEnd: number;
-  salaryHigherEnd: number;
+  salaryLowerEnd?: number;
+  salaryHigherEnd?: number;
 };
 
 export type Company = {
@@ -30,4 +31,5 @@ export type Company = {
   website?: string;
   trademarkURL?: string;
   ownerId?: string;
+  isVerified?: boolean;
 };
