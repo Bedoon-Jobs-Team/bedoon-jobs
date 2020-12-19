@@ -1,5 +1,9 @@
 import firebase from "./firebase";
 
+export async function signInWithEmail(email: string, password: string) {
+  return firebase.auth().signInWithEmailAndPassword(email, password);
+}
+
 export async function signInWithGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().useDeviceLanguage();

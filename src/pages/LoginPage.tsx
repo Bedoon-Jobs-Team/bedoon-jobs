@@ -2,11 +2,11 @@ import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../assets/icons/Logo.svg";
 import { ReactComponent as GoogleIcon } from "../assets/icons/GoogleIcon.svg";
-import { ReactComponent as FacebookIcon } from "../assets/icons/FacebookIcon.svg";
+// import { ReactComponent as FacebookIcon } from "../assets/icons/FacebookIcon.svg";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import Link from "../utils/UnstyledLink";
-import { signInWithGoogle } from "../firebase/authentication";
+import { signInWithEmail, signInWithGoogle } from "../firebase/authentication";
 import { useHistory } from "react-router-dom";
 import { devices } from "../constants";
 
@@ -26,9 +26,16 @@ const LoginPage: FunctionComponent = () => {
     password: Yup.string().min(6, InvalidPasswordMessage).required(RequiredMessage),
   });
 
-  const onSubmit = (values: { email: string; password: string }) => {
-    console.log(values);
-  };
+  async function onSubmit(values: { email: string; password: string }) {
+    try {
+      const result = await signInWithEmail(values.email, values.password);
+      if (result.user) {
+        history.push("/");
+      }
+    } catch (err) {
+      alert("email or password is incorrect");
+    }
+  }
 
   async function onGoogleLogin() {
     const result = await signInWithGoogle();
@@ -46,9 +53,9 @@ const LoginPage: FunctionComponent = () => {
         <Title>تسجيل الدخول</Title>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
           <Form>
-            <FieldsContainer style={{ pointerEvents: "none", opacity: "0.5" }}>
+            <FieldsContainer>
               <FieldContainer>
-                <Field as={StyledField} id="email" name="email" placeholder={emailPlaceholder} disabled />
+                <Field as={StyledField} id="email" name="email" placeholder={emailPlaceholder} />
                 <ErrorMessage name="email" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
               </FieldContainer>
 
@@ -64,7 +71,6 @@ const LoginPage: FunctionComponent = () => {
                   name="password"
                   type="password"
                   placeholder={passwordPlaceholder}
-                  disabled
                 />
                 <ErrorMessage name="password" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
               </PasswordFieldContainer>
@@ -88,10 +94,6 @@ const LoginPage: FunctionComponent = () => {
         <SocialButton onClick={() => onGoogleLogin()}>
           <StyledGoogleIcon />
           تسجيل الدخول باستخدام حساب جوجل
-        </SocialButton>
-        <SocialButton>
-          <StyledFacebookIcon />
-          تسجيل الدخول باستخدام فيس بوك
         </SocialButton>
       </FormContainer>
     </PageContainer>
@@ -265,8 +267,8 @@ const StyledGoogleIcon = styled(GoogleIcon)`
   margin-left: 12px;
 `;
 
-const StyledFacebookIcon = styled(FacebookIcon)`
-  margin-left: 12px;
-`;
+// const StyledFacebookIcon = styled(FacebookIcon)`
+//   margin-left: 12px;
+// `;
 
 export default LoginPage;
