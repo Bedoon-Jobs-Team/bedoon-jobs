@@ -9,9 +9,11 @@ import { CircularProgress } from "@material-ui/core";
 import { devices, fields } from "../constants";
 import Footer from "../components/Footer";
 
+const NoJobsFound = "لم يتم العثور على وظائف.";
+
 const MainPage: FunctionComponent = (props) => {
   const [activeFieldIndex, setActiveFieldIndex] = useState(0);
-  const { jobAds, fetchJobAds, hasMoreAds } = useJobAds(fields[activeFieldIndex - 1]); //fields[-1] == undefined -> no filter
+  const { jobAds, fetchJobAds, hasMoreAds, fetching } = useJobAds(fields[activeFieldIndex - 1]); //fields[-1] == undefined -> no filter
 
   return (
     <PageContainer>
@@ -33,6 +35,7 @@ const MainPage: FunctionComponent = (props) => {
               <JobAdCard key={jobAd.id!} jobAd={jobAd} />
             ))}
           </InfiniteScroll>
+          {jobAds.length === 0 && !hasMoreAds && !fetching && <EmptyMessage>{NoJobsFound}</EmptyMessage>}
         </CardsContainer>
       </ContentContainer>
       <Footer />
@@ -92,5 +95,7 @@ const CardsContainer = styled.div`
     width: auto;
   }
 `;
+
+const EmptyMessage = styled.p``;
 
 export default MainPage;

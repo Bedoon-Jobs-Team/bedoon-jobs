@@ -9,8 +9,10 @@ export function useJobAds(fieldFilter?: string) {
   const [jobAds, setJobAds] = useState<JobAdPreview[]>([]);
   const [hasMoreAds, setHasMoreAds] = useState(false);
   const lastAdDoc = useRef<QueryDocumentSnapshot>();
+  const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
+    setFetching(true);
     lastAdDoc.current = undefined;
     setHasMoreAds(false);
     setJobAds([]);
@@ -43,7 +45,8 @@ export function useJobAds(fieldFilter?: string) {
     }
 
     setJobAds((prevAds) => [...prevAds, ...fetchedJobAds]);
+    setFetching(false);
   }
 
-  return { jobAds, fetchJobAds, hasMoreAds };
+  return { jobAds, fetchJobAds, hasMoreAds, fetching };
 }
