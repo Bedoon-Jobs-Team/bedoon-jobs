@@ -1,5 +1,12 @@
 import firebase from "./firebase";
 
+export async function signUp(email: string, password: string, firstName: string, lastName: string) {
+  const result = await firebase.auth().createUserWithEmailAndPassword(email, password);
+  if (result.user) {
+    await result.user.updateProfile({ displayName: firstName + " " + lastName });
+  }
+}
+
 export async function signInWithEmail(email: string, password: string) {
   return firebase.auth().signInWithEmailAndPassword(email, password);
 }

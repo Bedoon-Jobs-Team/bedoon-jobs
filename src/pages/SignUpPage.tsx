@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import Link from "../utils/UnstyledLink";
 import { useHistory } from "react-router-dom";
 import { devices } from "../constants";
-import { signInWithEmail, signInWithGoogle } from "../firebase/authentication";
+import { signInWithGoogle, signUp } from "../firebase/authentication";
 
 const emailPlaceholder = "عنوان البريد الإلكتروني";
 const passwordPlaceholder = "كلمة المرور";
@@ -33,7 +33,15 @@ const SignUpPage: FunctionComponent = () => {
     lastName: Yup.string().required(RequiredMessage),
   });
 
-  async function onSubmit(values: { email: string; password: string; firstName: string; lastName: string }) {}
+  async function onSubmit(values: { email: string; password: string; firstName: string; lastName: string }) {
+    const { email, password, firstName, lastName } = values;
+    try {
+      await signUp(email, password, firstName, lastName);
+      history.push("/");
+    } catch (err) {
+      alert("Something went wrong. Please try again.");
+    }
+  }
 
   async function onGoogleLogin() {
     const result = await signInWithGoogle();
