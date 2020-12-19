@@ -67,8 +67,8 @@ const Header: FunctionComponent<Props> = ({ alternative }) => {
           <LogoContainer>
             <Link to="/">{alternative ? <LogoSmallAlternative /> : <LogoSmall />}</Link>
           </LogoContainer>
-          <StyledLink alternative={alternative}>بحث عن الوظائف</StyledLink>
-          <StyledLink alternative={alternative}>الشركات</StyledLink>
+          {/* <StyledLink alternative={alternative}>بحث عن الوظائف</StyledLink>
+          <StyledLink alternative={alternative}>الشركات</StyledLink> */}
         </RightContainer>
         <LeftContainer>
           <ButtonTrans alternative={alternative} onClick={onOfferJob}>
@@ -141,17 +141,17 @@ const LogoContainer = styled.div`
   margin-left: 40px;
 `;
 
-const StyledLink = styled.p<{ alternative?: boolean }>`
-  font-size: 16px;
-  color: ${(props) => (props.alternative ? "#7749C2" : "#ffffff")};
-  margin-left: 40px;
-  margin-top: 0;
-  margin-bottom: 0;
+// const StyledLink = styled.p<{ alternative?: boolean }>`
+//   font-size: 16px;
+//   color: ${(props) => (props.alternative ? "#7749C2" : "#ffffff")};
+//   margin-left: 40px;
+//   margin-top: 0;
+//   margin-bottom: 0;
 
-  @media ${devices.mobile} {
-    display: none;
-  }
-`;
+//   @media ${devices.mobile} {
+//     display: none;
+//   }
+// `;
 
 const ButtonTrans = styled.div<{ alternative?: boolean }>`
   color: ${(props) => (props.alternative ? "#7749C2" : "#ffffff")};
