@@ -6,39 +6,34 @@ import { ReactComponent as GoogleIcon } from "../assets/icons/GoogleIcon.svg";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import Link from "../utils/UnstyledLink";
-import { signInWithEmail, signInWithGoogle } from "../firebase/authentication";
 import { useHistory } from "react-router-dom";
 import { devices } from "../constants";
+import { signInWithEmail, signInWithGoogle } from "../firebase/authentication";
 
 const emailPlaceholder = "عنوان البريد الإلكتروني";
 const passwordPlaceholder = "كلمة المرور";
+const firstNamePlaceholder = "الاسم الشخصي";
+const lastNamePlaceholder = "الاسم العائلي";
 
 const RequiredMessage = "مطلوب";
 const InvalidEmailMessage = "بريد الالكتروني غير صحيح";
 const InvalidPasswordMessage = "كلمة المرور يجب ان تكون أطول من ٦ حروف";
 
-const NotAUser = "لست عضواً؟";
-const MakeAnAccount = "إنشاء حساباً مجاناً";
+const AlreadyAUser = "عضو بالفعل؟";
+const Login = "تسجيل الدخول";
 
-const LoginPage: FunctionComponent = () => {
+const SignUpPage: FunctionComponent = () => {
   const history = useHistory();
-  const initialValues = { email: "", password: "", rememberMe: false };
+  const initialValues = { email: "", firstName: "", lastName: "", password: "" };
 
   const validationSchema = Yup.object({
     email: Yup.string().email(InvalidEmailMessage).required(RequiredMessage),
     password: Yup.string().min(6, InvalidPasswordMessage).required(RequiredMessage),
+    firstName: Yup.string().required(RequiredMessage),
+    lastName: Yup.string().required(RequiredMessage),
   });
 
-  async function onSubmit(values: { email: string; password: string }) {
-    try {
-      const result = await signInWithEmail(values.email, values.password);
-      if (result.user) {
-        history.push("/");
-      }
-    } catch (err) {
-      alert("email or password is incorrect");
-    }
-  }
+  async function onSubmit(values: { email: string; password: string; firstName: string; lastName: string }) {}
 
   async function onGoogleLogin() {
     const result = await signInWithGoogle();
@@ -53,7 +48,7 @@ const LoginPage: FunctionComponent = () => {
         <Logo />
       </Link>
       <FormContainer>
-        <Title>تسجيل الدخول</Title>
+        <Title>إنشاء حساب</Title>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
           <Form>
             <FieldsContainer>
@@ -62,12 +57,19 @@ const LoginPage: FunctionComponent = () => {
                 <ErrorMessage name="email" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
               </FieldContainer>
 
-              <PasswordFieldContainer>
-                <ForgotPasswordContainer>
-                  <Link to="/">
-                    <LinkText>هل نسيت كلمة مرورك؟</LinkText>
-                  </Link>
-                </ForgotPasswordContainer>
+              <MiniFieldsContainer>
+                <FieldContainer>
+                  <Field as={MiniStyledField} id="firstName" name="firstName" placeholder={firstNamePlaceholder} />
+                  <ErrorMessage name="firstName" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+                </FieldContainer>
+
+                <FieldContainer>
+                  <Field as={MiniStyledField} id="lastName" name="lastName" placeholder={lastNamePlaceholder} />
+                  <ErrorMessage name="lastName" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
+                </FieldContainer>
+              </MiniFieldsContainer>
+
+              <FieldContainer>
                 <Field
                   as={StyledField}
                   id="password"
@@ -76,15 +78,7 @@ const LoginPage: FunctionComponent = () => {
                   placeholder={passwordPlaceholder}
                 />
                 <ErrorMessage name="password" render={(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>} />
-              </PasswordFieldContainer>
-
-              <RememberMeContainer>
-                <Label>
-                  <Field type="checkbox" id="rememberMe" name="rememberMe" />
-                  الاستمرار في تسجيل الدخول من هذا الجهاز.
-                </Label>
-              </RememberMeContainer>
-
+              </FieldContainer>
               <SubmitButton type="submit">تسجيل الدخول</SubmitButton>
             </FieldsContainer>
           </Form>
@@ -100,9 +94,9 @@ const LoginPage: FunctionComponent = () => {
         </SocialButton>
       </FormContainer>
       <RegisterContainer>
-        <NotAUserMessage>{NotAUser}&nbsp;</NotAUserMessage>
+        <NotAUserMessage>{AlreadyAUser}&nbsp;</NotAUserMessage>
         <Link to="/signup">
-          <MakeAnAccountMessage>{MakeAnAccount}</MakeAnAccountMessage>
+          <MakeAnAccountMessage>{Login}</MakeAnAccountMessage>
         </Link>
       </RegisterContainer>
     </PageContainer>
@@ -157,10 +151,6 @@ const FieldContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-const PasswordFieldContainer = styled(FieldContainer)`
-  margin-bottom: 14px;
-`;
-
 const StyledField = styled.input`
   flex: 1;
   height: 46px;
@@ -188,34 +178,22 @@ const StyledErrorMessage = styled.p`
   }
 `;
 
-const LinkText = styled.p`
-  font-size: 12px;
-  line-height: 23px;
-  margin-bottom: 6px;
-  color: #442675;
-  align-self: flex-end;
+const MiniFieldsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 
   @media ${devices.mobile} {
-    font-size: 10px;
+    flex-direction: column;
+    justify-content: flex-start;
   }
 `;
 
-const ForgotPasswordContainer = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
-`;
-
-const RememberMeContainer = styled(FieldContainer)`
-  margin-bottom: 24px;
-`;
-
-const Label = styled.label`
-  font-size: 12px;
-  line-height: 23px;
-  color: #706a79;
+const MiniStyledField = styled(StyledField)`
+  width: 160px;
 
   @media ${devices.mobile} {
-    font-size: 10px;
+    width: auto;
   }
 `;
 
@@ -297,4 +275,4 @@ const MakeAnAccountMessage = styled.p`
   color: #442675;
 `;
 
-export default LoginPage;
+export default SignUpPage;

@@ -7,6 +7,7 @@ import ScrollToTop from "./utils/ScrollToTop";
 import OfferJobPage from "./pages/OfferJobPage";
 import LoginPage from "./pages/LoginPage";
 import { useCurrentUser } from "./hooks/useCurrentUser";
+import SignUpPage from "./pages/SignUpPage";
 
 function App() {
   const currentUser = useCurrentUser();
@@ -21,6 +22,7 @@ function App() {
             {currentUser ? <OfferJobPage /> : <Redirect to="/" />}
           </Route>
           <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/signup" component={SignUpPage} />
         </Switch>
       </>
     </Router>
