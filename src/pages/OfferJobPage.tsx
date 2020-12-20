@@ -93,6 +93,8 @@ const OfferJobPage: FunctionComponent = () => {
 
         if (!isVerified) {
           setOpenValidationNotice(true);
+        } else {
+          history.replace("/");
         }
       }
     } catch (err) {
