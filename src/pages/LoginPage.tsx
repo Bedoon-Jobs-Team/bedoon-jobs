@@ -64,7 +64,7 @@ const LoginPage: FunctionComponent = () => {
 
               <PasswordFieldContainer>
                 <ForgotPasswordContainer>
-                  <Link to="/">
+                  <Link to="/forgotPassword">
                     <LinkText>هل نسيت كلمة مرورك؟</LinkText>
                   </Link>
                 </ForgotPasswordContainer>

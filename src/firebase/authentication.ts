@@ -33,3 +33,7 @@ export async function verifyUser(currentUser: firebase.User) {
   // return verifiedUsersSnapshot.docs.length !== 0;
   return true; // Temporary for testing.
 }
+
+export async function sendPasswordResetEmail(email: string) {
+  return firebase.auth().sendPasswordResetEmail(email);
+}
