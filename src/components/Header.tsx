@@ -9,6 +9,7 @@ import { logout } from "../firebase/authentication";
 import Dialog from "./Dialog";
 import { useHistory } from "react-router-dom";
 import { devices } from "../constants";
+import PersonIcon from "@material-ui/icons/Person";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -74,6 +75,9 @@ const Header: FunctionComponent<Props> = ({ alternative }) => {
           <ButtonTrans alternative={alternative} onClick={onOfferJob}>
             أعلن عن وظيفة
           </ButtonTrans>
+          <OnlyShowInMobile>
+            <StyledPersonIcon alternative={alternative} onClick={onOpenPopover} />
+          </OnlyShowInMobile>
           {currentUser ? (
             <>
               <Button alternative={alternative} onClick={onOpenPopover}>
@@ -91,9 +95,23 @@ const Header: FunctionComponent<Props> = ({ alternative }) => {
               </Popover>
             </>
           ) : (
-            <Link to="/login">
-              <Button alternative={alternative}>تسجيل الدخول</Button>
-            </Link>
+            <>
+              <Link to="/login">
+                <Button alternative={alternative}>تسجيل الدخول</Button>
+              </Link>
+              <Popover
+                open={openPopover}
+                anchorEl={anchorEl}
+                classes={{ paper: classes.paper }}
+                onClose={onClosePopover}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                transformOrigin={{ vertical: "top", horizontal: "center" }}
+              >
+                <PopoverItem>
+                  <Link to="/login">تسجيل الدخول</Link>
+                </PopoverItem>
+              </Popover>
+            </>
           )}
         </LeftContainer>
       </Container>
@@ -181,6 +199,19 @@ const Button = styled(ButtonTrans)`
   @media ${devices.mobile} {
     display: none;
   }
+`;
+
+const OnlyShowInMobile = styled.div`
+  display: none;
+
+  @media ${devices.mobile} {
+    display: inline;
+  }
+`;
+
+const StyledPersonIcon = styled(PersonIcon)<{ alternative?: boolean }>`
+  color: white;
+  margin-right: 10px;
 `;
 
 const PopoverItem = styled.p`
