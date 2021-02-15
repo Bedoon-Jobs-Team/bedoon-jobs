@@ -56,6 +56,7 @@ const SocialContainer = styled.div`
 
 const StyledInstagramIcon = styled(InstagramIcon)`
   margin-left: 28px;
+  max-height: 0;
 
   @media ${devices.mobile} {
     margin: 0 10px;
