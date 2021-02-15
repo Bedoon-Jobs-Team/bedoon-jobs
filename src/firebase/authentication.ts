@@ -23,15 +23,14 @@ export async function logout() {
 }
 
 export async function verifyUser(currentUser: firebase.User) {
-  // const verifiedUsersSnapshot = await firebase
-  //   .firestore()
-  //   .collection("verifiedUsers")
-  //   .where("uid", "==", currentUser.uid)
-  //   .limit(1)
-  //   .get();
+  const verifiedUsersSnapshot = await firebase
+    .firestore()
+    .collection("verifiedUsers")
+    .where("uid", "==", currentUser.uid)
+    .limit(1)
+    .get();
 
-  // return verifiedUsersSnapshot.docs.length !== 0;
-  return true; // Temporary for testing.
+  return verifiedUsersSnapshot.docs.length !== 0;
 }
 
 export async function sendPasswordResetEmail(email: string) {
