@@ -14,7 +14,7 @@ const Footer: FunctionComponent = () => {
           <StyledTwitterIcon />
           <StyledFacebookIcon />
         </SocialContainer>
-        <CopyrightContainer>جميع الحقوق محفوظة ٢٠٢٠</CopyrightContainer>
+        <CopyrightContainer>جميع الحقوق محفوظة ٢٠٢١</CopyrightContainer>
         <MadeByContainer>صنع بشغف و حب من قبل فريق وظايف</MadeByContainer>
       </ContentContainer>
     </Container>
